@@ -2,10 +2,11 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.Student;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class StudentDao {
 
@@ -32,14 +32,20 @@ public class StudentDao {
         return template.query("SELECT * FROM student;", new StudentMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<Student> find(@NotNull String dni) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM student WHERE dni = ?;", new StudentMapper(), dni));
+        @Nullable Student value;
+        try {
+            value = template.queryForObject("SELECT * FROM student WHERE dni = ?;", new StudentMapper(), dni);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull Student student) {
         template.update(
-                "INSERT INTO student(dni, name, surname, code, itinerary, passed_credits, average_grade, pending_subjects, internship_start_semester) VALUES(?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO student(dni, name, surname, code, itinerary, passed_credits, average_grade, pending_subjects, internship_start_semester) " +
+                        "VALUES(?,?,?,?,?,?,?,?,?)",
                 student.getDni(),
                 student.getName(),
                 student.getSurname(),
@@ -54,7 +60,8 @@ public class StudentDao {
 
     public void update(@NotNull Student student) {
         template.update(
-                "UPDATE student SET name = ?, surname = ?, code = ?, itinerary = ?, passed_credits = ?, average_grade = ?, pending_subjects = ?, internship_start_semester = ? WHERE dni = ?",
+                "UPDATE student SET name = ?, surname = ?, code = ?, itinerary = ?, passed_credits = ?, average_grade = ?, pending_subjects = ?, " +
+                        "internship_start_semester = ? WHERE dni = ?",
                 student.getName(),
                 student.getSurname(),
                 student.getCode(),

@@ -1,10 +1,11 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.InternshipOffer;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class InternshipOfferDao {
 
@@ -32,9 +32,14 @@ public class InternshipOfferDao {
         return template.query("SELECT * FROM internship_offer;", new InternshipOfferMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<InternshipOffer> find(int id) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM internship_offer WHERE id = ?;", new InternshipOfferMapper(), id));
+        @Nullable InternshipOffer value;
+        try {
+            value = template.queryForObject("SELECT * FROM internship_offer WHERE id = ?;", new InternshipOfferMapper(), id);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull InternshipOffer internshipOffer) {

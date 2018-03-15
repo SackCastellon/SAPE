@@ -1,10 +1,11 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.Preference;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class PreferenceDao {
 
@@ -31,10 +31,15 @@ public class PreferenceDao {
         return template.query("SELECT * FROM preference;", new PreferenceMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String studentDni) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM preference WHERE student_dni = ? AND project_offer_id = ?",
-                new PreferenceMapper(), studentDni, projectOfferId));
+        @Nullable Preference value;
+        try {
+            value = template.queryForObject("SELECT * FROM preference WHERE student_dni = ? AND project_offer_id = ?",
+                    new PreferenceMapper(), studentDni, projectOfferId);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull Preference preference) {

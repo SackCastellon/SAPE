@@ -4,8 +4,10 @@ import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.Tutor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class TutorDao {
 
@@ -34,7 +35,13 @@ public class TutorDao {
 
     @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<Tutor> find(@NotNull String dni) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM tutor WHERE dni = ?;", new TutorMapper(), dni));
+        @Nullable Tutor value;
+        try {
+            value = template.queryForObject("SELECT * FROM tutor WHERE dni = ?;", new TutorMapper(), dni);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull Tutor tutor) {

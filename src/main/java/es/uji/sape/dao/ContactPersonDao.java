@@ -1,10 +1,11 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.ContactPerson;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class ContactPersonDao {
 
@@ -31,9 +31,14 @@ public class ContactPersonDao {
         return template.query("SELECT * FROM contact_person;", new ContactPersonMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<ContactPerson> find(@NotNull String username) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM contact_person WHERE username = ?;", new ContactPersonMapper(), username));
+        @Nullable ContactPerson value;
+        try {
+            value = template.queryForObject("SELECT * FROM contact_person WHERE username = ?;", new ContactPersonMapper(), username);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull ContactPerson contactPerson) {

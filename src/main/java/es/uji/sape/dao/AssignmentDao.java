@@ -2,10 +2,11 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@ToString
 @SuppressWarnings("DesignForExtension")
 public class AssignmentDao {
 
@@ -34,10 +34,15 @@ public class AssignmentDao {
         return template.query("SELECT * FROM assignment;", new AssignmentMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentDni, @NotNull String tutorDni) {
-        return Optional.ofNullable(template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_dni = ? AND tutor_dni = ?",
-                new AssignmentMapper(), projectOfferId, studentDni, tutorDni));
+        @Nullable Assignment value;
+        try {
+            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_dni = ? AND tutor_dni = ?",
+                    new AssignmentMapper(), projectOfferId, studentDni, tutorDni);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     public void add(@NotNull Assignment assignment) {
