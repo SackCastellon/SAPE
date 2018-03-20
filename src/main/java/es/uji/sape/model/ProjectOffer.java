@@ -1,22 +1,18 @@
 package es.uji.sape.model;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Data
+@NoArgsConstructor
 public final class ProjectOffer {
 
-    @Getter
-    private final int id;
-    @Getter
-    private final @NotNull Itinerary itinerary;
-    @Getter
-    private final @NotNull String technologies;
-    @Getter
-    private final @NotNull String objectives;
-    @Getter
-    private final @NotNull OfferState state;
-    @Getter
-    private final int internshipOfferId;
+    private int id;
+    private @Nullable Itinerary itinerary;
+    private @NotNull String technologies = "";
+    private @NotNull String objectives = "";
+    private @Nullable OfferState state;
+    private int internshipOfferId;
 }

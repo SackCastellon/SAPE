@@ -1,26 +1,20 @@
 package es.uji.sape.model;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Data
+@NoArgsConstructor
 public final class Student {
 
-    @Getter
-    private final @NotNull String code;
-    @Getter
-    private final @NotNull String name;
-    @Getter
-    private final @NotNull String surname;
-    @Getter
-    private final @NotNull Itinerary itinerary;
-    @Getter
-    private final int passedCredits;
-    @Getter
-    private final float averageScore;
-    @Getter
-    private final int pendingSubjects;
-    @Getter
-    private final int internshipStartSemester;
+    private @NotNull String code = "";
+    private @NotNull String name = "";
+    private @NotNull String surname = "";
+    private @Nullable Itinerary itinerary;
+    private int passedCredits;
+    private float averageScore;
+    private int pendingSubjects;
+    private int internshipStartSemester;
 }

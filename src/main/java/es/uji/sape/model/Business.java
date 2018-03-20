@@ -1,18 +1,15 @@
 package es.uji.sape.model;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @Data
+@NoArgsConstructor
 public final class Business {
 
-    @Getter
-    private final @NotNull String cif;
-    @Getter
-    private final @NotNull String name;
-    @Getter
-    private final @NotNull String address;
-    @Getter
-    private final @NotNull String telephone;
+    private @NotNull String cif = "";
+    private @NotNull String name = "";
+    private @NotNull String address = "";
+    private @NotNull String telephone = "";
 }

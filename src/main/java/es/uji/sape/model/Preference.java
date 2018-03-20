@@ -1,16 +1,14 @@
 package es.uji.sape.model;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @Data
+@NoArgsConstructor
 public final class Preference {
 
-    @Getter
-    private final int priority;
-    @Getter
-    private final @NotNull String studentCode;
-    @Getter
-    private final int projectOfferId;
+    private int priority;
+    private @NotNull String studentCode = "";
+    private int projectOfferId;
 }

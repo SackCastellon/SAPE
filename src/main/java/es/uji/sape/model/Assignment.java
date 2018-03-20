@@ -1,30 +1,23 @@
 package es.uji.sape.model;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
 public final class Assignment {
 
-    @Getter
-    private final int projectOfferId;
-    @Getter
-    private final @NotNull String studentCode;
-    @Getter
-    private final @NotNull String tutorCode;
-    @Getter
-    private final @NotNull LocalDate proposalDate;
-    @Getter
-    private final @Nullable LocalDate acceptanceDate;
-    @Getter
-    private final @Nullable LocalDate rejectionDate;
-    @Getter
-    private final @NotNull LocalDate igluTransferDate;
-    @Getter
-    private final @NotNull AssignmentState state;
+    private int projectOfferId;
+    private @NotNull String studentCode = "";
+    private @NotNull String tutorCode = "";
+    private @NotNull LocalDate proposalDate = LocalDate.now();
+    private @Nullable LocalDate acceptanceDate;
+    private @Nullable LocalDate rejectionDate;
+    private @Nullable LocalDate igluTransferDate;
+    private @Nullable AssignmentState state;
 
 }
