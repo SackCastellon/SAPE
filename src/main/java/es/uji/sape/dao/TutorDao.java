@@ -2,7 +2,6 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.Tutor;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,10 @@ public class TutorDao {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public @NotNull Optional<Tutor> find(@NotNull String dni) {
+    public @NotNull Optional<Tutor> find(@NotNull String code) {
         @Nullable Tutor value;
         try {
-            value = template.queryForObject("SELECT * FROM tutor WHERE dni = ?;", new TutorMapper(), dni);
+            value = template.queryForObject("SELECT * FROM tutor WHERE code = ?;", new TutorMapper(), code);
         } catch (DataAccessException ignored) {
             value = null;
         }
@@ -46,8 +45,7 @@ public class TutorDao {
 
     public void add(@NotNull Tutor tutor) {
         template.update(
-                "INSERT INTO tutor(dni, name, surname, code, itinerary, department, office) VALUES(?,?,?,?,?,?,?)",
-                tutor.getDni(),
+                "INSERT INTO tutor(name, surname, code, itinerary, department, office) VALUES(?,?,?,?,?,?)",
                 tutor.getName(),
                 tutor.getSurname(),
                 tutor.getCode(),
@@ -59,29 +57,27 @@ public class TutorDao {
 
     public void update(@NotNull Tutor tutor) {
         template.update(
-                "UPDATE tutor SET name = ?, surname = ?, code = ?, itinerary = ?, department = ?, office = ? WHERE dni = ?",
+                "UPDATE tutor SET name = ?, surname = ?, itinerary = ?, department = ?, office = ? WHERE code = ?",
                 tutor.getName(),
                 tutor.getSurname(),
-                tutor.getCode(),
                 tutor.getItinerary().ordinal(),
                 tutor.getDepartment(),
                 tutor.getOffice(),
-                tutor.getDni()
+                tutor.getCode()
         );
     }
 
-    public void delete(@NotNull String dni) {
-        template.update("DELETE FROM tutor WHERE dni = ?", dni);
+    public void delete(@NotNull String code) {
+        template.update("DELETE FROM tutor WHERE code = ?", code);
     }
 
     private static final class TutorMapper implements RowMapper<Tutor> {
 
         public @NotNull Tutor mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             return new Tutor(
-                    rs.getString("dni"),
+                    rs.getString("code"),
                     rs.getString("name"),
                     rs.getString("surname"),
-                    rs.getString("code"),
                     Itinerary.values()[rs.getInt("itinerary")],
                     rs.getString("department"),
                     rs.getString("office")

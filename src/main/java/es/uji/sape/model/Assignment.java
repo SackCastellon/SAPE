@@ -13,9 +13,9 @@ public final class Assignment {
     @Getter
     private final int projectOfferId;
     @Getter
-    private final @NotNull String studentDni;
+    private final @NotNull String studentCode;
     @Getter
-    private final @NotNull String tutorDni;
+    private final @NotNull String tutorCode;
     @Getter
     private final @NotNull LocalDate proposalDate;
     @Getter

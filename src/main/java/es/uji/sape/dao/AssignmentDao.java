@@ -34,11 +34,11 @@ public class AssignmentDao {
         return template.query("SELECT * FROM assignment;", new AssignmentMapper());
     }
 
-    public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentDni, @NotNull String tutorDni) {
+    public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentCode, @NotNull String tutorCode) {
         @Nullable Assignment value;
         try {
-            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_dni = ? AND tutor_dni = ?",
-                    new AssignmentMapper(), projectOfferId, studentDni, tutorDni);
+            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?",
+                    new AssignmentMapper(), projectOfferId, studentCode, tutorCode);
         } catch (DataAccessException ignored) {
             value = null;
         }
@@ -49,10 +49,10 @@ public class AssignmentDao {
         final LocalDate acceptanceDate = assignment.getAcceptanceDate();
         final LocalDate rejectionDate = assignment.getRejectionDate();
         template.update(
-                "INSERT INTO assignment(project_offer_id, student_dni, tutor_dni, proposal_date, acceptance_date, rejection_date, iglu_transfer_date, state) VALUES(?,?,?,?,?,?,?,?)",
+                "INSERT INTO assignment(project_offer_id, student_code, tutor_code, proposal_date, acceptance_date, rejection_date, iglu_transfer_date, state) VALUES(?,?,?,?,?,?,?,?)",
                 assignment.getProjectOfferId(),
-                assignment.getStudentDni(),
-                assignment.getTutorDni(),
+                assignment.getStudentCode(),
+                assignment.getTutorCode(),
                 assignment.getProposalDate(),
                 (acceptanceDate == null) ? null : Date.valueOf(acceptanceDate),
                 (rejectionDate == null) ? null : Date.valueOf(rejectionDate),
@@ -65,20 +65,20 @@ public class AssignmentDao {
         final LocalDate acceptanceDate = assignment.getAcceptanceDate();
         final LocalDate rejectionDate = assignment.getRejectionDate();
         template.update(
-                "UPDATE assignment SET proposal_date = ?, acceptance_date = ?, rejection_date = ?, iglu_transfer_date = ?, state = ? WHERE project_offer_id = ? AND student_dni = ? AND tutor_dni = ?",
+                "UPDATE assignment SET proposal_date = ?, acceptance_date = ?, rejection_date = ?, iglu_transfer_date = ?, state = ? WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?",
                 assignment.getProposalDate(),
                 (acceptanceDate == null) ? null : Date.valueOf(acceptanceDate),
                 (rejectionDate == null) ? null : Date.valueOf(rejectionDate),
                 assignment.getIgluTransferDate(),
                 assignment.getState().ordinal(),
                 assignment.getProjectOfferId(),
-                assignment.getStudentDni(),
-                assignment.getTutorDni()
+                assignment.getStudentCode(),
+                assignment.getTutorCode()
         );
     }
 
     public void delete(int projectOfferId, @NotNull String studentDni, @NotNull String tutorDni) {
-        template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_dni = ? AND tutor_dni = ?", projectOfferId, studentDni, tutorDni);
+        template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?", projectOfferId, studentDni, tutorDni);
     }
 
     private static final class AssignmentMapper implements RowMapper<Assignment> {
@@ -88,8 +88,8 @@ public class AssignmentDao {
             final Date rejectionDate = rs.getDate("rejection_date");
             return new Assignment(
                     rs.getInt("project_offer_id"),
-                    rs.getString("student_dni"),
-                    rs.getString("tutor_dni"),
+                    rs.getString("student_code"),
+                    rs.getString("tutor_code"),
                     rs.getDate("proposal_date").toLocalDate(),
                     (acceptanceDate == null) ? null : acceptanceDate.toLocalDate(),
                     (rejectionDate == null) ? null : rejectionDate.toLocalDate(),

@@ -8,13 +8,11 @@ import org.jetbrains.annotations.NotNull;
 public final class Tutor {
 
     @Getter
-    private final @NotNull String dni;
+    private final @NotNull String code;
     @Getter
     private final @NotNull String name;
     @Getter
     private final @NotNull String surname;
-    @Getter
-    private final @NotNull String code;
     @Getter
     private final @NotNull Itinerary itinerary;
     @Getter

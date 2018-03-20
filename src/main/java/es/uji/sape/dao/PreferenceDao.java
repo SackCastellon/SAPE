@@ -46,7 +46,7 @@ public class PreferenceDao {
         template.update(
                 "INSERT INTO preference(priority, student_dni, project_offer_id) VALUES(?,?,?)",
                 preference.getPriority(),
-                preference.getStudentDni(),
+                preference.getStudentCode(),
                 preference.getProjectOfferId()
         );
     }
@@ -55,7 +55,7 @@ public class PreferenceDao {
         template.update(
                 "UPDATE preference SET priority = ? WHERE student_dni = ? AND project_offer_id = ?",
                 preference.getPriority(),
-                preference.getStudentDni(),
+                preference.getStudentCode(),
                 preference.getProjectOfferId()
         );
     }

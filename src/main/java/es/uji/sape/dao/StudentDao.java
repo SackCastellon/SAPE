@@ -32,10 +32,10 @@ public class StudentDao {
         return template.query("SELECT * FROM student;", new StudentMapper());
     }
 
-    public @NotNull Optional<Student> find(@NotNull String dni) {
+    public @NotNull Optional<Student> find(@NotNull String code) {
         @Nullable Student value;
         try {
-            value = template.queryForObject("SELECT * FROM student WHERE dni = ?;", new StudentMapper(), dni);
+            value = template.queryForObject("SELECT * FROM student WHERE code = ?;", new StudentMapper(), code);
         } catch (DataAccessException ignored) {
             value = null;
         }
@@ -44,12 +44,11 @@ public class StudentDao {
 
     public void add(@NotNull Student student) {
         template.update(
-                "INSERT INTO student(dni, name, surname, code, itinerary, passed_credits, average_grade, pending_subjects, internship_start_semester) " +
-                        "VALUES(?,?,?,?,?,?,?,?,?)",
-                student.getDni(),
+                "INSERT INTO student(code, name, surname, itinerary, passed_credits, average_grade, pending_subjects, internship_start_semester) " +
+                        "VALUES(?,?,?,?,?,?,?,?)",
+                student.getCode(),
                 student.getName(),
                 student.getSurname(),
-                student.getCode(),
                 student.getItinerary().ordinal(),
                 student.getPassedCredits(),
                 student.getAverageScore(),
@@ -60,32 +59,30 @@ public class StudentDao {
 
     public void update(@NotNull Student student) {
         template.update(
-                "UPDATE student SET name = ?, surname = ?, code = ?, itinerary = ?, passed_credits = ?, average_grade = ?, pending_subjects = ?, " +
-                        "internship_start_semester = ? WHERE dni = ?",
+                "UPDATE student SET name = ?, surname = ?, itinerary = ?, passed_credits = ?, average_grade = ?, pending_subjects = ?, " +
+                        "internship_start_semester = ? WHERE code = ?",
                 student.getName(),
                 student.getSurname(),
-                student.getCode(),
                 student.getItinerary().ordinal(),
                 student.getPassedCredits(),
                 student.getAverageScore(),
                 student.getPendingSubjects(),
                 student.getInternshipStartSemester(),
-                student.getDni()
+                student.getCode()
         );
     }
 
-    public void delete(@NotNull String dni) {
-        template.update("DELETE FROM student WHERE dni = ?", dni);
+    public void delete(@NotNull String code) {
+        template.update("DELETE FROM student WHERE code = ?", code);
     }
 
     private static final class StudentMapper implements RowMapper<Student> {
 
         public @NotNull Student mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             return new Student(
-                    rs.getString("dni"),
+                    rs.getString("code"),
                     rs.getString("name"),
                     rs.getString("surname"),
-                    rs.getInt("code"),
                     Itinerary.values()[rs.getInt("itinerary")],
                     rs.getInt("passed_credits"),
                     rs.getFloat("average_grade"),

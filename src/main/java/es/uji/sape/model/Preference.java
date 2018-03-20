@@ -10,7 +10,7 @@ public final class Preference {
     @Getter
     private final int priority;
     @Getter
-    private final @NotNull String studentDni;
+    private final @NotNull String studentCode;
     @Getter
     private final int projectOfferId;
 }
