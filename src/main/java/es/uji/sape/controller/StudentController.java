@@ -5,13 +5,14 @@ import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Student;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/students")
 @SuppressWarnings({"DesignForExtension", "FieldHasSetterButNoGetter"})
 public class StudentController {
