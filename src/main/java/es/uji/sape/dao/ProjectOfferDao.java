@@ -67,7 +67,7 @@ public class ProjectOfferDao {
         );
     }
 
-    public void delete(@NotNull String id) {
+    public void delete(int id) {
         template.update("DELETE FROM project_offer WHERE id = ?", id);
     }
 
