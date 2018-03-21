@@ -25,7 +25,7 @@ public class ProjectOfferDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -74,14 +74,14 @@ public class ProjectOfferDao {
     private static final class ProjectOfferMapper implements RowMapper<ProjectOffer> {
 
         public @NotNull ProjectOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new ProjectOffer(
-                    rs.getInt("id"),
-                    Itinerary.values()[rs.getInt("itinerary")],
-                    rs.getString("technologies"),
-                    rs.getString("objectives"),
-                    OfferState.values()[rs.getInt("state")],
-                    rs.getInt("internship_offer_id")
-            );
+            final @NotNull ProjectOffer offer = new ProjectOffer();
+            offer.setId(rs.getInt("id"));
+            offer.setItinerary(Itinerary.values()[rs.getInt("itinerary")]);
+            offer.setTechnologies(rs.getString("technologies"));
+            offer.setObjectives(rs.getString("objectives"));
+            offer.setState(OfferState.values()[rs.getInt("state")]);
+            offer.setInternshipOfferId(rs.getInt("internship_offer_id"));
+            return offer;
         }
     }
 }

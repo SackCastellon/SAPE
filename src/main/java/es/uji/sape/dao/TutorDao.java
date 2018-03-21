@@ -24,7 +24,7 @@ public class TutorDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -32,7 +32,6 @@ public class TutorDao {
         return template.query("SELECT * FROM tutor;", new TutorMapper());
     }
 
-    @SuppressWarnings("ConstantConditions")
     public @NotNull Optional<Tutor> find(@NotNull String code) {
         @Nullable Tutor value;
         try {
@@ -74,14 +73,14 @@ public class TutorDao {
     private static final class TutorMapper implements RowMapper<Tutor> {
 
         public @NotNull Tutor mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new Tutor(
-                    rs.getString("code"),
-                    rs.getString("name"),
-                    rs.getString("surname"),
-                    Itinerary.values()[rs.getInt("itinerary")],
-                    rs.getString("department"),
-                    rs.getString("office")
-            );
+            final @NotNull Tutor tutor = new Tutor();
+            tutor.setCode(rs.getString("code"));
+            tutor.setName(rs.getString("name"));
+            tutor.setSurname(rs.getString("surname"));
+            tutor.setItinerary(Itinerary.values()[rs.getInt("itinerary")]);
+            tutor.setDepartment(rs.getString("department"));
+            tutor.setOffice(rs.getString("office"));
+            return tutor;
         }
     }
 }

@@ -24,7 +24,7 @@ public class InternshipOfferDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -71,13 +71,13 @@ public class InternshipOfferDao {
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
         public @NotNull InternshipOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new InternshipOffer(
-                    rs.getInt("id"),
-                    rs.getInt("degree"),
-                    rs.getString("tasks"),
-                    rs.getDate("start_date").toLocalDate(),
-                    rs.getString("telephone")
-            );
+            final @NotNull InternshipOffer offer = new InternshipOffer();
+            offer.setId(rs.getInt("id"));
+            offer.setDegree(rs.getInt("degree"));
+            offer.setTasks(rs.getString("tasks"));
+            offer.setStartDate(rs.getDate("start_date").toLocalDate());
+            offer.setContactUsername(rs.getString("contact_username"));
+            return offer;
         }
     }
 }

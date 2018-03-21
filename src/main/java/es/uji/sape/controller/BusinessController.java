@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Business;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,62 +11,71 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
-@RequestMapping("/api/businesses")
-@SuppressWarnings({"DesignForExtension", "FieldHasSetterButNoGetter"})
+@RequestMapping("/business")
+@SuppressWarnings("FieldHasSetterButNoGetter")
 public class BusinessController {
 
     private BusinessDao dao;
 
     @Autowired
-    public void setDao(@NotNull BusinessDao dao) {
+    public final void setDao(@NotNull BusinessDao dao) {
         this.dao = dao;
     }
 
-    @GetMapping
-    public @NotNull List<Business> getAllBusinesses() {
-        return dao.findAll();
+    @GetMapping("/list")
+    public final @NotNull String list(@NotNull Model model) {
+        model.addAttribute("businesses", dao.findAll());
+        return "/business/list";
     }
 
     @GetMapping("/{cif}")
-    public @NotNull Business getProjectOfferById(@PathVariable("cif") @NotNull String cif) {
-        return dao.find(cif).orElseThrow(() -> new ResourceNotFoundException("Business", "cif", cif));
+    public final @NotNull Business get(@PathVariable("cif") @NotNull String cif) {
+        return dao.find(cif).orElseThrow(() -> new ResourceNotFoundException("Business", Map.of("cif", cif)));
     }
 
-    @RequestMapping(value="/add")
-    public @NotNull String addProjectOffer(Model model){
+    @GetMapping("/add")
+    public final @NotNull String add(Model model) {
         model.addAttribute("business", new Business());
-        return "businesss/add";
+        return "/business/add";
     }
 
-    @PostMapping(value="/add")
-    public String processAddSubmit(@ModelAttribute("business") Business business, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return "business/add";
-        dao.add(business);
-        return "redirect:list.html";
+    @PostMapping("/add")
+    public final @NotNull String processAddSubmit(@ModelAttribute("business") @NotNull Business business, @NotNull BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/business/add";
+        try {
+            dao.add(business);
+        } catch (Throwable e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/business/list";
     }
 
-    @RequestMapping(value="/update/{cif}")
-    public @NotNull String editPostOffer(Model model, @PathVariable String cif) {
+    @GetMapping("/update/{cif}")
+    public final @NotNull String update(@NotNull Model model, @PathVariable("cif") @NotNull String cif) {
         model.addAttribute("business", dao.find(cif));
-        return "business/update";
+        return "/business/update";
     }
 
-    @PostMapping(value="/update/{cif}")
-    public String processUpdateSubmit(@PathVariable String cif, @ModelAttribute("business") Business business, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return "business/update";
-        dao.update(business);
-        return "redirect:../list";
+    @PostMapping("/update")
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("business") @NotNull Business business, @NotNull BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/business/update";
+        try {
+            dao.add(business);
+        } catch (Throwable e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/business/list";
     }
 
-    @DeleteMapping(value="/delete/{cif}")
-    public String processDelete(@PathVariable String cif) {
+    @DeleteMapping("/delete/{cif}")
+    public final @NotNull String processDelete(@PathVariable("cif") @NotNull String cif) {
         dao.delete(cif);
-        return "redirect:../list";
+        return "redirect:/business/list";
     }
-
 }

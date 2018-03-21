@@ -23,7 +23,7 @@ public class PreferenceDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -34,7 +34,7 @@ public class PreferenceDao {
     public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String studentDni) {
         @Nullable Preference value;
         try {
-            value = template.queryForObject("SELECT * FROM preference WHERE student_dni = ? AND project_offer_id = ?",
+            value = template.queryForObject("SELECT * FROM preference WHERE student_code = ? AND project_offer_id = ?",
                     new PreferenceMapper(), studentDni, projectOfferId);
         } catch (DataAccessException ignored) {
             value = null;
@@ -44,7 +44,7 @@ public class PreferenceDao {
 
     public void add(@NotNull Preference preference) {
         template.update(
-                "INSERT INTO preference(priority, student_dni, project_offer_id) VALUES(?,?,?)",
+                "INSERT INTO preference(priority, student_code, project_offer_id) VALUES(?,?,?)",
                 preference.getPriority(),
                 preference.getStudentCode(),
                 preference.getProjectOfferId()
@@ -53,7 +53,7 @@ public class PreferenceDao {
 
     public void update(@NotNull Preference preference) {
         template.update(
-                "UPDATE preference SET priority = ? WHERE student_dni = ? AND project_offer_id = ?",
+                "UPDATE preference SET priority = ? WHERE student_code = ? AND project_offer_id = ?",
                 preference.getPriority(),
                 preference.getStudentCode(),
                 preference.getProjectOfferId()
@@ -61,17 +61,17 @@ public class PreferenceDao {
     }
 
     public void delete(@NotNull String studentDni, int projectOfferId) {
-        template.update("DELETE FROM preference WHERE student_dni = ? AND project_offer_id = ?", studentDni, projectOfferId);
+        template.update("DELETE FROM preference WHERE student_code = ? AND project_offer_id = ?", studentDni, projectOfferId);
     }
 
     private static final class PreferenceMapper implements RowMapper<Preference> {
 
         public @NotNull Preference mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new Preference(
-                    rs.getInt("priority"),
-                    rs.getString("student_dni"),
-                    rs.getInt("project_offer_id")
-            );
+            final @NotNull Preference preference = new Preference();
+            preference.setPriority(rs.getInt("priority"));
+            preference.setStudentCode(rs.getString("student_code"));
+            preference.setProjectOfferId(rs.getInt("project_offer_id"));
+            return preference;
         }
     }
 }

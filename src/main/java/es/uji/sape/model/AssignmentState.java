@@ -1,3 +1,3 @@
 package es.uji.sape.model;
 
-public enum AssignmentState {ACCEPTED, REJECTED, TRANSFERED}
+public enum AssignmentState {UNDEFINED, ACCEPTED, REJECTED, TRANSFERRED}

@@ -26,7 +26,7 @@ public class AssignmentDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -34,11 +34,11 @@ public class AssignmentDao {
         return template.query("SELECT * FROM assignment;", new AssignmentMapper());
     }
 
-    public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentCode, @NotNull String tutorCode) {
+    public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentCode) {
         @Nullable Assignment value;
         try {
-            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?",
-                    new AssignmentMapper(), projectOfferId, studentCode, tutorCode);
+            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_code = ?",
+                    new AssignmentMapper(), projectOfferId, studentCode);
         } catch (DataAccessException ignored) {
             value = null;
         }
@@ -46,8 +46,8 @@ public class AssignmentDao {
     }
 
     public void add(@NotNull Assignment assignment) {
-        final LocalDate acceptanceDate = assignment.getAcceptanceDate();
-        final LocalDate rejectionDate = assignment.getRejectionDate();
+        final @Nullable LocalDate acceptanceDate = assignment.getAcceptanceDate();
+        final @Nullable LocalDate rejectionDate = assignment.getRejectionDate();
         template.update(
                 "INSERT INTO assignment(project_offer_id, student_code, tutor_code, proposal_date, acceptance_date, rejection_date, iglu_transfer_date, state) VALUES(?,?,?,?,?,?,?,?)",
                 assignment.getProjectOfferId(),
@@ -62,40 +62,40 @@ public class AssignmentDao {
     }
 
     public void update(@NotNull Assignment assignment) {
-        final LocalDate acceptanceDate = assignment.getAcceptanceDate();
-        final LocalDate rejectionDate = assignment.getRejectionDate();
+        final @Nullable LocalDate acceptanceDate = assignment.getAcceptanceDate();
+        final @Nullable LocalDate rejectionDate = assignment.getRejectionDate();
         template.update(
-                "UPDATE assignment SET proposal_date = ?, acceptance_date = ?, rejection_date = ?, iglu_transfer_date = ?, state = ? WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?",
+                "UPDATE assignment SET tutor_code = ?, proposal_date = ?, acceptance_date = ?, rejection_date = ?, iglu_transfer_date = ?, state = ? WHERE project_offer_id = ? AND student_code = ?",
+                assignment.getTutorCode(),
                 assignment.getProposalDate(),
                 (acceptanceDate == null) ? null : Date.valueOf(acceptanceDate),
                 (rejectionDate == null) ? null : Date.valueOf(rejectionDate),
                 assignment.getIgluTransferDate(),
                 assignment.getState().ordinal(),
                 assignment.getProjectOfferId(),
-                assignment.getStudentCode(),
-                assignment.getTutorCode()
+                assignment.getStudentCode()
         );
     }
 
-    public void delete(int projectOfferId, @NotNull String studentDni, @NotNull String tutorDni) {
-        template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_code = ? AND tutor_code = ?", projectOfferId, studentDni, tutorDni);
+    public void delete(int projectOfferId, @NotNull String studentCode) {
+        template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_code = ?", projectOfferId, studentCode);
     }
 
     private static final class AssignmentMapper implements RowMapper<Assignment> {
 
         public @NotNull Assignment mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final Date acceptanceDate = rs.getDate("acceptance_date");
-            final Date rejectionDate = rs.getDate("rejection_date");
-            return new Assignment(
-                    rs.getInt("project_offer_id"),
-                    rs.getString("student_code"),
-                    rs.getString("tutor_code"),
-                    rs.getDate("proposal_date").toLocalDate(),
-                    (acceptanceDate == null) ? null : acceptanceDate.toLocalDate(),
-                    (rejectionDate == null) ? null : rejectionDate.toLocalDate(),
-                    rs.getDate("iglu_transfer_date").toLocalDate(),
-                    AssignmentState.values()[rs.getInt("state")]
-            );
+            final @Nullable Date acceptanceDate = rs.getDate("acceptance_date");
+            final @Nullable Date rejectionDate = rs.getDate("rejection_date");
+            final @NotNull Assignment assignment = new Assignment();
+            assignment.setProjectOfferId(rs.getInt("project_offer_id"));
+            assignment.setStudentCode(rs.getString("student_code"));
+            assignment.setTutorCode(rs.getString("tutor_code"));
+            assignment.setProposalDate(rs.getDate("proposal_date").toLocalDate());
+            assignment.setAcceptanceDate((acceptanceDate == null) ? null : acceptanceDate.toLocalDate());
+            assignment.setRejectionDate((rejectionDate == null) ? null : rejectionDate.toLocalDate());
+            assignment.setIgluTransferDate(rs.getDate("iglu_transfer_date").toLocalDate());
+            assignment.setState(AssignmentState.values()[rs.getInt("state")]);
+            return assignment;
         }
     }
 }

@@ -7,6 +7,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
 
+import static es.uji.sape.model.AssignmentState.UNDEFINED;
+
 @Data
 @NoArgsConstructor
 public final class Assignment {
@@ -18,6 +20,6 @@ public final class Assignment {
     private @Nullable LocalDate acceptanceDate;
     private @Nullable LocalDate rejectionDate;
     private @Nullable LocalDate igluTransferDate;
-    private @Nullable AssignmentState state;
+    private @NotNull AssignmentState state = UNDEFINED;
 
 }

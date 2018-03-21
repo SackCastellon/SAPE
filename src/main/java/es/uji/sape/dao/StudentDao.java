@@ -24,7 +24,7 @@ public class StudentDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -79,16 +79,16 @@ public class StudentDao {
     private static final class StudentMapper implements RowMapper<Student> {
 
         public @NotNull Student mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new Student(
-                    rs.getString("code"),
-                    rs.getString("name"),
-                    rs.getString("surname"),
-                    Itinerary.values()[rs.getInt("itinerary")],
-                    rs.getInt("passed_credits"),
-                    rs.getFloat("average_grade"),
-                    rs.getInt("pending_subjects"),
-                    rs.getInt("internship_start_semester")
-            );
+            final @NotNull Student student = new Student();
+            student.setCode(rs.getString("code"));
+            student.setName(rs.getString("name"));
+            student.setSurname(rs.getString("surname"));
+            student.setItinerary(Itinerary.values()[rs.getInt("itinerary")]);
+            student.setPassedCredits(rs.getInt("passed_credits"));
+            student.setAverageScore(rs.getFloat("average_grade"));
+            student.setPendingSubjects(rs.getInt("pending_subjects"));
+            student.setInternshipStartSemester(rs.getInt("internship_start_semester"));
+            return student;
         }
     }
 }

@@ -23,7 +23,7 @@ public class ContactPersonDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -68,12 +68,12 @@ public class ContactPersonDao {
     private static final class ContactPersonMapper implements RowMapper<ContactPerson> {
 
         public @NotNull ContactPerson mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new ContactPerson(
-                    rs.getString("username"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("business_cif")
-            );
+            final @NotNull ContactPerson contactPerson = new ContactPerson();
+            contactPerson.setUsername(rs.getString("username"));
+            contactPerson.setName(rs.getString("name"));
+            contactPerson.setEmail(rs.getString("email"));
+            contactPerson.setBusinessCif(rs.getString("business_cif"));
+            return contactPerson;
         }
     }
 }

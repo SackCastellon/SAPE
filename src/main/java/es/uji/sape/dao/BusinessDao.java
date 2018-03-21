@@ -23,7 +23,7 @@ public class BusinessDao {
     private JdbcTemplate template;
 
     @Autowired
-    public void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -68,12 +68,13 @@ public class BusinessDao {
     private static final class BusinessMapper implements RowMapper<Business> {
 
         public @NotNull Business mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            return new Business(
-                    rs.getString("cif"),
-                    rs.getString("name"),
-                    rs.getString("address"),
-                    rs.getString("telephone")
-            );
+            final @NotNull Business business = new Business();
+            business.setCif(rs.getString("cif"));
+            business.setName(rs.getString("name"));
+            business.setAddress(rs.getString("address"));
+            business.setTelephone(rs.getString("telephone"));
+            return business;
+
         }
     }
 }

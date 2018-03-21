@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.ProjectOfferDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.ProjectOffer;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,65 +11,73 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
-@RequestMapping("/api/projectOffers")
-@SuppressWarnings({"DesignForExtension", "FieldHasSetterButNoGetter"})
+@RequestMapping("/projectOffer")
+@SuppressWarnings("FieldHasSetterButNoGetter")
 public class ProjectOfferController {
 
     private ProjectOfferDao dao;
 
     @Autowired
-    public void setDao(@NotNull ProjectOfferDao dao) {
+    public final void setDao(@NotNull ProjectOfferDao dao) {
         this.dao = dao;
     }
 
-    @GetMapping
-    public @NotNull List<ProjectOffer> getAllProjectOffers() {
-        return dao.findAll();
+    @GetMapping("/list")
+    public final @NotNull String list(@NotNull Model model) {
+        model.addAttribute("offers", dao.findAll());
+        return "/projectOffer/list";
     }
 
-    @GetMapping("/{id}")
-    public @NotNull ProjectOffer getProjectOfferById(@PathVariable("id") @NotNull int id) {
-        return dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", "id", id));
+    @GetMapping("/{id:[\\d]+}")
+    public final @NotNull ProjectOffer get(@PathVariable("id") int id) {
+        return dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id)));
     }
 
-    @RequestMapping(value="/add")
-    public @NotNull String addProjectOffer(Model model){
+    @GetMapping("/add")
+    public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("projectOffer", new ProjectOffer());
-        return "projectOffers/add";
+        return "/projectOffer/add";
     }
 
-    @PostMapping(value="/add")
-    public String processAddSubmit(@ModelAttribute("projectOffer") ProjectOffer projectOffer, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return "projectOffer/add";
-        dao.add(projectOffer);
-        return "redirect:list.html";
+    @PostMapping("/add")
+    public final @NotNull String processAddSubmit(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer, @NotNull BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/projectOffer/add";
+        try {
+            dao.add(projectOffer);
+        } catch (Throwable e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/projectOffer/list";
     }
 
-    @RequestMapping(value="/update/{id}")
-    public @NotNull String editPostOffer(Model model, @PathVariable int id) {
+    @GetMapping("/update/{id:[\\d]+}")
+    public final @NotNull String update(@NotNull Model model, @PathVariable("id") int id) {
         model.addAttribute("projectOffer", dao.find(id));
-        return "projectOffer/update";
+        return "/projectOffer/update";
     }
 
-    @PostMapping(value="/update/{id}")
-    public String processUpdateSubmit(@PathVariable int id, @ModelAttribute("projectOffer") ProjectOffer projectOffer, BindingResult bindingResult) {
-        if(bindingResult.hasErrors())
-            return "projectOffer/update";
-        dao.update(projectOffer);
-        return "redirect:../list";
+    @PostMapping("/update}")
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer, @NotNull BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/projectOffer/update";
+        try {
+            dao.update(projectOffer);
+        } catch (Throwable e) {
+            log.error(e.getMessage());
+        }
+        return "redirect:/projectOffer/list";
     }
 
-    @DeleteMapping(value="/delete/{id}")
-    public String processDelete(@PathVariable int id) {
+    @DeleteMapping("/delete/{id:[\\d]+}")
+    public final @NotNull String processDelete(@PathVariable("id") int id) {
         dao.delete(id);
-        return "redirect:../list";
+        return "redirect:/projectOffer/list";
     }
-
-
 
 
 }
