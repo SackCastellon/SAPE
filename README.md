@@ -2,12 +2,12 @@
 **S**istema de apoyo a la gestión de la **A**signación de **P**royectos en **E**mpresas para la realización de estancias en prácticas y trabajo final de grado de Ingeniería en Informática.
 
 ## Desarrollo
-Este projecto ha sido creado con, y por lo tanto requiere de:
+Este proyecto ha sido creado con, y por lo tanto requiere de:
 - Java 9.0.4
 - Gradle 4.6
 - Lombok Plugin ([Intellij](https://projectlombok.org/setup/intellij), [Eclipse](https://projectlombok.org/setup/eclipse))
 
-Para poder ser desarrolado correctamente.
+Para poder ser desarrollado correctamente.
 
 ## Ejecución
 Para que la aplicación pueda ejecutarse correctamente, esta necesita conectarse a una base de datos.
@@ -21,7 +21,7 @@ Para establecer estas variables de entorno puede usar el siguiente comando en Wi
 setx [nombre_variable] [valor_variable] /M
 ```
 
-Finalmente para iniciar la aplicación ejecute el siguiente comando, en el diretorio del projecto:
+Finalmente, para iniciar la aplicación ejecute el siguiente comando, en el directorio del proyecto:
 ```powershell
 ./gradlew bootRun
 ```
