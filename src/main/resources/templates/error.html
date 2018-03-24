@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-0LGTKb8NPx8fBKaojW3qF+Qo2Yhhs/mBrVHMYjPV8V/o4ZAmZ1cpGI2OeQab16T2" crossorigin="anonymous"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+        <title>SAPE - Error</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-md">
+            <div class="container">
+                <a class="navbar-brand" href="/">SAPE</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav w-100 justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about"><i class="fa fa-info fa-fw" aria-hidden="true"></i>&nbsp; About</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav w-100 justify-content-end">
+                        <li class="nav-item">
+                            <!--TODO Dynamic Login/View Account button-->
+                            <a class="nav-link" href="/login"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i>&nbsp; Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <!--/*@thymesVar id="status" type="java.lang.String"*/-->
+                <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+                <h1 class="display-4" th:text="'Error '+${status}+' - '+${error}">Error</h1>
+                <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+                <p class="lead" th:text="${message}">This page is not available</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-center my-5">
+                <a class="btn btn-primary btn-lg p-2" style="width: 250px;" href="/" role="button">Return to Home Page</a>
+            </div>
+        </div>
+
+        <footer class="footer bg-light">
+            <div class="d-flex align-items-center">
+                <div class="container p-3">
+                    <p class="small text-dark text-center mb-0">
+                        Made by <a href="https://github.com/SackCastellon">@SackCastellon</a>,
+                        <a href="https://github.com/Ouronok">@Ouronok</a> and
+                        <a href="https://github.com/marianbl">@marianbl</a>
+                        using <a href="https://spring.io/">Spring MVC</a>
+                        and <a href="https://getbootstrap.com/">Bootstrap 4</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"
+                integrity="sha256-ifihHN6L/pNU1ZQikrAb7CnyMBvisKG3SUAab0F3kVU=" crossorigin="anonymous"></script>
+
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
+    </body>
+</html>
