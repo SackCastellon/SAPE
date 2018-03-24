@@ -32,12 +32,13 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     runtime 'org.springframework.boot:spring-boot-devtools'
 
-    // Postrgres
+    // Postgres
     runtime 'org.postgresql:postgresql'
 
     // Annotations
     compile 'org.jetbrains:annotations:16.0.1'
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Testing
     testCompile 'org.springframework.boot:spring-boot-starter-test'
