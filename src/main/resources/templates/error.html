@@ -9,7 +9,8 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
               integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-        <title>SAPE - Error</title>
+        <!--/*@thymesVar id="status" type="java.lang.String"*/-->
+        <title th:text="'SAPE - Error '+${status}">SAPE - Error</title>
     </head>
     <body>
         <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-md">
