@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Footer</title>
+    </head>
+    <body>
+        <footer class="footer bg-light" th:fragment="footer">
+            <div class="d-flex align-items-center">
+                <div class="container p-3 mt-4 mb-2">
+                    <p class="small text-dark text-center mb-0">
+                        Made by <a href="https://github.com/SackCastellon">@SackCastellon</a>,
+                        <a href="https://github.com/Ouronok">@Ouronok</a> and
+                        <a href="https://github.com/marianbl">@marianbl</a>
+                        using <a href="https://spring.io/">Spring MVC</a>
+                        and <a href="https://getbootstrap.com/">Bootstrap 4</a>
+                        <span th:text="${#httpServletRequest.requestURI}"></span>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
