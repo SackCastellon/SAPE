@@ -70,12 +70,12 @@ public class StudentController {
         } catch (Throwable e) {
             log.error(e.getMessage());
         }
-        return "redirect:/assignment/list";
+        return "redirect:/student/list";
     }
 
     @DeleteMapping("/delete/{code}")
     public final @NotNull String processDelete(@PathVariable("code") @NotNull String code) {
         dao.delete(code);
-        return "redirect:/assignment/list";
+        return "redirect:/student/list";
     }
 }
