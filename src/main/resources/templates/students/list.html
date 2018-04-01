@@ -28,33 +28,35 @@
                 </div>
             </div>
             <br/>
-            <table class="table table-hover table-responsive-md" id="swimmers-table">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col" class="align-middle" style="width: 10%;">Code</th>
-                        <th scope="col" class="align-middle" style="width: 15%;">Name</th>
-                        <th scope="col" class="align-middle" style="width: 15%;">Surname</th>
-                        <th scope="col" class="align-middle" style="width: 20%;">Itinerary</th>
-                        <th scope="col" class="align-middle" style="width: 10%;">Passed Credits</th>
-                        <th scope="col" class="align-middle" style="width: 10%;">Average Score</th>
-                        <th scope="col" class="align-middle" style="width: 10%;">Pending Subjects</th>
-                        <th scope="col" class="align-middle" style="width: 10%;">Internship Start Semester</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
-                    <tr th:each="student : ${students}">
-                        <td class="align-middle" th:text="${student.getCode()}"></td>
-                        <td class="align-middle" th:text="${student.getName()}"></td>
-                        <td class="align-middle" th:text="${student.getSurname()}"></td>
-                        <td class="align-middle" th:text="${student.getItinerary().getLabel()}"></td>
-                        <td class="align-middle" th:text="${student.getPassedCredits()}"></td>
-                        <td class="align-middle" th:text="${student.getAverageScore()}"></td>
-                        <td class="align-middle" th:text="${student.getPendingSubjects()}"></td>
-                        <td class="align-middle" th:text="${student.getInternshipStartSemester()}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover" id="swimmers-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="align-middle" style="width: 10%;">Code</th>
+                            <th scope="col" class="align-middle" style="width: 15%;">Name</th>
+                            <th scope="col" class="align-middle" style="width: 15%;">Surname</th>
+                            <th scope="col" class="align-middle" style="width: 20%;">Itinerary</th>
+                            <th scope="col" class="align-middle" style="width: 10%;">Passed Credits</th>
+                            <th scope="col" class="align-middle" style="width: 10%;">Average Score</th>
+                            <th scope="col" class="align-middle" style="width: 10%;">Pending Subjects</th>
+                            <th scope="col" class="align-middle" style="width: 10%;">Internship Start Semester</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
+                        <tr th:each="student : ${students}">
+                            <td class="align-middle" th:text="${student.code}"></td>
+                            <td class="align-middle" th:text="${student.name}"></td>
+                            <td class="align-middle" th:text="${student.surname}"></td>
+                            <td class="align-middle" th:text="${student.itinerary.label}"></td>
+                            <td class="align-middle" th:text="${student.passedCredits}"></td>
+                            <td class="align-middle" th:text="${student.averageScore}"></td>
+                            <td class="align-middle" th:text="${student.pendingSubjects}"></td>
+                            <td class="align-middle" th:text="${student.internshipStartSemester}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div th:replace="fragments/footer :: footer"></div>

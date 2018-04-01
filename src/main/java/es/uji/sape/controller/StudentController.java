@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/student")
+@RequestMapping("/students")
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class StudentController {
 
@@ -26,10 +26,10 @@ public class StudentController {
         this.dao = dao;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("students", dao.findAll());
-        return "/student/list";
+        return "/students/list";
     }
 
     @GetMapping("/{code}")
@@ -40,42 +40,40 @@ public class StudentController {
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("student", new Student());
-        return "/student/add";
+        return "/students/add";
     }
 
     @PostMapping("/add")
     public final @NotNull String processAddSubmit(@ModelAttribute("student") @NotNull Student student, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "/student/add";
+        if (bindingResult.hasErrors()) return "/students/add";
         try {
             dao.add(student);
         } catch (Throwable e) {
             log.error(e.getMessage());
         }
-        return "redirect:/student/list";
+        return "redirect:/students";
     }
 
     @GetMapping("/update/{code}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("code") @NotNull String code) {
         model.addAttribute("student", dao.find(code));
-        return "/student/update";
+        return "/students/update";
     }
 
     @PostMapping("/update")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull Student student, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "/student/update";
+        if (bindingResult.hasErrors()) return "/students/update";
         try {
             dao.update(student);
         } catch (Throwable e) {
             log.error(e.getMessage());
         }
-        return "redirect:/student/list";
+        return "redirect:/students";
     }
 
     @DeleteMapping("/delete/{code}")
     public final @NotNull String processDelete(@PathVariable("code") @NotNull String code) {
         dao.delete(code);
-        return "redirect:/student/list";
+        return "redirect:/students";
     }
 }
