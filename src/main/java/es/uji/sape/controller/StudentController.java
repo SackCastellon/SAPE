@@ -32,11 +32,6 @@ public class StudentController {
         return "/students/list";
     }
 
-    @GetMapping("/{code}")
-    public final @NotNull Student get(@PathVariable("code") @NotNull String code) {
-        return dao.find(code).orElseThrow(() -> new ResourceNotFoundException("Student", Map.of("code", code)));
-    }
-
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("student", new Student());
@@ -56,7 +51,7 @@ public class StudentController {
 
     @GetMapping("/update/{code}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("code") @NotNull String code) {
-        model.addAttribute("student", dao.find(code));
+        model.addAttribute("student", dao.find(code).orElseThrow(() -> new ResourceNotFoundException("Student", Map.of("code", code))));
         return "/students/update";
     }
 
@@ -71,7 +66,7 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    @DeleteMapping("/delete/{code}")
+    @GetMapping("/delete/{code}")
     public final @NotNull String processDelete(@PathVariable("code") @NotNull String code) {
         dao.delete(code);
         return "redirect:/students";
