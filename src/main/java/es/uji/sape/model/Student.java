@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import static es.uji.sape.model.Itinerary.SOFTWARE_ENGINEERING;
+import static es.uji.sape.model.Month.JANUARY;
 
 @Data
 @NoArgsConstructor
@@ -17,5 +18,5 @@ public final class Student {
     private int passedCredits;
     private float averageScore;
     private int pendingSubjects;
-    private int internshipStartSemester;
+    private @NotNull Month internshipStartSemester = JANUARY;
 }

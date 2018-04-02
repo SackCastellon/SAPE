@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.Itinerary;
+import es.uji.sape.model.Month;
 import es.uji.sape.model.Student;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +54,7 @@ public class StudentDao {
                 student.getPassedCredits(),
                 student.getAverageScore(),
                 student.getPendingSubjects(),
-                student.getInternshipStartSemester()
+                student.getInternshipStartSemester().ordinal()
         );
     }
 
@@ -67,7 +68,7 @@ public class StudentDao {
                 student.getPassedCredits(),
                 student.getAverageScore(),
                 student.getPendingSubjects(),
-                student.getInternshipStartSemester(),
+                student.getInternshipStartSemester().ordinal(),
                 student.getCode()
         );
     }
@@ -87,7 +88,7 @@ public class StudentDao {
             student.setPassedCredits(rs.getInt("passed_credits"));
             student.setAverageScore(rs.getFloat("average_grade"));
             student.setPendingSubjects(rs.getInt("pending_subjects"));
-            student.setInternshipStartSemester(rs.getInt("internship_start_semester"));
+            student.setInternshipStartSemester(Month.values()[rs.getInt("internship_start_semester")]);
             return student;
         }
     }

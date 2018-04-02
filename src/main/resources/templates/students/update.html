@@ -45,7 +45,8 @@
                                 <option th:each="itinerary : ${T(es.uji.sape.model.Itinerary).values()}"
                                         th:value="${itinerary}"
                                         th:text="${itinerary.label}"
-                                        th:selected="${itinerary == student.itinerary}"></option>
+                                        th:selected="${itinerary == student.itinerary}">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -66,8 +67,14 @@
                         </div>
                         <div class="form-group">
                             <label for="internshipStartSemester">Internship Start Semester</label>
-                            <input type="number" class="form-control" id="internshipStartSemester" min="1" max="12" required
-                                   th:field="*{internshipStartSemester}"/>
+                            <select class="form-control" id="internshipStartSemester" name="itinerary">
+                                <!--/*@thymesVar id="month" type="es.uji.sape.model.Month"*/-->
+                                <option th:each="month : ${T(es.uji.sape.model.Month).values()}"
+                                        th:value="${month}"
+                                        th:text="${month.toString()}"
+                                        th:selected="${month == student.internshipStartSemester}">
+                                </option>
+                            </select>
                         </div>
 
                         <div class="d-flex justify-content-between">
