@@ -28,34 +28,71 @@
                 </div>
             </div>
             <br/>
-            <div class="table-responsive">
-                <table class="table table-hover" id="swimmers-table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="align-middle" style="width: 10%;">Code</th>
-                            <th scope="col" class="align-middle" style="width: 15%;">Name</th>
-                            <th scope="col" class="align-middle" style="width: 15%;">Surname</th>
-                            <th scope="col" class="align-middle" style="width: 20%;">Itinerary</th>
-                            <th scope="col" class="align-middle" style="width: 10%;">Passed Credits</th>
-                            <th scope="col" class="align-middle" style="width: 10%;">Average Score</th>
-                            <th scope="col" class="align-middle" style="width: 10%;">Pending Subjects</th>
-                            <th scope="col" class="align-middle" style="width: 10%;">Internship Start Semester</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
-                        <tr th:each="student : ${students}">
-                            <td class="align-middle" th:text="${student.code}"></td>
-                            <td class="align-middle" th:text="${student.name}"></td>
-                            <td class="align-middle" th:text="${student.surname}"></td>
-                            <td class="align-middle" th:text="${student.itinerary.label}"></td>
-                            <td class="align-middle" th:text="${student.passedCredits}"></td>
-                            <td class="align-middle" th:text="${student.averageScore}"></td>
-                            <td class="align-middle" th:text="${student.pendingSubjects}"></td>
-                            <td class="align-middle" th:text="${student.internshipStartSemester}"></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table class="table table-hover table-responsive" id="students-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="align-middle" style="width: 10%;">Code</th>
+                        <th scope="col" class="align-middle" style="width: 15%;">Name</th>
+                        <th scope="col" class="align-middle" style="width: 15%;">Surname</th>
+                        <th scope="col" class="align-middle" style="width: 20%;">Itinerary</th>
+                        <th scope="col" class="align-middle" style="width: 10%;">Passed Credits</th>
+                        <th scope="col" class="align-middle" style="width: 10%;">Average Score</th>
+                        <th scope="col" class="align-middle" style="width: 6%;">Pending Subjects</th>
+                        <th scope="col" class="align-middle" style="width: 6%;">Internship Start Semester</th>
+                        <th scope="col" class="align-middle" style="width: 8%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
+                    <tr th:each="student : ${students}">
+                        <td class="align-middle" th:text="${student.code}"></td>
+                        <td class="align-middle" th:text="${student.name}"></td>
+                        <td class="align-middle" th:text="${student.surname}"></td>
+                        <td class="align-middle" th:text="${student.itinerary.label}"></td>
+                        <td class="align-middle" th:text="${student.passedCredits}"></td>
+                        <td class="align-middle" th:text="${student.averageScore}"></td>
+                        <td class="align-middle" th:text="${student.pendingSubjects}"></td>
+                        <td class="align-middle" th:text="${student.internshipStartSemester}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="p-2">
+                                    <a class="btn btn-info" th:href="@{/students/update/{code}(code=${student.code})}" role="button">Update</a>
+                                </div>
+                                <div class="p-2">
+                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteStudent(&quot;'+${student.code}+'&quot;)'"
+                                            data-toggle="modal" data-target="#confirmDeleteModal" data-backdrop="static">Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary" href="/students/add" role="button">Add new Student</a>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteModalTitle">Delete confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmDeleteModalBody">
+                        Are you sure you want to delete the Student?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Keep</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteStudent()">Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -73,11 +110,30 @@
             $(document).ready(function () {
                 $("#search").on("keyup", function () {
                     var value = $(this).val().toLowerCase();
-                    $("#swimmers-table").find("tbody tr").filter(function () {
+                    $("#students-table").find("tbody tr").filter(function () {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 });
             });
+
+            var studentName = "";
+
+            $('#confirmDeleteModal').on('show.bs.modal', function (e) {
+                $("#confirmDeleteModalBody").html("Are you sure you want to delete the Student with code <b>" + studentName + "</b>?")
+            });
+
+            function confirmDeleteStudent(name) {
+                console.log("Trying to delete: " + name);
+                studentName = name
+            }
+
+            function deleteStudent() {
+                if (studentName !== "") {
+                    window.location.assign("/students/delete/" + studentName)
+                } else {
+                    $('#confirmDeleteModal').modal('hide')
+                }
+            }
         </script>
     </body>
 </html>
