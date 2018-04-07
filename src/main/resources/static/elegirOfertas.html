@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+        <!--integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-0LGTKb8NPx8fBKaojW3qF+Qo2Yhhs/mBrVHMYjPV8V/o4ZAmZ1cpGI2OeQab16T2" crossorigin="anonymous"/>
+
+        <title>Elegir preferencias</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
+            <a class="navbar-brand mb-0 h1" href="/">SAPE</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- TODO Add elemets to navbar -->
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+        <table class="table table-hover table-responsive" id="preferences-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="align-middle" style="width: 10%;">Priority</th>
+                        <th scope="col" class="align-middle" style="width: 15%;">Offer ID</th>
+                        <th scope="col" class="align-middle" style="width: 15%;">Offer Name</th>
+                        <th scope="col" class="align-middle" style="width: 8%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--/*@thymesVar id="preferences" type="java.util.List<es.uji.sape.model.Preference>"*/-->
+                    <tr th:each="student : ${students}">
+                        <td class="align-middle" th:text="${prefereces.priority}"></td>
+                        <td class="align-middle" th:text="${preferences.projectOfferId}"></td>
+                        <td class="align-middle" th:text="${student.surname}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="p-2">
+                                    <a class="btn btn-info" th:href="@{/preferences/update/{code}(code=${preferences.code})}" role="button">Update</a>
+                                </div>
+                                <div class="p-2">
+                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeletePreference(&quot;'+${preference.code}+'&quot;)'"
+                                            data-toggle="modal" data-target="#confirmDeleteModal" data-backdrop="static">Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary" href="/preferences/add" role="button">Add new Offer</a>
+            </div>
+        </div>
+        
+        </body>
