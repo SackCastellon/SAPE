@@ -5,3 +5,10 @@
 ### IntelliJ IDEA ###
 .idea
 /out/
+
+### Eclipse ###
+.project
+.classpath
+/bin/
+/.settings/
+/.apt_generated/
