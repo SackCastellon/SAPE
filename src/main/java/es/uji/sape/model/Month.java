@@ -1,11 +1,14 @@
 package es.uji.sape.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 
+@Getter
+@RequiredArgsConstructor
 public enum Month {
     JANUARY("January"),
     FEBRUARY("February"),
@@ -20,12 +23,7 @@ public enum Month {
     NOVEMBER("November"),
     DECEMBER("December");
 
-    @Getter
     private final @NotNull String label;
-
-    Month(@NotNull String label) {
-        this.label = label;
-    }
 
     private void writeObject(ObjectOutputStream out) throws NotSerializableException {
         throw new NotSerializableException("es.uji.sape.model.Month");

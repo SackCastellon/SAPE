@@ -55,8 +55,8 @@ public class StudentController {
         return "/students/update";
     }
 
-    @PostMapping("/update")
-    public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull Student student, @NotNull BindingResult bindingResult) {
+    @PostMapping("/update/{code}")
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull Student student, @PathVariable("code") @NotNull String code, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/students/update";
         try {
             dao.update(student);
