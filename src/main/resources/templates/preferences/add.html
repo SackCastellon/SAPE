@@ -1,29 +1,62 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
-        <!--integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>-->
         <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-0LGTKb8NPx8fBKaojW3qF+Qo2Yhhs/mBrVHMYjPV8V/o4ZAmZ1cpGI2OeQab16T2" crossorigin="anonymous"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-        <title>Añadir preferencias</title>
+        <title>SAPE - Add preferences</title>
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
-            <a class="navbar-brand mb-0 h1" href="/">SAPE</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <!-- TODO Add elemets to navbar -->
-                </ul>
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Offer List</h1>
+                <p class="lead">Select the internship offers that you want</p>
             </div>
-        </nav>
+        </div>
 
-
-#Mostrar toda la tabla de ofertas
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Filter offers..."/>
+                </div>
+            </div>
+            <br/>
+            <table class="table table-hover table-responsive" id="offer-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col" >ID</th>
+                        <th class="col" >Degree</th>
+                        <th class="col" >Tasks</th>
+                        <th class="col" >Start date</th>
+                        <th class="col" >Contact</th>
+                        <th class="col" ></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--/*@thymesVar id="internshipOffer" type="java.util.List<es.uji.sape.model.InternshipOffer>"*/-->
+                    <tr th:each="internshipOffer : ${internshipOffer}">
+                        <td class="align-middle" th:text="${internshipOffer.id}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.degree}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td> <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="p-2">
+                                    <a class="btn btn-info" th:href="@{/students/update/{code}(code=${student.code})}" role="button">Update</a>
+                                </div>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</body>
+</html>
+       
