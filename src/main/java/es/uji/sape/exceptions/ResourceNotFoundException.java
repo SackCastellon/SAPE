@@ -1,6 +1,6 @@
 package es.uji.sape.exceptions;
 
-import lombok.Getter;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,13 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Data
 @SuppressWarnings("serial")
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public final class ResourceNotFoundException extends RuntimeException {
 
-    @Getter
     private final @NotNull String resourceName;
-    @Getter
     private final @NotNull Map<String, Object> fields = new HashMap<>();
 
     public ResourceNotFoundException(@NotNull String resourceName, @NotNull Map<String, Object> fields) {
