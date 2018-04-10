@@ -66,7 +66,7 @@
                             <input type="number" class="form-control" id="pendingSubjects" min="0" required th:field="*{pendingSubjects}"/>
                         </div>
                         <div class="form-group">
-                            <label for="internshipStartSemester">Internship Start Semester</label>
+                            <label for="internshipStartSemester">Internship Start Month</label>
                             <select class="form-control" id="internshipStartSemester" name="internshipStartSemester">
                                 <!--/*@thymesVar id="month" type="es.uji.sape.model.Month"*/-->
                                 <option th:each="month : ${T(es.uji.sape.model.Month).values()}"
