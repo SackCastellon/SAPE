@@ -33,6 +33,14 @@ public class StudentDao {
         return template.query("SELECT * FROM student;", new StudentMapper());
     }
 
+    public @NotNull List<Student> findAll(int page, int count) {
+        return template.query("SELECT * FROM student LIMIT ? OFFSET ?;", new StudentMapper(), count, count * (page - 1));
+    }
+
+    public int getCount() {
+        return template.queryForObject("SELECT COUNT(*) FROM student;", Integer.class);
+    }
+
     public @NotNull Optional<Student> find(@NotNull String code) {
         @Nullable Student value;
         try {

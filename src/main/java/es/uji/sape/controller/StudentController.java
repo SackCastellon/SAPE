@@ -4,6 +4,7 @@ import es.uji.sape.dao.StudentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Student;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +13,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequestMapping("/students")
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class StudentController {
+
+    private static final int DEFAULT_PAGE = 1;
+    private static final int DEFAULT_COUNT = 5;
 
     private StudentDao dao;
 
@@ -27,8 +32,15 @@ public class StudentController {
     }
 
     @GetMapping
-    public final @NotNull String list(@NotNull Model model) {
-        model.addAttribute("students", dao.findAll());
+    public final @NotNull String list(@NotNull Model model, @RequestParam(value = "page", required = false) @NotNull Optional<String> page, @RequestParam(value = "count", required = false) @NotNull Optional<String> count) {
+        int pageInt = page.filter(NumberUtils::isParsable).map(Integer::parseInt).orElse(DEFAULT_PAGE);
+        int countInt = count.filter(NumberUtils::isParsable).map(Integer::parseInt).orElse(DEFAULT_COUNT);
+
+        model.addAttribute("students", dao.findAll(pageInt, countInt));
+        model.addAttribute("page", pageInt);
+        model.addAttribute("count", countInt);
+        model.addAttribute("totalPages", (int) Math.ceil(dao.getCount() / (float) countInt));
+
         return "/students/list";
     }
 

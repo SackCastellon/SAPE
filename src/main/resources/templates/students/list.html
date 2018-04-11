@@ -27,7 +27,9 @@
                     <input class="form-control" id="search" type="text" placeholder="Filter students..."/>
                 </div>
             </div>
+
             <br/>
+
             <table class="table table-hover table-responsive" id="students-table">
                 <thead class="thead-light">
                     <tr>
@@ -68,7 +70,49 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!--/*@thymesVar id="page" type="java.lang.Integer"*/-->
+            <!--/*@thymesVar id="count" type="java.lang.Integer"*/-->
+            <!--/*@thymesVar id="totalPages" type="java.lang.Integer"*/-->
+            <nav>
+                <ul class="pagination justify-content-center"
+                    th:with="hasPrevious=${page&gt;1},hasTwoPrevious=${page&gt;2},hasNext=${page&lt;totalPages},hasTwoNext=${page&lt;totalPages -1}">
+                    <li class="page-item"
+                        th:classappend="${!hasPrevious}?'disabled'"
+                        th:attr="tabindex=${!hasPrevious}?'&quot;-1&quot;'">
+                        <a class="page-link" th:href="${hasPrevious}?'?page='+${page -1}+'&count='+${count}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${hasTwoPrevious}">
+                        <a class="page-link" th:href="'?page='+${page -2}+'&count='+${count}" th:text="${page -2}"></a>
+                    </li>
+                    <li class="page-item" th:if="${hasPrevious}">
+                        <a class="page-link" th:href="'?page='+${page -1}+'&count='+${count}" th:text="${page -1}"></a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" th:utext="${page}+' <span class=&quot;sr-only&quot;>(current)</span>'" href="#"></a>
+                    </li>
+                    <li class="page-item" th:if="${hasNext}">
+                        <a class="page-link" th:href="'?page='+${page +1}+'&count='+${count}" th:text="${page +1}"></a>
+                    </li>
+                    <li class="page-item" th:if="${hasTwoNext}">
+                        <a class="page-link" th:href="'?page='+${page +2}+'&count='+${count}" th:text="${page +2}"></a>
+                    </li>
+                    <li class="page-item"
+                        th:classappend="${!hasNext}?'disabled'"
+                        th:attr="tabindex=${!hasNext}?'&quot;-1&quot;'">
+                        <a class="page-link" th:href="${hasNext}?'?page='+${page +1}+'&count='+${count}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
+        <br>
 
         <div class="container">
             <div class="d-flex justify-content-center">
