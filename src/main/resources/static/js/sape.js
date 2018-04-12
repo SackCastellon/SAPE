@@ -1,6 +1,6 @@
-$(document).ready(function () {
-    var pathname = window.location.pathname;
-    $('.nav-item > a[href="' + pathname + '"]').parent().addClass('active');
+$('nav .navbar').ready(function () {
+    let pathname = window.location.pathname;
+    $(`.nav-item > a[href="${pathname}"]`).parent().addClass('active');
 });
 
 $(function () {

@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="internshipOffers" type="java.util.List<es.uji.sape.model.InternshipOffer>"*/-->
     <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-0LGTKb8NPx8fBKaojW3qF+Qo2Yhhs/mBrVHMYjPV8V/o4ZAmZ1cpGI2OeQab16T2" crossorigin="anonymous"/>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+        <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Add preferences</title>
     </head>
     <body>
-        <div th:replace="fragments/header :: header"></div>
+        <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
@@ -31,32 +25,33 @@
             <table class="table table-hover table-responsive" id="offer-table">
                 <thead class="thead-light">
                     <tr>
-                        <th class="col" >ID</th>
-                        <th class="col" >Degree</th>
-                        <th class="col" >Tasks</th>
-                        <th class="col" >Start date</th>
-                        <th class="col" >Contact</th>
-                        <th class="col" ></th>
+                        <th class="col">ID</th>
+                        <th class="col">Degree</th>
+                        <th class="col">Tasks</th>
+                        <th class="col">Start date</th>
+                        <th class="col">Contact</th>
+                        <th class="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--/*@thymesVar id="internshipOffer" type="java.util.List<es.uji.sape.model.InternshipOffer>"*/-->
-                    <tr th:each="internshipOffer : ${internshipOffer}">
+                    <tr th:each="internshipOffer : ${internshipOffers}">
                         <td class="align-middle" th:text="${internshipOffer.id}"></td>
                         <td class="align-middle" th:text="${internshipOffer.degree}"></td>
                         <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
                         <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td> <td class="align-middle">
+                        <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
+                        <td class="align-middle">
                             <div class="d-flex justify-content-start">
                                 <div class="p-2">
-                                    <a class="btn btn-info" th:href="@{/students/update/{code}(code=${student.code})}" role="button">Update</a>
+                                    <a class="btn btn-info" th:href="@{/student/update/{code}(code=${student.code})}" role="button">Update</a>
                                 </div>
-                        </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-	</body>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
 </html>
-       

@@ -35,6 +35,13 @@ dependencies {
     // Postgres
     runtime 'org.postgresql:postgresql'
 
+    // Web Jars
+    compile 'org.webjars:jquery:3.3.1-1'
+    compile 'org.webjars:popper.js:1.14.1'
+    compile 'org.webjars:bootstrap:4.0.0-2'
+    compile 'org.webjars:bootswatch-lumen:4.0.0'
+    compile 'org.webjars:font-awesome:4.7.0'
+
     // Annotations
     compile 'org.jetbrains:annotations:16.0.1'
     compileOnly 'org.projectlombok:lombok'

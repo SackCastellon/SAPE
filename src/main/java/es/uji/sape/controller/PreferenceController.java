@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.PreferenceDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Preference;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,8 @@ import java.util.Map;
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class PreferenceController {
 
+    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
     private PreferenceDao dao;
-
-    @Autowired
-    public final void setDao(@NotNull PreferenceDao dao) {
-        this.dao = dao;
-    }
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
@@ -32,9 +29,9 @@ public class PreferenceController {
         return "/preferences/list";
     }
 
-    @GetMapping("/{project_offer_id:[\\d]+}/{student_code}")
-    public final @NotNull Preference get(@PathVariable("student_code") String student_code, @PathVariable("project_offer_id") @NotNull int project_offer_id) {
-        return dao.find(project_offer_id, student_code).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("project_offer_id", project_offer_id, "student_code", student_code)));
+    @GetMapping("/{projectOfferId:[\\d]+}/{studentCode}")
+    public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") @NotNull int projectOfferId) {
+        return dao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode)));
     }
 
     @GetMapping("/add")
@@ -54,14 +51,14 @@ public class PreferenceController {
         return "redirect:/preferences";
     }
 
-    @GetMapping("/update/{project_offer_id:[\\d]+}/{student_code}")
-    public final @NotNull String update(@NotNull Model model, @PathVariable("student_code") @NotNull String student_code, @PathVariable("project_offer_id") int project_offer_id) {
-        model.addAttribute("preference", dao.find(project_offer_id, student_code).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("project_offer_id", project_offer_id, "student_code", student_code))));
+    @GetMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
+    public final @NotNull String update(@NotNull Model model, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
+        model.addAttribute("preference", dao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode))));
         return "/preferences/update";
     }
 
-    @PostMapping("/update/{project_offer_id:[\\d]+}/{student_code}")
-    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("student_code") @NotNull String student_code, @PathVariable("project_offer_id") @NotNull int project_offer_id, @NotNull BindingResult bindingResult) {
+    @PostMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") @NotNull int projectOfferId, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/preferences/update";
         try {
             dao.update(preference);
@@ -71,9 +68,9 @@ public class PreferenceController {
         return "redirect:/preferences";
     }
 
-    @GetMapping("/delete/{project_offer_id:[\\d]+}/{student_code}")
-    public final @NotNull String processDelete(@PathVariable("student_code") @NotNull String student_code, @PathVariable("project_offer_id") int project_offer_id) {
-        dao.delete(project_offer_id, student_code);
+    @GetMapping("/delete/{projectOfferId:[\\d]+}/{studentCode}")
+    public final @NotNull String processDelete(@PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
+        dao.delete(projectOfferId, studentCode);
         return "redirect:/preferences";
     }
 }

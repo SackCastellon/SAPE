@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.InternshipOffer"*/-->
     <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-0LGTKb8NPx8fBKaojW3qF+Qo2Yhhs/mBrVHMYjPV8V/o4ZAmZ1cpGI2OeQab16T2" crossorigin="anonymous"/>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+        <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Update Offer</title>
     </head>
     <body>
-        <div th:replace="fragments/header :: header"></div>
+        <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
@@ -24,7 +18,6 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
-                    <!--/*@thymesVar id="offer" type="es.uji.sape.model.InternshipOffer"*/-->
                     <form action="#" th:action="@{/offers/update/{id}(code=${offer.id})}" th:object="${offer}" method="post">
                         <div class="form-group">
                             <label for="id">ID</label>
@@ -65,25 +58,6 @@
             </div>
         </div>
 
-        <div th:replace="fragments/footer :: footer"></div>
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-        <script src="/js/sape.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#search").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $("#swimmers-table").find("tbody tr").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-            });
-        </script>
+        <th:block th:replace="fragments/common :: footer"/>
     </body>
 </html>

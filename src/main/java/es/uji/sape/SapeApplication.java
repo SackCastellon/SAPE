@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@SuppressWarnings("ClassNamePrefixedWithPackageName")
 public class SapeApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SapeApplication.class, args);
     }

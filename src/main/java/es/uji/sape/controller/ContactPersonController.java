@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.ContactPersonDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.ContactPerson;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,11 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/contactPersons")
+@SuppressWarnings("FieldHasSetterButNoGetter")
 public class ContactPersonController {
 
+    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
     private ContactPersonDao dao;
-
-    @Autowired
-    public final void setDao(@NotNull ContactPersonDao dao) {
-        this.dao = dao;
-    }
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {

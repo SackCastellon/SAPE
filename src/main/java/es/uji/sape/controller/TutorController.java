@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.TutorDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Tutor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,11 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/tutors")
+@SuppressWarnings("FieldHasSetterButNoGetter")
 public class TutorController {
 
+    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
     private TutorDao dao;
-
-    @Autowired
-    public final void setDao(@NotNull TutorDao dao) {
-        this.dao = dao;
-    }
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
@@ -33,7 +31,7 @@ public class TutorController {
 
     @GetMapping("/{code}")
     public final @NotNull Tutor get(@PathVariable("code") String code) {
-        return dao.find(code).orElseThrow(() -> new ResourceNotFoundException("TutorOffer", Map.of("code", code)));
+        return dao.find(code).orElseThrow(() -> new ResourceNotFoundException("Tutor", Map.of("code", code)));
     }
 
     @GetMapping("/add")

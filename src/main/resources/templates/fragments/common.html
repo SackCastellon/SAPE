@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link rel="stylesheet" type="text/css" href="/webjars/bootswatch-lumen/4.0.0/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+        <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+        <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
+        <script src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+        <script src="/js/sape.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-md" th:fragment="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="/">SAPE</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                    <ul class="nav navbar-nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/"><i class="fa fa-fw fa-home" aria-hidden="true"></i>&nbsp; Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/student"><i class="fa fa-fw fa-graduation-cap" aria-hidden="true"></i>&nbsp; Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/business"><i class="fa fa-fw fa-briefcase" aria-hidden="true"></i>&nbsp; Business</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about"><i class="fa fa-fw fa-info" aria-hidden="true"></i>&nbsp; About</a>
+                        </li>
+                    </ul>
+                    <!-- TODO Authentication-->
+                    <ul class="navbar-nav justify-content-end" th:with="isLoggedIn=false">
+                        <li th:unless="${isLoggedIn}" class="nav-item">
+                            <a class="nav-link" href="/login"><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>&nbsp; Sign in</a>
+                        </li>
+                        <li th:if="${isLoggedIn}" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i>&nbsp; Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <a class="dropdown-item" href="/logout"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>&nbsp; Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <footer class="footer bg-light" th:fragment="footer">
+            <div class="d-flex align-items-center">
+                <div class="container p-3 mt-4 mb-2">
+                    <p class="small text-dark text-center mb-0">
+                        Made by <a href="https://github.com/SackCastellon">@SackCastellon</a>,
+                        <a href="https://github.com/Ouronok">@Ouronok</a> and
+                        <a href="https://github.com/marianbl">@marianbl</a>
+                        using <a href="https://spring.io/">Spring MVC</a>
+                        and <a href="https://getbootstrap.com/">Bootstrap 4</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
