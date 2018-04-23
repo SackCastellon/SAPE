@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public final class InternshipOffer {
-
     private int id;
     private int degree;
     private @NotNull String tasks = "";

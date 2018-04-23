@@ -54,8 +54,7 @@ public class StudentController {
 
     @PostMapping("/update/{code}")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull Student student, @PathVariable("code") @NotNull String code, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "/student/update";
-        if (!student.getCode().contentEquals(code)) return "/student/update";
+        if (bindingResult.hasErrors() || !student.getCode().contentEquals(code)) return "/student/update";
         try {
             dao.update(student);
         } catch (Throwable e) {

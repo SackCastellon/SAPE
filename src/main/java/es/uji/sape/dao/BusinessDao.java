@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.Business;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class BusinessDao {
     private static final class BusinessMapper implements RowMapper<Business> {
 
         public @NotNull Business mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull Business business = new Business();
+            @NotNull val business = new Business();
             business.setCif(rs.getString("cif"));
             business.setName(rs.getString("name"));
             business.setAddress(rs.getString("address"));

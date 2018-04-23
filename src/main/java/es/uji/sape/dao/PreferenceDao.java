@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.Preference;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class PreferenceDao {
     private static final class PreferenceMapper implements RowMapper<Preference> {
 
         public @NotNull Preference mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull Preference preference = new Preference();
+            @NotNull val preference = new Preference();
             preference.setPriority(rs.getInt("priority"));
             preference.setStudentCode(rs.getString("student_code"));
             preference.setProjectOfferId(rs.getInt("project_offer_id"));

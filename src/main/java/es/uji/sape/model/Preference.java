@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 @Data
 @NoArgsConstructor
 public final class Preference {
-
     private int priority;
     private @NotNull String studentCode = "";
     private int projectOfferId;

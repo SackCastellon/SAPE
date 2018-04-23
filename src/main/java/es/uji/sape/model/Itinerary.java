@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 
-
 @Getter
 @RequiredArgsConstructor
 public enum Itinerary {

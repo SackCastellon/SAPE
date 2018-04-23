@@ -19,7 +19,7 @@ public final class ResourceNotFoundException extends RuntimeException {
     private final @NotNull Map<String, Object> fields = new HashMap<>();
 
     public ResourceNotFoundException(@NotNull String resourceName, @NotNull Map<String, Object> fields) {
-        super("Resource '" + resourceName + "' not found with fields: " + fields.entrySet().stream().map(it -> String.format("%s : '%s'", it.getKey(), it.getValue())).collect(Collectors.joining(", ", "[", "]")));
+        super(String.format("Resource '%s' not found with fields: %s", resourceName, fields.entrySet().stream().map(it -> String.format("%s : '%s'", it.getKey(), it.getValue())).collect(Collectors.joining(", ", "[", "]"))));
         this.resourceName = resourceName;
         this.fields.putAll(fields);
     }

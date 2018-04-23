@@ -10,7 +10,6 @@ import static es.uji.sape.model.OfferState.PENDING;
 @Data
 @NoArgsConstructor
 public final class ProjectOffer {
-
     private int id;
     private @NotNull Itinerary itinerary = SOFTWARE_ENGINEERING;
     private @NotNull String technologies = "";

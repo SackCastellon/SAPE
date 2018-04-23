@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 @Data
 @NoArgsConstructor
 public final class ContactPerson {
-
     private @NotNull String username = "";
     private @NotNull String name = "";
     private @NotNull String email = "";

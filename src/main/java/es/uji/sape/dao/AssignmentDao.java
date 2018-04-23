@@ -2,6 +2,7 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +46,8 @@ public class AssignmentDao {
     }
 
     public void add(@NotNull Assignment assignment) {
-        final @Nullable LocalDate acceptanceDate = assignment.getAcceptanceDate();
-        final @Nullable LocalDate rejectionDate = assignment.getRejectionDate();
+        @Nullable val acceptanceDate = assignment.getAcceptanceDate();
+        @Nullable val rejectionDate = assignment.getRejectionDate();
         template.update(
                 "INSERT INTO assignment(project_offer_id, student_code, tutor_code, proposal_date, acceptance_date, rejection_date, iglu_transfer_date, state) VALUES(?,?,?,?,?,?,?,?)",
                 assignment.getProjectOfferId(),
@@ -62,8 +62,8 @@ public class AssignmentDao {
     }
 
     public void update(@NotNull Assignment assignment) {
-        final @Nullable LocalDate acceptanceDate = assignment.getAcceptanceDate();
-        final @Nullable LocalDate rejectionDate = assignment.getRejectionDate();
+        @Nullable val acceptanceDate = assignment.getAcceptanceDate();
+        @Nullable val rejectionDate = assignment.getRejectionDate();
         template.update(
                 "UPDATE assignment SET tutor_code = ?, proposal_date = ?, acceptance_date = ?, rejection_date = ?, iglu_transfer_date = ?, state = ? WHERE project_offer_id = ? AND student_code = ?",
                 assignment.getTutorCode(),
@@ -84,9 +84,9 @@ public class AssignmentDao {
     private static final class AssignmentMapper implements RowMapper<Assignment> {
 
         public @NotNull Assignment mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @Nullable Date acceptanceDate = rs.getDate("acceptance_date");
-            final @Nullable Date rejectionDate = rs.getDate("rejection_date");
-            final @NotNull Assignment assignment = new Assignment();
+            @Nullable val acceptanceDate = rs.getDate("acceptance_date");
+            @Nullable val rejectionDate = rs.getDate("rejection_date");
+            @NotNull val assignment = new Assignment();
             assignment.setProjectOfferId(rs.getInt("project_offer_id"));
             assignment.setStudentCode(rs.getString("student_code"));
             assignment.setTutorCode(rs.getString("tutor_code"));

@@ -10,7 +10,6 @@ import static es.uji.sape.model.Month.JANUARY;
 @Data
 @NoArgsConstructor
 public final class Student {
-
     private @NotNull String code = "";
     private @NotNull String name = "";
     private @NotNull String surname = "";

@@ -3,6 +3,7 @@ package es.uji.sape.dao;
 import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.Month;
 import es.uji.sape.model.Student;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class StudentDao {
     private static final class StudentMapper implements RowMapper<Student> {
 
         public @NotNull Student mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull Student student = new Student();
+            @NotNull val student = new Student();
             student.setCode(rs.getString("code"));
             student.setName(rs.getString("name"));
             student.setSurname(rs.getString("surname"));

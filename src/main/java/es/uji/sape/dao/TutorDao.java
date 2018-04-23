@@ -2,6 +2,7 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.Tutor;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,7 @@ public class TutorDao {
     private static final class TutorMapper implements RowMapper<Tutor> {
 
         public @NotNull Tutor mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull Tutor tutor = new Tutor();
+            @NotNull val tutor = new Tutor();
             tutor.setCode(rs.getString("code"));
             tutor.setName(rs.getString("name"));
             tutor.setSurname(rs.getString("surname"));

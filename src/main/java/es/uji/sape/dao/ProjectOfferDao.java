@@ -3,6 +3,7 @@ package es.uji.sape.dao;
 import es.uji.sape.model.Itinerary;
 import es.uji.sape.model.OfferState;
 import es.uji.sape.model.ProjectOffer;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class ProjectOfferDao {
     private static final class ProjectOfferMapper implements RowMapper<ProjectOffer> {
 
         public @NotNull ProjectOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull ProjectOffer offer = new ProjectOffer();
+            @NotNull val offer = new ProjectOffer();
             offer.setId(rs.getInt("id"));
             offer.setItinerary(Itinerary.values()[rs.getInt("itinerary")]);
             offer.setTechnologies(rs.getString("technologies"));

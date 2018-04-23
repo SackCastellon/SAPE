@@ -12,7 +12,6 @@ import static es.uji.sape.model.AssignmentState.UNDEFINED;
 @Data
 @NoArgsConstructor
 public final class Assignment {
-
     private int projectOfferId;
     private @NotNull String studentCode = "";
     private @NotNull String tutorCode = "";
@@ -21,5 +20,4 @@ public final class Assignment {
     private @Nullable LocalDate rejectionDate;
     private @Nullable LocalDate igluTransferDate;
     private @NotNull AssignmentState state = UNDEFINED;
-
 }

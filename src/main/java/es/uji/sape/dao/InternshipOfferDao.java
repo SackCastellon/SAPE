@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.InternshipOffer;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class InternshipOfferDao {
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
         public @NotNull InternshipOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull InternshipOffer offer = new InternshipOffer();
+            @NotNull val offer = new InternshipOffer();
             offer.setId(rs.getInt("id"));
             offer.setDegree(rs.getInt("degree"));
             offer.setTasks(rs.getString("tasks"));

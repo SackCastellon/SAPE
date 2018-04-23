@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.ContactPerson;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class ContactPersonDao {
     private static final class ContactPersonMapper implements RowMapper<ContactPerson> {
 
         public @NotNull ContactPerson mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            final @NotNull ContactPerson contactPerson = new ContactPerson();
+            @NotNull val contactPerson = new ContactPerson();
             contactPerson.setUsername(rs.getString("username"));
             contactPerson.setName(rs.getString("name"));
             contactPerson.setEmail(rs.getString("email"));
