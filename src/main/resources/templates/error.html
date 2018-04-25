@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="status" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title th:text="'SAPE - Error '+${status}">SAPE - Error</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4" th:text="'Error '+${status}+' - '+${error}">Error</h1>
+                <p class="lead" th:text="${message}">This page is not available</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-center my-5">
+                <a class="btn btn-primary btn-lg p-2" style="width: 250px;" href="/" role="button">Return to Home Page</a>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - About</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">About SAPE</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="jumbotron">
+                <h1>What SAPE is?</h1>
+                <p class="text-justify">
+                    SAPE is an application to help the assignment of the students done by the Bachelor Thesis Coordinator and the Degree Course
+                    Coordinator of computer science degree at the UJI university. SAPE also made select the internship preferences easier for the
+                    students.
+                </p>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

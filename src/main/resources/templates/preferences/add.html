@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="internshipOffers" type="java.util.List<es.uji.sape.model.InternshipOffer>"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Add preferences</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Offer List</h1>
+                <p class="lead">Select the internship offers that you want</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Filter offers..."/>
+                </div>
+            </div>
+            <br/>
+            <table class="table table-hover table-responsive" id="offer-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col">ID</th>
+                        <th class="col">Degree</th>
+                        <th class="col">Tasks</th>
+                        <th class="col">Start date</th>
+                        <th class="col">Contact</th>
+                        <th class="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="internshipOffer : ${internshipOffers}">
+                        <td class="align-middle" th:text="${internshipOffer.id}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.degree}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="p-2">
+                                    <a class="btn btn-info" th:href="@{/student/update/{code}(code=${student.code})}" role="button">Update</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

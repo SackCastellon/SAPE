@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Business List</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Business List</h1>
+                <p class="lead">List of all the business</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Filter business..."/>
+                </div>
+            </div>
+            <br/>
+            <table class="table table-hover table-responsive" id="business-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col">CIF</th>
+                        <th class="col">Name</th>
+                        <th class="col">Address</th>
+                        <th class="col">Telephone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="business : ${businesses}">
+                        <td class="align-middle" th:text="${business.cif}"></td>
+                        <td class="align-middle" th:text="${business.name}"></td>
+                        <td class="align-middle" th:text="${business.address}"></td>
+                        <td class="align-middle" th:text="${business.telephone}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="student" type="es.uji.sape.model.Student"*/-->
+    <!--/*@thymesVar id="itinerary" type="es.uji.sape.model.Itinerary"*/-->
+    <!--/*@thymesVar id="month" type="es.uji.sape.model.Month"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Update Student</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Update Student</h1>
+                <p class="lead">Update the information about a specific student</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-8 col-md-7 col-lg-6">
+                    <form action="#" th:action="@{/student/update/{code}(code=${student.code})}" th:object="${student}" method="post">
+                        <div class="form-group">
+                            <label for="code">Code</label>
+                            <input type="text" class="form-control" id="code" readonly th:value="*{code}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" maxlength="40" required th:field="*{name}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Surname</label>
+                            <input type="text" class="form-control" id="surname" maxlength="40" required th:field="*{surname}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="itinerary">Itinerary</label>
+                            <select class="form-control" id="itinerary" name="itinerary">
+                                <option th:each="itinerary : ${T(es.uji.sape.model.Itinerary).values()}"
+                                        th:value="${itinerary.name()}"
+                                        th:text="${itinerary.toString()}"
+                                        th:selected="${itinerary == student.itinerary}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="passedCredits">Passed Credits</label>
+                            <input type="number" class="form-control" id="passedCredits" min="0" required th:field="*{passedCredits}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="averageScore">Average Score</label>
+                            <input type="number" class="form-control" id="averageScore" min="0" max="10" step="0.01" required
+                                   th:field="*{averageScore}" aria-describedby="averageScoreHelp"/>
+                            <small id="averageScoreHelp" class="form-text text-muted">
+                                The average score of a student must be a value between 0 and 10, with a precision of 0.01
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="pendingSubjects">Pending Subjects</label>
+                            <input type="number" class="form-control" id="pendingSubjects" min="0" required th:field="*{pendingSubjects}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="internshipStartSemester">Internship Start Month</label>
+                            <select class="form-control" id="internshipStartSemester" name="internshipStartSemester">
+                                <option th:each="month : ${T(es.uji.sape.model.Month).values()}"
+                                        th:value="${month.name()}"
+                                        th:text="${month.toString()}"
+                                        th:selected="${month == student.internshipStartSemester}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2">
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                            </div>
+                            <div class="p-1">
+                                <div class="d-flex flex-row">
+                                    <div class="p-1">
+                                        <a class="btn btn-secondary" href="/student" role="button">Cancel</a></div>
+                                    <div class="p-1">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

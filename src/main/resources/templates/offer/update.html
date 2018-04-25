@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.InternshipOffer"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Update Offer</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Update offer</h1>
+                <p class="lead">Update the information about one of your offers</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-8 col-md-7 col-lg-6">
+                    <form action="#" th:action="@{/offers/update/{id}(code=${offer.id})}" th:object="${offer}" method="post">
+                        <div class="form-group">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" readonly th:value="*{id}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="degree">Degree</label>
+                            <input type="text" class="form-control" id="degree" maxlength="40" required th:field="*{degree}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tasks">Tasks</label>
+                            <input type="text" class="form-control" id="tasks" required th:field="*{tasks}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start date</label>
+                            <input type="date" class="form-control" id="startDate" required th:field="*{startDate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactUsername">Contact</label>
+                            <input type="text" class="form-control" id="contactUsername" required th:field="*{contactUsername}"/>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2">
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                            </div>
+                            <div class="p-1">
+                                <div class="d-flex flex-row">
+                                    <div class="p-1">
+                                        <a class="btn btn-secondary" href="/offers" role="button">Cancel</a></div>
+                                    <div class="p-1">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>
