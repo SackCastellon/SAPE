@@ -60,7 +60,7 @@ public class UserDao {
 
     private static final class UserMapper implements RowMapper<User> {
 
-        public @NotNull User mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
+        public @NotNull User mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
         }
     }

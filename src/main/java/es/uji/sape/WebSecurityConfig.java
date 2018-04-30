@@ -1,6 +1,8 @@
 package es.uji.sape;
 
 import es.uji.sape.services.SapeUserDetailsService;
+import lombok.Setter;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,37 +20,39 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @Profile("!https")
-@SuppressWarnings("DesignForExtension")
+@SuppressWarnings({"DesignForExtension", "FieldHasSetterButNoGetter"})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final int STRENGTH = 12;
+
+    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
     private SapeUserDetailsService userDetailsService;
 
-    @Autowired
-    public final void setUserDetailsService(@NotNull SapeUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Override
-    protected final void configure(@NotNull HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests().antMatchers("/", "/about").permitAll().anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and()
+    protected final void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/assets/**", "/**").permitAll()
+//                .antMatchers("").authenticated()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+                .and()
                 .logout().permitAll();
     }
 
     @Override
-    public final void configure(@NotNull WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/images/**", "/js/**");
+    public final void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/assets/**");
     }
 
     @Override
-    protected final void configure(@NotNull AuthenticationManagerBuilder auth) throws Exception {
+    protected final void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
     @Bean
     public @NotNull DaoAuthenticationProvider authenticationProvider() {
-        final @NotNull DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        val authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder());
         return authProvider;
@@ -56,25 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public @NotNull PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder(STRENGTH);
     }
-
-//    @Bean
-//    @Override
-//    @SuppressWarnings("DesignForExtension")
-//    public @NotNull UserDetailsService userDetailsService() {
-//        PasswordEncoder encoder = encoder();
-//        // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
-//        // remember the password that is printed out and use in the next step
-//        String password = encoder.encode("password");
-//        System.out.println(password);
-//
-//
-//        UserDetails user = User.withUsername("user")
-//                .password(password)
-//                .roles("USER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
