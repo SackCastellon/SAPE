@@ -1,0 +1,40 @@
+/*SOLO visualizacion, no es el que permite cambiar, eso es otra pantalla SOLO para las empresas*/
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Offer detail</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Offer details</h1>
+                <p class="lead">Offer details</p>
+            </div>
+        </div>
+        <div class="container">
+        	<table class="table table-borderless">
+        		 <tbody>
+                    <tr> /*Hay que mostrar los datos SOLO de esa oferta*/
+                  		<td class="row">Name</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td class="row">Tasks</td>
+                        <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
+                        <td class="row">Start Date</td>
+                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
+                        <td class="row">Contact</td>
+                        <td class="align-middle" th:text="${internshipOffer.contactUSername}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+        	<a class="btn btn-primary" href="./list.html" role="button">Return</a> 
+        </div>
+	</body>
+</html>
+        

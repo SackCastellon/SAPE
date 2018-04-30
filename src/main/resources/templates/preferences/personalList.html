@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Your preferences</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Your preferences</h1>
+                <p class="lead">Your internship preferences</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Filter business..."/>
+                </div>
+            </div>
+            <br/>
+            <table class="table table-hover table-responsive" id="business-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col">Num</th>
+                        <th class="col">Name</th>
+                        <th class="col">Details</th>
+                        <th class="col">Add</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                    /*Es copy paste, hay que cambiar y poner el for para los numeros y los botones para los detalles y el añadir
+                    uno de los 5 obligatorios*/
+                        <td class="align-middle" th:text="${business.cif}"></td>
+                        <td class="align-middle" th:text="${business.name}"></td>
+                        <td class="align-middle" th:text="${business.address}"></td>
+                        <td class="align-middle" th:text="${business.telephone}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>
