@@ -3,7 +3,6 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.AssignmentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Assignment;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,12 @@ import java.util.Map;
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class AssignmentController {
 
-    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
-    private AssignmentDao dao;
+    private final @NotNull AssignmentDao dao;
+
+    @Autowired
+    public AssignmentController(@NotNull AssignmentDao dao) {
+        this.dao = dao;
+    }
 
     @GetMapping("/list")
     public final @NotNull String list(@NotNull Model model) {

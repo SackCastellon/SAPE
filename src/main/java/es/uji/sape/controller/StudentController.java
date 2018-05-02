@@ -3,7 +3,6 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.StudentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Student;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,12 @@ import java.util.Map;
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class StudentController {
 
-    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
-    private StudentDao dao;
+    private final @NotNull StudentDao dao;
+
+    @Autowired
+    public StudentController(@NotNull StudentDao dao) {
+        this.dao = dao;
+    }
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {

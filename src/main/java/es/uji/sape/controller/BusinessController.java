@@ -3,7 +3,6 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Business;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,12 @@ import java.util.Map;
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class BusinessController {
 
-    @Setter(onMethod = @__(@Autowired), onParam = @__(@NotNull))
-    private BusinessDao dao;
+    private final @NotNull BusinessDao dao;
+
+    @Autowired
+    public BusinessController(@NotNull BusinessDao dao) {
+        this.dao = dao;
+    }
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
