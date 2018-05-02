@@ -4,21 +4,27 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.ben-manes.versions'
 
 group = 'es.uji'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 9
 targetCompatibility = 9
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -38,9 +44,9 @@ dependencies {
     // Web Jars
     compile 'org.webjars:jquery:3.3.1-1'
     compile 'org.webjars:popper.js:1.14.1'
-    compile 'org.webjars:bootstrap:4.0.0-2'
+    compile 'org.webjars:bootstrap:4.1.0'
     compile 'org.webjars:bootswatch-lumen:4.0.0'
-    compile 'org.webjars:font-awesome:4.7.0'
+    compile 'org.webjars:font-awesome:5.0.10'
 
     // Annotations
     compile 'org.jetbrains:annotations:16.0.1'
