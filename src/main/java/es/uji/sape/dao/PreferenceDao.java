@@ -32,7 +32,7 @@ public class PreferenceDao {
         return template.query("SELECT * FROM preference;", new PreferenceMapper());
     }
 
-    public @NotNull Optional<Preference> find(@NotNull int projectOfferId, @NotNull String studentDni) {
+    public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String studentDni) {
         @Nullable Preference value;
         try {
             value = template.queryForObject("SELECT * FROM preference WHERE student_code = ? AND project_offer_id = ?",
@@ -61,7 +61,7 @@ public class PreferenceDao {
         );
     }
 
-    public void delete(@NotNull int projectOfferId, @NotNull String studentDni) {
+    public void delete(int projectOfferId, @NotNull String studentDni) {
         template.update("DELETE FROM preference WHERE student_code = ? AND project_offer_id = ?", studentDni, projectOfferId);
     }
 

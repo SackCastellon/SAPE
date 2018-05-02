@@ -65,7 +65,7 @@ public class InternshipOfferDao {
         );
     }
 
-    public void delete(@NotNull int id) {
+    public void delete(int id) {
         template.update("DELETE FROM internship_offer WHERE id = ?", id);
     }
 

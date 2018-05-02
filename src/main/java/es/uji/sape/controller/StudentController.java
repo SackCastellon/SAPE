@@ -4,6 +4,7 @@ import es.uji.sape.dao.StudentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Student;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,10 +59,14 @@ public class StudentController {
     @PostMapping("/update/{code}")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull Student student, @PathVariable("code") @NotNull String code, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors() || !student.getCode().contentEquals(code)) return "/student/update";
-        try {
-            dao.update(student);
-        } catch (Throwable e) {
-            log.error(e.getMessage());
+
+        val optional = dao.find(code);
+        if (optional.isPresent() && optional.get() != student) {
+            try {
+                dao.update(student);
+            } catch (Throwable e) {
+                log.error(e.getMessage());
+            }
         }
         return "redirect:/student";
     }

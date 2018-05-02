@@ -33,7 +33,7 @@ public class PreferenceController {
     }
 
     @GetMapping("/{projectOfferId:[\\d]+}/{studentCode}")
-    public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") @NotNull int projectOfferId) {
+    public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
         return dao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode)));
     }
 
@@ -61,7 +61,7 @@ public class PreferenceController {
     }
 
     @PostMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
-    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") @NotNull int projectOfferId, @NotNull BindingResult bindingResult) {
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/preferences/update";
         try {
             dao.update(preference);

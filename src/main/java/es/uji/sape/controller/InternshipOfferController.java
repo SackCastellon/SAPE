@@ -56,7 +56,7 @@ public class InternshipOfferController {
     }
 
     @GetMapping("/update/{id:[\\d]+}")
-    public final @NotNull String update(@NotNull Model model, @PathVariable("id") @NotNull int id) {
+    public final @NotNull String update(@NotNull Model model, @PathVariable("id") int id) {
         model.addAttribute("internshipOffer", dao.find(id).orElseThrow(() -> new ResourceNotFoundException("InternshipOffer", Map.of("id", id))));
         return "/offer/update";
     }
@@ -73,7 +73,7 @@ public class InternshipOfferController {
     }
 
     @GetMapping("/delete/{id:[\\d]+}")
-    public final @NotNull String processDelete(@PathVariable("id") @NotNull int id) {
+    public final @NotNull String processDelete(@PathVariable("id") int id) {
         dao.delete(id);
         return "redirect:/offer";
     }
