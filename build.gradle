@@ -41,6 +41,9 @@ dependencies {
     // Postgres
     runtime 'org.postgresql:postgresql'
 
+    // Security
+    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+
     // Web Jars
     compile 'org.webjars:jquery:3.3.1-1'
     compile 'org.webjars:popper.js:1.14.1'
