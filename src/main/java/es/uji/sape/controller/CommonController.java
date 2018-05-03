@@ -13,9 +13,4 @@ public class CommonController {
     public final @NotNull String about() {
         return "/about";
     }
-
-    @GetMapping("/login")
-    public final @NotNull String login() {
-        return "/login";
-    }
 }
