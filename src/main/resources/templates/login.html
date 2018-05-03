@@ -17,6 +17,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
                     <div class="jumbotron">
+                        <!--/*@thymesVar id="user" type="es.uji.sape.model.UserDetails"*/-->
                         <form action="#" th:action="@{/login}" th:object="${user}" method="post">
                             <div class="form-group row">
                                 <label for="email" class="col-sm-2 col-form-label">Email</label>
