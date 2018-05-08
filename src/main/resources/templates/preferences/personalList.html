@@ -32,16 +32,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr >
-                    /*Es copy paste, hay que cambiar y poner el for para los numeros y los botones para los detalles y el añadir
-                    uno de los 5 obligatorios*/
-                        <td class="align-middle" th:text="${business.cif}"></td>
-                        <td class="align-middle" th:text="${business.name}"></td>
-                        <td class="align-middle" th:text="${business.address}"></td>
-                        <td class="align-middle" th:text="${business.telephone}"></td>
+                    <tr>
+                        <td class="row">1</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td  class="btn btn-primary" href="#" role="button">Info</td>
+                        <td  class="btn btn-secondary" href="#" role="button">...</td>
+                    </tr>
+                    <tr>
+                        <td class="row">2</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td  class="btn btn-primary" href="#" role="button">Info</td>
+                        <td  class="btn btn-secondary" href="#" role="button">...</td>
+                    </tr>
+                    <tr>
+                        <td class="row">3</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td  class="btn btn-primary" href="#" role="button">Info</td>
+                        <td  class="btn btn-secondary" href="#" role="button">...</td>
+                    </tr>
+                    <tr>
+                        <td class="row">4</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td  class="btn btn-primary" href="#" role="button">Info</td>
+                        <td  class="btn btn-secondary" href="#" role="button">...</td>
+                    </tr>
+                    <tr>
+                        <td class="row">5</td>
+                        <td class="align-middle" th:text="${}"></td>
+                        <td  class="btn btn-primary" href="#" role="button">Info</td>
+                        <td  class="btn btn-secondary" href="#" role="button">...</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary" href="/offer/list" role="button">Add new Student</a>
+            </div>
         </div>
 
         <th:block th:replace="fragments/common :: footer"/>
