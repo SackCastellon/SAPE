@@ -30,15 +30,19 @@
                         <th class="col">Tasks</th>
                         <th class="col">Start date</th>
                         <th class="col">Contact</th>
+                        <th class="col">More info</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>	
+                <!--Hay que añadir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
+                	busque los detalles -->	
                     <tr th:each="internshipOffer : ${internshipOffers}">
                         <td class="align-middle" th:text="${internshipOffer.id}"></td>
                         <td class="align-middle" th:text="${internshipOffer.degree}"></td>
                         <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
                         <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
                         <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
+                        <td class="btn btn-primary" href="/details" role="button" value="{internshipOffer.id}">...</td>
                     </tr>
                 </tbody>
             </table>
