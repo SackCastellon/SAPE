@@ -23,17 +23,35 @@
                   		<td class="row">Name</td>
                         <td class="align-middle" th:text="${}"></td>
                     </tr>
+                    <br/>
                     <tr>
                         <td class="row">Tasks</td>
                         <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
                     </tr>
+                    <br/>
                     <tr>
                         <td class="row">Start Date</td>
                         <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
                     </tr>
+                    <br/>
                     <tr>
                         <td class="row">Contact</td>
                         <td class="align-middle" th:text="${internshipOffer.contactUSername}"></td>
+                    </tr>
+                    <br/>
+                    <tr>
+                        <td class="row">Itinerary</td>
+                        <td class="align-middle" th:text="${projectOffer.internship}"></td>
+                    </tr>
+                    <br/>
+                    <tr>
+                        <td class="row">Technologies</td>
+                        <td class="align-middle" th:text="${projectOffer.technologies}"></td>
+                    </tr>
+                    <br/>
+                    <tr>
+                        <td class="row">Objectives</td>
+                        <td class="align-middle" th:text="${projectOffer.objectives}"></td>
                     </tr>
                 </tbody>
             </table>
