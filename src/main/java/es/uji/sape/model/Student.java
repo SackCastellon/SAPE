@@ -18,4 +18,6 @@ public final class Student {
     private float averageScore;
     private int pendingSubjects;
     private @NotNull Month internshipStartSemester = JANUARY;
+    private final int codeMaxLength = 20;
+    private final int nameSurMaxLength = 40;
 }
