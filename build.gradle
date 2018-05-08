@@ -36,13 +36,14 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
     runtime 'org.springframework.boot:spring-boot-devtools'
+
+    // Thymeleaf
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
 
     // Postgres
     runtime 'org.postgresql:postgresql'
-
-    // Security
-    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
 
     // Web Jars
     compile 'org.webjars:jquery:3.3.1-1'
@@ -58,4 +59,5 @@ dependencies {
 
     // Testing
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.security:spring-security-test'
 }

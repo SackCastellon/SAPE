@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:fragment="head">
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -8,12 +9,6 @@
         <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fa-solid.min.css"/>
         <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome.min.css"/>
-
-        <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
-        <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
-        <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-        <script src="/js/sape.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-md" th:fragment="navbar">
@@ -39,24 +34,28 @@
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav justify-content-end" th:object="${session}">
-                        <li th:if="*{user == null}" class="nav-item">
+                    <ul class="navbar-nav justify-content-end">
+                        <li sec:authorize="isAnonymous()" class="nav-item">
                             <a class="nav-link" href="/login"><i class="fas fa-fw fa-sign-in-alt"></i>&nbsp; Sign in</a>
                         </li>
-                        <li th:unless="*{user == null}" class="nav-item dropdown">
+                        <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-fw fa-user-circle"></i>&nbsp; <span th:text="*{user.username}" th:remove="tag"></span>
+                                <i class="fas fa-fw fa-user-circle"></i>&nbsp;
+                                <span th:text="*{#authentication.principal.username}" th:remove="tag"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountDropdown">
                                 <div class="dropdown-header">
                                     Logged in as<br>
-                                    <strong th:text="*{user.username}"></strong> - <strong th:text="'('+*{user.role}+')'"></strong>
+                                    <strong th:text="*{#authentication.principal.username}"></strong> - <strong
+                                        th:text="'('+*{#authentication.principal.user.role}+')'"></strong>
                                 </div>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/account"><i class="fas fa-user"></i>&nbsp; View account</a>
                                 <a class="dropdown-item" href="/account/settings"><i class="fas fa-cog"></i>&nbsp; Settings</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout"><i class="fas fa-fw fa-sign-out-alt"></i>&nbsp; Sign out</a>
+                                <form th:action="@{/logout}" method="POST">
+                                    <button type="submit" value="Logout" class="dropdown-item"><i class="fas fa-fw fa-sign-out-alt"></i>&nbsp; Sign out</button>
+                                </form>
                             </div>
                         </li>
                     </ul>
@@ -76,6 +75,12 @@
                     </p>
                 </div>
             </div>
+
+            <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+            <script src="/webjars/popper.js/1.14.1/umd/popper.min.js"></script>
+            <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+            <script src="/assets/js/sape.js"></script>
         </footer>
     </body>
 </html>

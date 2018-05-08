@@ -53,14 +53,15 @@
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
                                 <div class="px-1">
-                                    <a class="btn btn-warning" th:href="@{/student/update/{code}(code=${student.code})}" role="button">
-                                        <i class="fas fa-fw fa-edit"></i>&nbsp; Edit
+                                    <a class="btn btn-warning" th:href="@{/student/update/{code}(code=${student.code})}" role="button"
+                                       data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fas fa-fw fa-edit"></i>
                                     </a>
                                 </div>
                                 <div class="px-1">
                                     <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteStudent(&quot;'+${student.code}+'&quot;)'"
-                                            data-toggle="modal" data-target="#confirmDeleteModal" data-backdrop="static">
-                                        <i class="fas fa-fw fa-trash-alt"></i>&nbsp; Delete
+                                            data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fas fa-fw fa-trash-alt"></i>
                                     </button>
                                 </div>
                             </div>
@@ -76,16 +77,16 @@
             </div>
         </div>
 
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalTitle" aria-hidden="true">
+        <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="confirmDeleteModalTitle">Delete confirmation</h3>
+                        <h3 class="modal-title" id="confirmDeletionTitle">Delete confirmation</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="fas fa-fw fa-times"></i>
                         </button>
                     </div>
-                    <div class="modal-body" id="confirmDeleteModalBody">
+                    <div class="modal-body" id="confirmDeletionBody">
                         Are you sure you want to delete the Student?
                     </div>
                     <div class="modal-footer">
@@ -122,21 +123,21 @@
 
             let studentName = "";
 
-            $('#confirmDeleteModal').on('show.bs.modal', function () {
-                $('#confirmDeleteModalBody').html(`Are you sure you want to delete the Student with code <b>${studentName}</b>?`)
+            $('#confirmDeletion').on('show.bs.modal', function () {
+                $('#confirmDeletionBody').html(`Are you sure you want to delete the Student with code <b>${studentName}</b>?`)
             });
 
             // noinspection JSUnusedLocalSymbols
             function confirmDeleteStudent(name) {
-                console.log(`Please confirm deletion of: ${name}`);
                 studentName = name;
+                $('#confirmDeletion').modal('show')
             }
 
             function deleteStudent() {
                 if (studentName !== "") {
                     window.location.assign(`/student/delete/${studentName}`);
                 } else {
-                    $('#confirmDeleteModal').modal('hide');
+                    $('#confirmDeletion').modal('hide');
                 }
             }
         </script>

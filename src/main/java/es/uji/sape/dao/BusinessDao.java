@@ -24,7 +24,7 @@ public class BusinessDao {
     private JdbcTemplate template;
 
     @Autowired
-    public final void setDataSource(@Qualifier("dataSource") @NotNull DataSource dataSource) {
+    public final void setDataSource(@Qualifier("dataSource") final @NotNull DataSource dataSource) {
         template = new JdbcTemplate(dataSource);
     }
 
@@ -32,17 +32,17 @@ public class BusinessDao {
         return template.query("SELECT * FROM business;", new BusinessMapper());
     }
 
-    public @NotNull Optional<Business> find(@NotNull String cif) {
+    public @NotNull Optional<Business> find(final @NotNull String cif) {
         @Nullable Business value;
         try {
             value = template.queryForObject("SELECT * FROM business WHERE cif = ?;", new BusinessMapper(), cif);
-        } catch (DataAccessException ignored) {
+        } catch (final DataAccessException ignored) {
             value = null;
         }
         return Optional.ofNullable(value);
     }
 
-    public void add(@NotNull Business business) {
+    public void add(final @NotNull Business business) {
         template.update(
                 "INSERT INTO business(cif, name, address, telephone) VALUES(?,?,?,?)",
                 business.getCif(),
@@ -52,7 +52,7 @@ public class BusinessDao {
         );
     }
 
-    public void update(@NotNull Business business) {
+    public void update(final @NotNull Business business) {
         template.update(
                 "UPDATE business SET name = ?, address = ?, telephone = ? WHERE cif = ?",
                 business.getName(),
@@ -62,14 +62,14 @@ public class BusinessDao {
         );
     }
 
-    public void delete(@NotNull String cif) {
+    public void delete(final @NotNull String cif) {
         template.update("DELETE FROM business WHERE cif = ?", cif);
     }
 
     private static final class BusinessMapper implements RowMapper<Business> {
 
-        public @NotNull Business mapRow(ResultSet rs, int rowNum) throws SQLException {
-            val business = new Business();
+        public @NotNull Business mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+            final val business = new Business();
             business.setCif(rs.getString("cif"));
             business.setName(rs.getString("name"));
             business.setAddress(rs.getString("address"));
