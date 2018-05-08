@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <!--/*@thymesVar id="businesses" type="java.util.Lints/common :: hest<es.uji.sape.model.Business>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Your preferences</title>
@@ -24,40 +24,18 @@
                         <th class="col">Num</th>
                         <th class="col">Name</th>
                         <th class="col">Details</th>
-                        <th class="col">Add</th>
+                        <th clnts/common :: heass="col">Add</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!--/*@thymesVar id="preferences" type="es.uji.sape.model.Preference"*/-->
+                    <tr th:each ="preference:${preferences}">
                         <td class="row">1</td>
                         <td class="align-middle" th:text="${}"></td>
                         <td  class="btn btn-primary" href="#" role="button">Info</td>
                         <td  class="btn btn-secondary" href="#" role="button">...</td>
                     </tr>
-                    <tr>
-                        <td class="row">2</td>
-                        <td class="align-middle" th:text="${}"></td>
-                        <td  class="btn btn-primary" href="#" role="button">Info</td>
-                        <td  class="btn btn-secondary" href="#" role="button">...</td>
-                    </tr>
-                    <tr>
-                        <td class="row">3</td>
-                        <td class="align-middle" th:text="${}"></td>
-                        <td  class="btn btn-primary" href="#" role="button">Info</td>
-                        <td  class="btn btn-secondary" href="#" role="button">...</td>
-                    </tr>
-                    <tr>
-                        <td class="row">4</td>
-                        <td class="align-middle" th:text="${}"></td>
-                        <td  class="btn btn-primary" href="#" role="button">Info</td>
-                        <td  class="btn btn-secondary" href="#" role="button">...</td>
-                    </tr>
-                    <tr>
-                        <td class="row">5</td>
-                        <td class="align-middle" th:text="${}"></td>
-                        <td  class="btn btn-primary" href="#" role="button">Info</td>
-                        <td  class="btn btn-secondary" href="#" role="button">...</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>

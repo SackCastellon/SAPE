@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -35,6 +37,12 @@ public class PreferenceController {
     @GetMapping("/{projectOfferId:[\\d]+}/{studentCode}")
     public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
         return dao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode)));
+    }
+
+    @GetMapping("/personalList")
+    public final @NotNull String getStudentPreferences(@NotNull Model model, @PathVariable("studentCode") String studentCode, HttpSession session) {
+        model.addAttribute("preferences",dao.findStudentPreferences((String) session.getAttribute("user")));
+        return "/personalList";
     }
 
     @GetMapping("/add")

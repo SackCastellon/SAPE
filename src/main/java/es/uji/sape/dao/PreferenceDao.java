@@ -32,11 +32,16 @@ public class PreferenceDao {
         return template.query("SELECT * FROM preference;", new PreferenceMapper());
     }
 
-    public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String studentDni) {
+    public @NotNull List<Preference> findStudentPreferences(@NotNull String code) {
+        return template.query("SELECT * FROM preference WHERE student_code = ?", new PreferenceMapper(), code);
+    }
+
+
+    public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String code) {
         @Nullable Preference value;
         try {
             value = template.queryForObject("SELECT * FROM preference WHERE student_code = ? AND project_offer_id = ?",
-                    new PreferenceMapper(), studentDni, projectOfferId);
+                    new PreferenceMapper(), code, projectOfferId);
         } catch (DataAccessException ignored) {
             value = null;
         }
