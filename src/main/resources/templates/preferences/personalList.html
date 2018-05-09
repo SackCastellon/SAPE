@@ -31,7 +31,7 @@
                 <!--/*@thymesVar id="preferences" type="java.util.List<es.uji.sape.model.Preference>"*/-->
                     <tr th:each ="preference:${preferences}">
                         <td class="row" th:text="${preference.priority}"></td>
-                        <td class="align-middle" th:text="${preference.projectOfferId}"></td>
+                        <td class="align-middle" th:text="${preference.name}"></td>
                         <td  class="btn btn-primary" href="#" role="button">Info</td>
                         <td  class="btn btn-secondary" href="#" role="button">...</td>
                     </tr>

@@ -33,7 +33,9 @@ public class PreferenceDao {
     }
 
     public @NotNull List<Preference> findStudentPreferences(@NotNull String code) {
-        return template.query("SELECT * FROM preference WHERE student_code = ?", new PreferenceMapper(), code);
+        return template.query("SELECT priority,student_code,project_offer_id,business.name FROM preference " +
+                "JOIN project_offer ON preference.project_offer_id = project_offer.id JOIN internship_offer ON project_offer.internship_offer = internship_offer.id JOIN contact_person ON internship_offer.contact_username = contact_person.username JOIN business ON contact_person.business_c = business.cif" +
+                " WHERE student_code = ?", new PreferenceMapper(), code);
     }
 
 
@@ -77,6 +79,7 @@ public class PreferenceDao {
             preference.setPriority(rs.getInt("priority"));
             preference.setStudentCode(rs.getString("student_code"));
             preference.setProjectOfferId(rs.getInt("project_offer_id"));
+            preference.setName(rs.getString("business.name"));
             return preference;
         }
     }
