@@ -16,7 +16,9 @@
         </div>
 
         <div class="container">
-            
+            <br/>
+            <p class="lead">You need to choose at least 5 offers</p>
+            <br/>
             <br/>
             <table class="table table-hover table-responsive" id="business-table">
                 <thead class="thead-light">
@@ -24,7 +26,7 @@
                         <th class="col">Num</th>
                         <th class="col">Name</th>
                         <th class="col">Details</th>
-                        <th clnts/common :: heass="col">Add</th>
+                        <th class="col">Add</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,8 +34,8 @@
                     <tr th:each ="preference:${preferences}">
                         <td class="row" th:text="${preference.priority}"></td>
                         <td class="align-middle" th:text="${preference.name}"></td>
-                        <td  class="btn btn-primary" href="#" role="button">Info</td>
-                        <td  class="btn btn-secondary" href="#" role="button">...</td>
+                        <td  class="btn btn-primary" href="/offer/details" role="button" value="{preference.projectOfferId}">Info</td>
+                        <td  class="btn btn-secondary" href="/offer/list" role="button">...</td>
                     </tr>
 
                 </tbody>
@@ -41,7 +43,7 @@
         </div>
         <div class="container">
             <div class="d-flex justify-content-center">
-                <a class="btn btn-primary" href="/offer/list" role="button">Add new Preference</a>
+                <a class="btn btn-primary" href="/preferences/add" role="button">Add new Preference</a>
             </div>
         </div>
 
