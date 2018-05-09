@@ -10,6 +10,9 @@ import static es.uji.sape.model.Month.JANUARY;
 @Data
 @NoArgsConstructor
 public final class Student {
+    public static final int codeMaxLength = 20;
+    public static final int nameSurMaxLength = 40;
+
     private @NotNull String code = "";
     private @NotNull String name = "";
     private @NotNull String surname = "";
@@ -18,6 +21,4 @@ public final class Student {
     private float averageScore;
     private int pendingSubjects;
     private @NotNull Month internshipStartSemester = JANUARY;
-    private final int codeMaxLength = 20;
-    private final int nameSurMaxLength = 40;
 }

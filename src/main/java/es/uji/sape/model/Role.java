@@ -1,20 +1,21 @@
 package es.uji.sape.model;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    STUDENT("Student"),
-    CEiTFG("CEiTFG"),
-    CCG("CCG"),
-    CONTACT_PERSON("Contact Person");
+    STUDENT("role.student"),
+    CEiTFG("role.ceitfg"),
+    CCG("role.ccg"),
+    CONTACT("role.contact");
 
     @Getter
-    private final @NotNull String label;
+    private final @NotNull String key;
 
-    Role(@NotNull String label) {
-        this.label = label;
+    Role(@NonNls @NotNull String key) {
+        this.key = key;
     }
 
     @Override

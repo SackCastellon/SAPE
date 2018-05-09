@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Profile("!https")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final int STRENGTH = 12;
+    private static final int STRENGTH = 10;
 
     private final @NotNull UserService service;
 
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected final void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/assets/**", "/webjars/**", "/", "/about").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/assets/**", "/webjars/**", "/", "/about", "/login").permitAll().anyRequest().authenticated();
         http.formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll();
         http.logout().invalidateHttpSession(true).permitAll();
     }
