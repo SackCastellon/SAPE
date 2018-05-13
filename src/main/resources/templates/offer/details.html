@@ -1,5 +1,3 @@
-<!-- SOLO visualizacion, no es el que permite cambiar, eso es otra pantalla SOLO para las empresas -->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
@@ -41,25 +39,94 @@
                     <br/>
                     <tr>
                         <td class="row">Itinerary</td>
-                        <td class="align-middle" th:text="${projectOffer.internship}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.internship}"></td>
                     </tr>
                     <br/>
                     <tr>
                         <td class="row">Technologies</td>
-                        <td class="align-middle" th:text="${projectOffer.technologies}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.technologies}"></td>
                     </tr>
                     <br/>
                     <tr>
                         <td class="row">Objectives</td>
-                        <td class="align-middle" th:text="${projectOffer.objectives}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.objectives}"></td>
                     </tr>
                     </div>
                 </tbody>
             </table>
         </div>
+        
+        <!-- Todos los botones indistintamente del usuario -->
+        
+        <!-- Boton para volver a la lista de ofertas -->
+        <!-- 	Hay que arreglarlo para que si entras desde preferences vuelvas al add y no a la lista normal ya que en la lista
+        		de preferences iríamos quitando las ofertas que ya tuvieramos como preferencia -->
         <div class="container">
         	<a class="btn btn-primary" href="list" role="button">Return</a> 
         </div>
+        
+        <!-- Borrar oferta -->
+        <div class="px-1">
+        	<button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
+              		data-toggle="tooltip" data-placement="top" title="Delete">
+                 	<i class="fas fa-fw fa-trash-alt"></i>
+           	</button>
+        </div>
+        <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmDeletionTitle">Delete confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmDeletionBody">
+                        Are you sure you want to delete this offer?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Keep</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteOffer()">Delete</button>
+                    </div>
+                </div>
+            </div>
+     	</div>
+     	
+     	<!-- Update oferta -->
+     	<div class="px-1">
+          	<a 	class="btn btn-warning" th:href="@{/offer/update/{id}(id=${internshipOffer.id})}" role="button"
+             	data-toggle="tooltip" data-placement="top" title="Edit">
+              	<i class="fas fa-fw fa-edit"></i>
+         	</a>
+      	</div>
+      	
+      	<!-- Publicar oferta (?????) faltaria un metodo para hacerlo como el delete? porque para update hay pero para esto no -->
+     	<div class="p-1">
+         	<button type="submit" class="btn btn-primary">Publish</button>
+     	</div>
+     	
+     	<!-- Scrip para poder borrar la oferta -->
+     	    <script>
+     	    let offerName = "";
+
+            $('#confirmDeletion').on('show.bs.modal', function () {
+                $('#confirmDeletionBody').html(`Are you sure you want to delete the offer with code <b>${offerName}</b>?`)
+            });
+
+            // noinspection JSUnusedLocalSymbols
+            function confirmDeleteOffer(name) {
+                offerName = name;
+                $('#confirmDeletion').modal('show')
+            }
+
+            function deleteOffer() {
+                if (offerName !== "") {
+                    window.location.assign(`/offer/delete/${offerName}`);
+                } else {
+                    $('#confirmDeletion').modal('hide');
+                }
+            }
+            </script>
 	</body>
 </html>
         
