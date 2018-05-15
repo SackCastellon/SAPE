@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
 
@@ -84,7 +83,7 @@ public class ProjectOfferController {
     }
 
     @GetMapping("/preference/add")
-    public final @NotNull String preferenceOffer(@NotNull Model model){
+    public final @NotNull String preferenceOffer(@NotNull Model model) {
         model.addAttribute("projectOffersNotPreferences", dao.findForPreferences());
         return "/preference/add";
     }
