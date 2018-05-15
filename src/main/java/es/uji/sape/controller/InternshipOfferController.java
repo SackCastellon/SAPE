@@ -81,4 +81,6 @@ public class InternshipOfferController {
         dao.delete(id);
         return "redirect:/offer";
     }
+
+
 }

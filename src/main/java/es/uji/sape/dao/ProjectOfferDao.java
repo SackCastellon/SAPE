@@ -56,6 +56,12 @@ public class ProjectOfferDao {
         );
     }
 
+    public  List<ProjectOffer> findForPreferences() {
+        return template.query("SELECT * FROM internship_offer"+
+                " WHERE id NOT IN (SELECT project_offer_id FROM preference)", new ProjectOfferMapper());
+
+    }
+
     public void update(@NotNull ProjectOffer projectOffer) {
         template.update(
                 "UPDATE project_offer SET itinerary = ?, technologies = ?, objectives = ?, state = ?, internship_offer_id = ? WHERE id = ?",

@@ -69,6 +69,8 @@ public class InternshipOfferDao {
         template.update("DELETE FROM internship_offer WHERE id = ?", id);
     }
 
+
+
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
         public @NotNull InternshipOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {

@@ -20,7 +20,6 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/projectOffers")
 @SuppressWarnings("FieldHasSetterButNoGetter")
 public class ProjectOfferController {
 
@@ -31,24 +30,24 @@ public class ProjectOfferController {
         this.dao = dao;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/projectOffers/list")
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("offers", dao.findAll());
         return "/projectOffers/list";
     }
 
-    @GetMapping("/{id:[\\d]+}")
+    @GetMapping("/projectOffers/{id:[\\d]+}")
     public final @NotNull ProjectOffer get(@PathVariable("id") int id) {
         return dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id)));
     }
 
-    @GetMapping("/add")
+    @GetMapping("/projectOffers/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("projectOffer", new ProjectOffer());
         return "/projectOffers/add";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/projectOffers/add")
     public final @NotNull String processAddSubmit(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "/projectOffers/add";
@@ -60,13 +59,13 @@ public class ProjectOfferController {
         return "redirect:/projectOffers/list";
     }
 
-    @GetMapping("/update/{id:[\\d]+}")
+    @GetMapping("/projectOffers/update/{id:[\\d]+}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("id") int id) {
         model.addAttribute("projectOffer", dao.find(id));
         return "/projectOffers/update";
     }
 
-    @PostMapping("/update}")
+    @PostMapping("/projectOffers/update}")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "/projectOffers/update";
@@ -78,11 +77,16 @@ public class ProjectOfferController {
         return "redirect:/projectOffers/list";
     }
 
-    @DeleteMapping("/delete/{id:[\\d]+}")
+    @DeleteMapping("/projectOffers/delete/{id:[\\d]+}")
     public final @NotNull String processDelete(@PathVariable("id") int id) {
         dao.delete(id);
         return "redirect:/projectOffers/list";
     }
 
+    @GetMapping("/preference/add")
+    public final @NotNull String preferenceOffer(@NotNull Model model){
+        model.addAttribute("projectOffersNotPreferences", dao.findForPreferences());
+        return "/preference/add";
+    }
 
 }
