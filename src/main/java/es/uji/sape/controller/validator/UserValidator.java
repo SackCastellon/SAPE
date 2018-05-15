@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-public class UserValidator implements Validator {
+public final class UserValidator implements Validator {
 
     @Override
     public boolean supports(@NotNull Class<?> cls) {

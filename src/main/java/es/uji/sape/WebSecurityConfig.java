@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @SuppressWarnings("DesignForExtension")
     public @NotNull DaoAuthenticationProvider authenticationProvider() {
         val authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(service);
@@ -56,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @SuppressWarnings("DesignForExtension")
     public @NotNull PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(STRENGTH);
     }

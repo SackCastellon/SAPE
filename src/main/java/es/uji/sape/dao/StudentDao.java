@@ -89,7 +89,7 @@ public class StudentDao {
             student.setPassedCredits(rs.getInt("passed_credits"));
             student.setAverageScore(rs.getFloat("average_grade"));
             student.setPendingSubjects(rs.getInt("pending_subjects"));
-            student.setInternshipStartSemester(Month.values()[rs.getInt("internship_start_semester")]);
+            student.setInternshipStartSemester(Month.valueOf(rs.getInt("internship_start_semester")));
             return student;
         }
     }

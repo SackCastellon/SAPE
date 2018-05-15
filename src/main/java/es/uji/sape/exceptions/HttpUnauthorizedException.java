@@ -14,6 +14,7 @@ public final class HttpUnauthorizedException extends RuntimeException {
 
     @NonNls
     private static final String CLASS_NAME = "es.uji.sape.exceptions.HttpUnauthorizedException";
+    private static final long serialVersionUID = -4929279674885242854L;
 
     public HttpUnauthorizedException(@NotNull String path) {
         super(String.format("You do not have the necessary authorization to access this resource '%s'", path));

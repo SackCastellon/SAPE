@@ -22,4 +22,8 @@ public enum Role implements GrantedAuthority {
     public @NotNull String getAuthority() {
         return name();
     }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+        throw new java.io.NotSerializableException("es.uji.sape.model.Role");
+    }
 }

@@ -66,7 +66,7 @@
                         <div class="form-group">
                             <label for="internshipStartSemester">Internship Start Month</label>
                             <select class="form-control" id="internshipStartSemester" name="internshipStartSemester">
-                                <option th:each="month : ${T(es.uji.sape.model.Month).values()}"
+                                <option th:each="month : ${T(es.uji.sape.model.Month).getMonths()}"
                                         th:value="${month.name()}"
                                         th:text="${month.toString()}"
                                         th:selected="${month == student.internshipStartSemester}">

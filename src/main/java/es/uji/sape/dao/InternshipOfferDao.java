@@ -1,6 +1,7 @@
 package es.uji.sape.dao;
 
 import es.uji.sape.model.InternshipOffer;
+import es.uji.sape.model.Month;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,7 +49,7 @@ public class InternshipOfferDao {
                 internshipOffer.getId(),
                 internshipOffer.getDegree(),
                 internshipOffer.getDescription(),
-                Date.valueOf(internshipOffer.getStartDate()),
+                internshipOffer.getStartDate().getCode(),
                 internshipOffer.getContactUsername()
         );
     }
@@ -59,7 +59,7 @@ public class InternshipOfferDao {
                 "UPDATE internship_offer SET degree = ?, description = ?, start_date = ?, contact_username = ? WHERE id = ?",
                 internshipOffer.getDegree(),
                 internshipOffer.getDescription(),
-                Date.valueOf(internshipOffer.getStartDate()),
+                internshipOffer.getStartDate().getCode(),
                 internshipOffer.getContactUsername(),
                 internshipOffer.getId()
         );
@@ -76,7 +76,7 @@ public class InternshipOfferDao {
             offer.setId(rs.getInt("id"));
             offer.setDegree(rs.getInt("degree"));
             offer.setDescription(rs.getString("description"));
-            offer.setStartDate(rs.getDate("start_date").toLocalDate());
+            offer.setStartDate(Month.valueOf(rs.getInt("start_date")));
             offer.setContactUsername(rs.getString("contact_username"));
             return offer;
         }

@@ -20,6 +20,7 @@ public final class ResourceNotFoundException extends RuntimeException {
 
     @NonNls
     private static final String CLASS_NAME = "es.uji.sape.exceptions.ResourceNotFoundException";
+    private static final long serialVersionUID = -8866415034921128668L;
 
     public ResourceNotFoundException(final @NotNull String resourceName, final @NotNull Map<String, Object> fields) {
         super(String.format("Resource '%s' not found with fields: %s", resourceName, fields.entrySet().stream().map(it -> String.format("%s='%s'", it.getKey(), it.getValue())).collect(Collectors.joining(", ", "[", "]"))));

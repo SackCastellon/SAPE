@@ -53,4 +53,12 @@ public final class UserInfo implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+        throw new java.io.NotSerializableException("es.uji.sape.security.UserInfo");
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+        throw new java.io.NotSerializableException("es.uji.sape.security.UserInfo");
+    }
 }
