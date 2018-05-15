@@ -44,5 +44,28 @@
         </div>
 
         <th:block th:replace="fragments/common :: footer"/>
+        
+		<script>
+         $('#search').on('keyup', function () {
+                if ($(this).val() !== "") {
+                    $('#clear').show();
+                } else {
+                    $('#clear').hide();
+                }
+            });
+
+            $('#clear').click(function () {
+                $('#search').val('');
+                $(this).hide();
+                search()
+            });
+
+            function search() {
+                const value = $('#search').val().toLowerCase();
+                $("#students-table").find("tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
+                });
+            }
+  		</script>
     </body>
 </html>
