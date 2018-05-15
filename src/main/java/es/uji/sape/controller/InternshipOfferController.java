@@ -34,7 +34,7 @@ public class InternshipOfferController {
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("internshipOffers", dao.findAll());
-        return "/offer/list";
+        return "/projectOffers/list";
     }
 
     @GetMapping("/{id:[\\d]+}")
@@ -45,41 +45,41 @@ public class InternshipOfferController {
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("internshipOffer", new InternshipOffer());
-        return "/offer/add";
+        return "/projectOffers/add";
     }
 
     @PostMapping("/add")
     public final @NotNull String processAddSubmit(@ModelAttribute("internshipOffer") @NotNull InternshipOffer internshipOffer, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "/offer/add";
+        if (bindingResult.hasErrors()) return "/projectOffers/add";
         try {
             dao.add(internshipOffer);
         } catch (Throwable e) {
             log.error(e.getMessage());
         }
-        return "redirect:/offer";
+        return "redirect:/projectOffers";
     }
 
     @GetMapping("/update/{id:[\\d]+}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("id") int id) {
         model.addAttribute("internshipOffer", dao.find(id).orElseThrow(() -> new ResourceNotFoundException("InternshipOffer", Map.of("id", id))));
-        return "/offer/update";
+        return "/projectOffers/update";
     }
 
     @PostMapping("/update/{id:[\\d]+}")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("student") @NotNull InternshipOffer internshipOffer, @PathVariable("id") @NotNull String id, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "/offer/update";
+        if (bindingResult.hasErrors()) return "/projectOffers/update";
         try {
             dao.update(internshipOffer);
         } catch (Throwable e) {
             log.error(e.getMessage());
         }
-        return "redirect:/offer";
+        return "redirect:/projectOffers";
     }
 
     @GetMapping("/delete/{id:[\\d]+}")
     public final @NotNull String processDelete(@PathVariable("id") int id) {
         dao.delete(id);
-        return "redirect:/offer";
+        return "redirect:/projectOffers";
     }
 
 

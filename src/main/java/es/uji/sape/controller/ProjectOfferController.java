@@ -3,9 +3,11 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.ProjectOfferDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.ProjectOffer;
+import es.uji.sape.security.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,12 @@ public class ProjectOfferController {
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("offers", dao.findAll());
         return "/projectOffers/list";
+    }
+
+    @GetMapping("/projectOffers/businessList")
+    public final @NotNull String businessList(@NotNull Model model, Authentication auth) {
+        model.addAttribute("offers", dao.findPerBussiness(((UserInfo) auth.getPrincipal()).getUsername()));
+        return "/projectOffers/businessList";
     }
 
     @GetMapping("/projectOffers/{id:[\\d]+}")

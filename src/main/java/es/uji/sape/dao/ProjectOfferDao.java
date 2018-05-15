@@ -34,6 +34,12 @@ public class ProjectOfferDao {
         return template.query("SELECT * FROM project_offer;", new ProjectOfferMapper());
     }
 
+    public @NotNull List<ProjectOffer> findPerBussiness(@NotNull String name) {
+        return template.query("SELECT project_offer.id,project_offer.itinerary,project_offer.technologies,project_offer.objectives,project_offer.state FROM project_offer " +
+                "JOIN internship_offer ON project_offer.id = internship_offer.id JOIN contact_person ON internship_offer.contact_username = contact_person.username " +
+                "WHERE contact_person.name = ?;", new ProjectOfferMapper(), name);
+    }
+
     public @NotNull Optional<ProjectOffer> find(int id) {
         @Nullable ProjectOffer value;
         try {
