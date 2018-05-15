@@ -48,6 +48,22 @@
                         <td class="align-middle" th:text="${projectOffer.startDate}"></td>
                         <td class="align-middle" th:text="${projectOffer.contactUsername}"></td>
                         <td class="btn btn-primary" href="details" role="button" value="{projectOffer.id}">...</td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="px-1">
+                                    <a class="btn btn-warning" th:href="@{/projectOffer/update/{id}(id=${projectOffer.id})}" role="button"
+                                       data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fas fa-fw fa-edit"></i>
+                                    </a>
+                                </div>
+                                <div class="px-1">
+                                    <button type="button" class="btn btn-primary" href="details" role="button" value="{projectOffer.id}">
+                                        <i class="fas fa-fw fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        
                     </tr>
                 </tbody>
             </table>
