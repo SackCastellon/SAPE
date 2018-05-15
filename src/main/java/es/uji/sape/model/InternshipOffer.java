@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public final class InternshipOffer {
     private int id;
     private int degree;
-    private @NotNull String tasks = "";
+    private @NotNull String description = "";
     private @NotNull LocalDate startDate = LocalDate.now();
     private @NotNull String contactUsername = "";
 }

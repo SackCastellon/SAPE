@@ -15,7 +15,7 @@
             </div>
         </div>
 
-		<!-- para que vaya el search tengo que poner el scrip???? -->
+        <!-- para que vaya el search tengo que poner el scrip???? -->
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-6">
@@ -34,13 +34,13 @@
                         <th class="col">More info</th>
                     </tr>
                 </thead>
-                <tbody>	
-                <!--Hay que añadir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
-                	busque los detalles -->	
+                <tbody>
+                    <!--Hay que aï¿½adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
+                        busque los detalles -->
                     <tr th:each="internshipOffer : ${internshipOffers}">
                         <td class="align-middle" th:text="${internshipOffer.id}"></td>
                         <td class="align-middle" th:text="${internshipOffer.degree}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.tasks}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.getDescription}"></td>
                         <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
                         <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
                         <td class="btn btn-primary" href="details" role="button" value="{internshipOffer.id}">...</td>
@@ -50,9 +50,9 @@
         </div>
 
         <th:block th:replace="fragments/common :: footer"/>
-        
+
         <script>
-         $('#search').on('keyup', function () {
+            $('#search').on('keyup', function () {
                 if ($(this).val() !== "") {
                     $('#clear').show();
                 } else {
@@ -72,6 +72,6 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
                 });
             }
-  		</script>
+        </script>
     </body>
 </html>

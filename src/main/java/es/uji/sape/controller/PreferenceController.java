@@ -33,20 +33,14 @@ public class PreferenceController {
     }
 
     @GetMapping
-    public final @NotNull String list(@NotNull Model model) {
-        model.addAttribute("preferences", dao.findAll());
-        return "/preferences/list";
+    public final @NotNull String getStudentPreferences(@NotNull Model model, Authentication auth) {
+        model.addAttribute("preferences", dao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername()));
+        return "/preferences/personalList";
     }
 
     @GetMapping("/{projectOfferId:[\\d]+}/{studentCode}")
     public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
         return dao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode)));
-    }
-
-    @GetMapping("/personalList")
-    public final @NotNull String getStudentPreferences(@NotNull Model model, Authentication auth) {
-        model.addAttribute("preferences", dao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername()));
-        return "/preferences/personalList";
     }
 
     @GetMapping("/add")

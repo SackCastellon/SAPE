@@ -45,10 +45,10 @@ public class InternshipOfferDao {
 
     public void add(@NotNull InternshipOffer internshipOffer) {
         template.update(
-                "INSERT INTO internship_offer(id, degree, tasks, start_date, contact_username) VALUES(?,?,?,?,?)",
+                "INSERT INTO internship_offer(id, degree, description, start_date, contact_username) VALUES(?,?,?,?,?)",
                 internshipOffer.getId(),
                 internshipOffer.getDegree(),
-                internshipOffer.getTasks(),
+                internshipOffer.getDescription(),
                 Date.valueOf(internshipOffer.getStartDate()),
                 internshipOffer.getContactUsername()
         );
@@ -56,9 +56,9 @@ public class InternshipOfferDao {
 
     public void update(@NotNull InternshipOffer internshipOffer) {
         template.update(
-                "UPDATE internship_offer SET degree = ?, tasks = ?, start_date = ?, contact_username = ? WHERE id = ?",
+                "UPDATE internship_offer SET degree = ?, description = ?, start_date = ?, contact_username = ? WHERE id = ?",
                 internshipOffer.getDegree(),
-                internshipOffer.getTasks(),
+                internshipOffer.getDescription(),
                 Date.valueOf(internshipOffer.getStartDate()),
                 internshipOffer.getContactUsername(),
                 internshipOffer.getId()
@@ -69,15 +69,13 @@ public class InternshipOfferDao {
         template.update("DELETE FROM internship_offer WHERE id = ?", id);
     }
 
-
-
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
         public @NotNull InternshipOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val offer = new InternshipOffer();
             offer.setId(rs.getInt("id"));
             offer.setDegree(rs.getInt("degree"));
-            offer.setTasks(rs.getString("tasks"));
+            offer.setDescription(rs.getString("description"));
             offer.setStartDate(rs.getDate("start_date").toLocalDate());
             offer.setContactUsername(rs.getString("contact_username"));
             return offer;

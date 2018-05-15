@@ -46,30 +46,28 @@ public class ProjectOfferDao {
 
     public void add(@NotNull ProjectOffer projectOffer) {
         template.update(
-                "INSERT INTO project_offer(id, itinerary, technologies, objectives, state, internship_offer_id) VALUES(?,?,?,?,?,?)",
+                "INSERT INTO project_offer(id, itinerary, technologies, objectives, state) VALUES(?,?,?,?,?)",
                 projectOffer.getId(),
                 projectOffer.getItinerary().ordinal(),
                 projectOffer.getTechnologies(),
                 projectOffer.getObjectives(),
-                projectOffer.getState().ordinal(),
-                projectOffer.getInternshipOfferId()
+                projectOffer.getState().ordinal()
         );
     }
 
-    public  List<ProjectOffer> findForPreferences() {
-        return template.query("SELECT * FROM internship_offer"+
+    public List<ProjectOffer> findForPreferences() {
+        return template.query("SELECT * FROM internship_offer" +
                 " WHERE id NOT IN (SELECT project_offer_id FROM preference)", new ProjectOfferMapper());
 
     }
 
     public void update(@NotNull ProjectOffer projectOffer) {
         template.update(
-                "UPDATE project_offer SET itinerary = ?, technologies = ?, objectives = ?, state = ?, internship_offer_id = ? WHERE id = ?",
+                "UPDATE project_offer SET itinerary = ?, technologies = ?, objectives = ?, state = ? WHERE id = ?",
                 projectOffer.getItinerary().ordinal(),
                 projectOffer.getTechnologies(),
                 projectOffer.getObjectives(),
                 projectOffer.getState().ordinal(),
-                projectOffer.getInternshipOfferId(),
                 projectOffer.getId()
         );
     }
@@ -87,7 +85,6 @@ public class ProjectOfferDao {
             offer.setTechnologies(rs.getString("technologies"));
             offer.setObjectives(rs.getString("objectives"));
             offer.setState(OfferState.values()[rs.getInt("state")]);
-            offer.setInternshipOfferId(rs.getInt("internship_offer_id"));
             return offer;
         }
     }

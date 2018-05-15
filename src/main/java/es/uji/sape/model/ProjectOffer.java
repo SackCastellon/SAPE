@@ -15,5 +15,4 @@ public final class ProjectOffer {
     private @NotNull String technologies = "";
     private @NotNull String objectives = "";
     private @NotNull OfferState state = PENDING;
-    private int internshipOfferId;
 }

@@ -33,7 +33,7 @@ public class UserDao {
     public @NotNull Optional<User> find(final @NotNull String username) {
         @Nullable User value;
         try {
-            value = template.queryForObject("SELECT * FROM user_info WHERE username = ?;", new UserMapper(), username);
+            value = template.queryForObject("SELECT * FROM login_info WHERE username = ?;", new UserMapper(), username);
         } catch (final DataAccessException ignored) {
             value = null;
         }
@@ -42,7 +42,7 @@ public class UserDao {
 
     public void add(final @NotNull User user) {
         template.update(
-                "INSERT INTO user_info(id, username, password, role) VALUES(?,?,?,?)",
+                "INSERT INTO login_info(id, username, password, role) VALUES(?,?,?,?)",
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
@@ -52,7 +52,7 @@ public class UserDao {
 
     public void update(final @NotNull User user) {
         template.update(
-                "UPDATE user_info SET username = ?, password = ?, role = ? WHERE id = ?",
+                "UPDATE login_info SET username = ?, password = ?, role = ? WHERE id = ?",
                 user.getUsername(),
                 user.getPassword(),
                 user.getRole().ordinal(),
@@ -61,7 +61,7 @@ public class UserDao {
     }
 
     public void delete(final @NotNull String id) {
-        template.update("DELETE FROM user_info WHERE id = ?", id);
+        template.update("DELETE FROM login_info WHERE id = ?", id);
     }
 
     private static final class UserMapper implements RowMapper<User> {
