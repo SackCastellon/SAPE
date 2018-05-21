@@ -42,8 +42,8 @@
                         <td class="align-middle" th:text="${internshipOffer.getDescription}"></td>
                         <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
                         <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
-                        <td class="btn btn-primary" href="/offer/details" role="button" value="{internshipOffer.id}">More info</td>
-                        <td class="btn btn-primary" href="personalList" role="button" value="{internshipOffer.id}">Add</td>
+                        <td class="btn btn-primary" href="/offer/details" role="button" value="${internshipOffer.id}">More info</td>
+                        <td class="btn btn-primary" href="personalList" role="button" value="${internshipOffer.id}">Add</td>
                     </tr>
                 </tbody>
             </table>

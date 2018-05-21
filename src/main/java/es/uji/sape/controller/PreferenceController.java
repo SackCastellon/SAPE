@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -33,8 +35,10 @@ public class PreferenceController {
     }
 
     @GetMapping
-    public final @NotNull String getStudentPreferences(@NotNull Model model, Authentication auth) {
-        model.addAttribute("preferences", dao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername()));
+    public final @NotNull String getStudentPreferences(@NotNull Model model, Authentication auth, HttpSession session) {
+        List<Preference> preferences= dao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        session.setAttribute("numPref",preferences.size());
+        model.addAttribute("preferences", preferences);
         return "/preferences/personalList";
     }
 
@@ -67,9 +71,10 @@ public class PreferenceController {
     }
 
     @PostMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
-    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId, @NotNull BindingResult bindingResult) {
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId, @NotNull BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) return "/preferences/update";
         try {
+            preference.setPriority((int) session.getAttribute("numPref"));
             dao.update(preference);
         } catch (Throwable e) {
             log.error(e.getMessage());
