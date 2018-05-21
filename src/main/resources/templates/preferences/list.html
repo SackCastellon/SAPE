@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="preferences" type="java.util.List<es.uji.sape.model.Preference>"*/-->
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Your preferences</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Your preferences</h1>
+                <p class="lead">Your internship preferences</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <p class="lead">You need to choose at least 5 offers</p>
+            <br/>
+            <table class="table table-hover table-responsive-md" id="business-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="align-middle">#</th>
+                        <th scope="col" class="align-middle">Name</th>
+                        <th scope="col" class="align-middle"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="preference:${preferences}">
+                        <td class="align-middle" th:text="${preference.priority}"></td>
+                        <td class="align-middle" th:text="${preference.name}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="px-1">
+                                    <button type="button" class="btn btn-primary disabled" data-toggle="tooltip" data-placement="top" title="Info">
+                                        <i class="fas fa-fw fa-info"></i>
+                                    </button>
+                                </div>
+                                <div class="px-1">
+                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeletePreference(&quot;'+${preference.priority}+'&quot;)'"
+                                            data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fas fa-fw fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Habria que hacer submit cuando se tuvieran todas las preferencias? Asi controlariamos que eligieran las 5
+            minimas que se piden -->
+
+        </div>
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="px-1">
+                    <a class="btn btn-primary" href="/preferences/add" role="button">Add new Preference</a>
+                </div>
+                <div class="px-1">
+                    <a class="btn btn-primary" href="/preferences/save" role="button">Save</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmDeletionTitle">Delete confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmDeletionBody">
+                        Are you sure you want to delete the Preference?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Keep</button>
+                        <button type="button" class="btn btn-danger" onclick="deletePreference()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+
+        <script>
+            let preferenceId = -1;
+
+            $('#confirmDeletion').on('show.bs.modal', function () {
+                $('#confirmDeletionBody').html(`Are you sure you want to delete the Preference <b>#${preferenceId}</b>?`)
+            });
+
+            // noinspection JSUnusedLocalSymbols
+            function confirmDeletePreference(name) {
+                preferenceId = name;
+                $('#confirmDeletion').modal('show')
+            }
+
+            function deletePreference() {
+                if (preferenceId !== -1) {
+                    window.location.assign(`/preferences/delete/${preferenceId}`);
+                } else {
+                    $('#confirmDeletion').modal('hide');
+                }
+            }
+        </script>
+    </body>
+</html>

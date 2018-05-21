@@ -15,35 +15,50 @@
             </div>
         </div>
 
-        <!-- para que vaya el search tengo que poner el scrip???? -->
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-sm-6">
-                    <input class="form-control" id="search" type="text" placeholder="Filter offers..."/>
+                <div class="input-group col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Search..."/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="clear" type="button" style="display: none;"><i class="fas fa-eraser"></i></button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="search()"><i class="fas fa-fw fa-search"></i></button>
+                    </div>
                 </div>
             </div>
             <br/>
-            <table class="table table-hover table-responsive" id="offer-table">
+            <table class="table table-hover table-responsive-md" id="offer-table">
                 <thead class="thead-light">
                     <tr>
-                        <th class="col">ID</th>
-                        <th class="col">Degree</th>
-                        <th class="col">Tasks</th>
-                        <th class="col">Start date</th>
-                        <th class="col">Contact</th>
-                        <th class="col"></th>
-                        <th class="col"></th>
+                        <th scope="col" class="align-middle">ID</th>
+                        <th scope="col" class="align-middle">Tasks</th>
+                        <th scope="col" class="align-middle">Start date</th>
+                        <th scope="col" class="align-middle">Contact</th>
+                        <th scope="col" class="align-middle"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="internshipOffer : ${internshipOffers}">
                         <td class="align-middle" th:text="${internshipOffer.id}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.degree}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.getDescription}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.description}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.startDate.label}"></td>
                         <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
-                        <td class="btn btn-primary" href="/offer/details" role="button" value="${internshipOffer.id}">More info</td>
-                        <td class="btn btn-primary" href="personalList" role="button" value="${internshipOffer.id}">Add</td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="px-1">
+                                    <form th:action="@{/preferences/add/{id}(id=${internshipOffer.id})}" method="POST">
+                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add">
+                                            <i class="fas fa-fw fa-plus"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="px-1">
+                                    <button type="button" class="btn btn-info"
+                                            data-toggle="tooltip" data-placement="top" title="More info...">
+                                        <i class="fas fa-fw fa-info-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -68,7 +83,7 @@
 
             function search() {
                 const value = $('#search').val().toLowerCase();
-                $("#students-table").find("tbody tr").filter(function () {
+                $("#offer-table").find("tbody tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
                 });
             }

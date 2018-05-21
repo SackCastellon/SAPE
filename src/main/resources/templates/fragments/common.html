@@ -59,8 +59,8 @@
                                     <strong th:text="'('+#{${#authentication.principal.user.role.key}}+')'"></strong>
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/account"><i class="fas fa-user"></i>&nbsp; View account</a>
-                                <a class="dropdown-item" href="/account/settings"><i class="fas fa-cog"></i>&nbsp; Settings</a>
+                                <a class="dropdown-item disabled" href="#"><i class="fas fa-user"></i>&nbsp; View account</a>
+                                <a class="dropdown-item disabled" href="#"><i class="fas fa-cog"></i>&nbsp; Settings</a>
                                 <div class="dropdown-divider"></div>
                                 <form th:action="@{/logout}" method="POST">
                                     <button type="submit" class="dropdown-item"><i class="fas fa-fw fa-sign-out-alt"></i>&nbsp; Sign out</button>
