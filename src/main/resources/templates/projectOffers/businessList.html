@@ -15,7 +15,7 @@
             </div>
         </div>
 
-		<!-- para que vaya el search tengo que poner el scrip???? -->
+        <!-- para que vaya el search tengo que poner el scrip???? -->
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-sm-6">
@@ -38,10 +38,10 @@
                         <th class="col"></th>
                     </tr>
                 </thead>
-                <tbody>	
-                <!--Hay que añadir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
-                	busque los detalles -->	
-                    <tr >
+                <tbody>
+                    <!--Hay que aÃ±adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
+                        busque los detalles -->
+                    <tr>
                         <td class="align-middle" th:text="${projectOffer.id}"></td>
                         <td class="align-middle" th:text="${projectOffer.degree}"></td>
                         <td class="align-middle" th:text="${projectOffer.tasks}"></td>
@@ -63,16 +63,16 @@
                                 </div>
                             </div>
                         </td>
-                        
+
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <th:block th:replace="fragments/common :: footer"/>
-        
+
         <script>
-         $('#search').on('keyup', function () {
+            $('#search').on('keyup', function () {
                 if ($(this).val() !== "") {
                     $('#clear').show();
                 } else {
@@ -92,6 +92,6 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
                 });
             }
-  		</script>
+        </script>
     </body>
 </html>

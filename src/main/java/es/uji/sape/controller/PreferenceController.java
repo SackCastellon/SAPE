@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/preferences")
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class PreferenceController {
 
     private final @NotNull PreferenceDao preferenceDao;
@@ -41,18 +40,19 @@ public class PreferenceController {
     @SuppressWarnings("unchecked")
     public final @NotNull String list(@NotNull Model model, Authentication auth, HttpSession session) {
         List<Preference> preferences = preferenceDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
-        if (preferences.isEmpty()) preferences = (List<Preference>) session.getAttribute("tempPreferences");
+
+        if (preferences.isEmpty()) {
+            preferences = (List<Preference>) session.getAttribute("tempPreferences");
+        } else {
+            preferences.forEach(it -> it.setName(internshipOfferDao.findNameAndDescription(it.getProjectOfferId())));
+        }
+
         if (preferences == null) preferences = List.of();
 
         model.addAttribute("preferences", preferences);
 
         return "/preferences/list";
     }
-
-//    @GetMapping("/{projectOfferId:[\\d]+}/{studentCode}")
-//    public final @NotNull Preference get(@PathVariable("studentCode") String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
-//        return preferenceDao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode)));
-//    }
 
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model, HttpSession session) {
@@ -72,7 +72,7 @@ public class PreferenceController {
             preference.setPriority(tempPreferences.size() + 1);
             preference.setStudentCode(((UserInfo) auth.getPrincipal()).getUsername());
             preference.setProjectOfferId(offerId);
-            preference.setName(internshipOfferDao.findNameAndDescription(offerId).orElse(""));
+            preference.setName(internshipOfferDao.findNameAndDescription(offerId));
 
             tempPreferences.add(preference);
             session.setAttribute("tempPreferences", tempPreferences);
@@ -81,24 +81,6 @@ public class PreferenceController {
         }
         return "redirect:/preferences";
     }
-
-//    @GetMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
-//    public final @NotNull String update(@NotNull Model model, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId) {
-//        model.addAttribute("preference", preferenceDao.find(projectOfferId, studentCode).orElseThrow(() -> new ResourceNotFoundException("Preference", Map.of("projectOfferId", projectOfferId, "studentCode", studentCode))));
-//        return "/preferences/update";
-//    }
-//
-//    @PostMapping("/update/{projectOfferId:[\\d]+}/{studentCode}")
-//    public final @NotNull String processUpdateSubmit(@ModelAttribute("preference") @NotNull Preference preference, @PathVariable("studentCode") @NotNull String studentCode, @PathVariable("projectOfferId") int projectOfferId, @NotNull BindingResult bindingResult, HttpSession session) {
-//        if (bindingResult.hasErrors()) return "/preferences/update";
-//        try {
-//            preference.setPriority((int) session.getAttribute("numPref"));
-//            preferenceDao.update(preference);
-//        } catch (Throwable e) {
-//            log.error(e.getMessage());
-//        }
-//        return "redirect:/preferences";
-//    }
 
     @GetMapping("/delete/{preferencePriority:[\\d]+}")
     public final @NotNull String processDelete(@PathVariable("preferencePriority") int preferencePriority, HttpSession session) {
@@ -111,5 +93,12 @@ public class PreferenceController {
             }
         }
         return "redirect:/preferences";
+    }
+
+    @GetMapping("/save")
+    public final @NotNull String save(HttpSession session) {
+        List<Preference> tempPreferences = (List<Preference>) session.getAttribute("tempPreferences");
+        tempPreferences.forEach(preferenceDao::add);
+        return "redirect:/";
     }
 }

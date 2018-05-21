@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/business")
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class BusinessController {
 
     private final @NotNull BusinessDao dao;

@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/assignment")
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class AssignmentController {
 
     private final @NotNull AssignmentDao dao;

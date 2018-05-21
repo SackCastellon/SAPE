@@ -69,10 +69,10 @@ public class InternshipOfferDao {
         template.update("DELETE FROM internship_offer WHERE id = ?", id);
     }
 
-    public Optional<String> findNameAndDescription(int offerId) {
+    public String findNameAndDescription(int offerId) {
         return template.query("SELECT b.name, io.description FROM project_offer po INNER JOIN internship_offer io ON po.id = io.id INNER JOIN contact_person c2 ON io.contact_username = c2.username INNER JOIN business b ON c2.business_cif = b.cif WHERE po.id = ?",
                 new Object[] {offerId},
-                (rs, rowNum) -> String.format("%s - %s", rs.getString(1), rs.getString(2))).stream().findFirst();
+                (rs, rowNum) -> String.format("%s - %s", rs.getString(1), rs.getString(2))).stream().findFirst().orElse("");
     }
 
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {

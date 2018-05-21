@@ -48,18 +48,16 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- Habria que hacer submit cuando se tuvieran todas las preferencias? Asi controlariamos que eligieran las 5
-            minimas que se piden -->
-
         </div>
+
         <div class="container">
             <div class="d-flex justify-content-center">
                 <div class="px-1">
                     <a class="btn btn-primary" href="/preferences/add" role="button">Add new Preference</a>
                 </div>
                 <div class="px-1">
-                    <a class="btn btn-primary" href="/preferences/save" role="button">Save</a>
+                    <a class="btn btn-primary" th:classappend="${preferences.size() < 5} ? 'disabled'"
+                       th:href="${preferences.size() < 5} ? '#' : '/preferences/save'" role="button">Save</a>
                 </div>
             </div>
         </div>

@@ -20,7 +20,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/contactPersons")
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class ContactPersonController {
 
     private final @NotNull ContactPersonDao dao;

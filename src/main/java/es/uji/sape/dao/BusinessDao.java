@@ -69,7 +69,7 @@ public class BusinessDao {
     private static final class BusinessMapper implements RowMapper<Business> {
 
         public @NotNull Business mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-            final val business = new Business();
+            final @NotNull val business = new Business();
             business.setCif(rs.getString("cif"));
             business.setName(rs.getString("name"));
             business.setAddress(rs.getString("address"));

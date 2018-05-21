@@ -22,7 +22,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/student")
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class StudentController {
 
     private final @NotNull StudentDao dao;

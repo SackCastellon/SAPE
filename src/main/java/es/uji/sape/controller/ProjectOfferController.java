@@ -21,7 +21,6 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@SuppressWarnings("FieldHasSetterButNoGetter")
 public class ProjectOfferController {
 
     private final @NotNull ProjectOfferDao dao;
