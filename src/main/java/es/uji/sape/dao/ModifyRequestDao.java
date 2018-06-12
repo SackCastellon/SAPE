@@ -25,13 +25,11 @@ public class ModifyRequestDao {
         template = new JdbcTemplate(dataSource);
     }
 
-    public @NotNull List<ModifyRequest> findPerBussiness(@NotNull int id) {
-        return template.query("SELECT modify_request.date, modify_request.message FROM modify_request" +
-                "JOIN project_offer ON modify_request_pid = project_offer.id" +
-                "WHERE project_offer.id = ?;", new ModifyRequestMapper(), id);
+    public @NotNull List<ModifyRequest> findPerBussiness(int id) {
+        return template.query("SELECT modify_request.date, modify_request.message FROM modify_request JOIN project_offer ON modify_request_pid = project_offer.id WHERE project_offer.id = ?;", new ModifyRequestMapper(), id);
     }
 
-    private static final class ProjectOfferMapper implements RowMapper<ModifyRequest> {
+    private static final class ModifyRequestMapper implements RowMapper<ModifyRequest> {
 
         public @NotNull ModifyRequest mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val request = new ModifyRequest();
@@ -39,4 +37,5 @@ public class ModifyRequestDao {
             request.setMessage(rs.getString("message"));
             return request;
         }
+    }
 }

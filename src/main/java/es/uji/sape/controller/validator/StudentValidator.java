@@ -25,13 +25,13 @@ public final class StudentValidator implements Validator {
             errors.rejectValue("name", "obligatorio", "Apellido de estudiante requerido");
         }
 
-        if (std.getCode().length() > Student.codeMaxLength) {
+        if (std.getCode().length() > Student.CODE_MAX_LENGTH) {
             errors.rejectValue("code", "grande", "Codigo mas grande de lo permitido");
         }
-        if (std.getName().length() > Student.nameSurMaxLength) {
+        if (std.getName().length() > Student.NAME_MAX_LENGTH) {
             errors.rejectValue("name", "grande", "Nombre mas grande de lo permitido");
         }
-        if (std.getSurname().length() > Student.nameSurMaxLength) {
+        if (std.getSurname().length() > Student.NAME_MAX_LENGTH) {
             errors.rejectValue("surname", "grande", "Apellido mas grande de lo permitido");
         }
 

@@ -51,7 +51,7 @@ public class ContactPersonController {
         if (bindingResult.hasErrors()) return "/contactPersons/add";
         try {
             dao.add(contactPerson);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/contactPersons";
@@ -68,7 +68,7 @@ public class ContactPersonController {
         if (bindingResult.hasErrors()) return "/contactPersons/update";
         try {
             dao.update(contactPerson);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/contactPersons";

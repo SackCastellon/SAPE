@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 public class ModifyRequest {
-        private Date date;
-        private @NotNull String message;
+    private @NotNull Date date = Date.from(Instant.MIN);
+    private @NotNull String message = "";
 
-    }
+}

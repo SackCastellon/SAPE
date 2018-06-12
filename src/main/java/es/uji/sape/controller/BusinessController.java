@@ -53,7 +53,7 @@ public class BusinessController {
             return "/business/add";
         try {
             dao.add(business);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/business/list";
@@ -71,7 +71,7 @@ public class BusinessController {
             return "/business/update";
         try {
             dao.add(business);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/business/list";

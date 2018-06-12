@@ -52,7 +52,7 @@ public class InternshipOfferController {
         if (bindingResult.hasErrors()) return "/projectOffers/add";
         try {
             dao.add(internshipOffer);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/projectOffers";
@@ -69,7 +69,7 @@ public class InternshipOfferController {
         if (bindingResult.hasErrors()) return "/projectOffers/update";
         try {
             dao.update(internshipOffer);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/projectOffers";

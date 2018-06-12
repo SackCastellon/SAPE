@@ -53,7 +53,7 @@ public class AssignmentController {
             return "/assignment/add";
         try {
             dao.add(assignment);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/assignment/list";
@@ -71,7 +71,7 @@ public class AssignmentController {
             return "/assignment/update";
         try {
             dao.update(assignment);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/assignment/list";

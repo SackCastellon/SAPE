@@ -51,7 +51,7 @@ public class TutorController {
         if (bindingResult.hasErrors()) return "/tutors/add";
         try {
             dao.add(tutor);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/tutors";
@@ -68,7 +68,7 @@ public class TutorController {
         if (bindingResult.hasErrors()) return "/tutors/update";
         try {
             dao.update(tutor);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/tutors";

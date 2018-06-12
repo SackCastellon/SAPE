@@ -76,7 +76,7 @@ public class PreferenceController {
 
             tempPreferences.add(preference);
             session.setAttribute("tempPreferences", tempPreferences);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/preferences";

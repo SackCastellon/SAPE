@@ -5,9 +5,12 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
+
 public enum Role implements GrantedAuthority {
     STUDENT("role.student"),
-    CEiTFG("role.ceitfg"),
+    CEITFG("role.ceitfg"),
     CCG("role.ccg"),
     CONTACT("role.contact");
 
@@ -23,7 +26,7 @@ public enum Role implements GrantedAuthority {
         return name();
     }
 
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-        throw new java.io.NotSerializableException("es.uji.sape.model.Role");
+    private void writeObject(ObjectOutputStream out) throws NotSerializableException {
+        throw new NotSerializableException("es.uji.sape.model.Role");
     }
 }

@@ -10,8 +10,8 @@ import static es.uji.sape.model.Month.JANUARY;
 @Data
 @NoArgsConstructor
 public final class Student {
-    public static final int codeMaxLength = 20;
-    public static final int nameSurMaxLength = 40;
+    public static final int CODE_MAX_LENGTH = 20;
+    public static final int NAME_MAX_LENGTH = 40;
 
     private @NotNull String code = "";
     private @NotNull String name = "";

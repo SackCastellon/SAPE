@@ -1,15 +1,21 @@
 package es.uji.sape.security;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.List;
 
 public final class UserInfo implements UserDetails {
 
+    @NonNls
+    private static final String CLASS_NAME = "es.uji.sape.security.UserInfo";
     private static final long serialVersionUID = 6080316272288741795L;
 
     @Getter
@@ -54,11 +60,11 @@ public final class UserInfo implements UserDetails {
         return true;
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-        throw new java.io.NotSerializableException("es.uji.sape.security.UserInfo");
+    private void readObject(ObjectInputStream in) throws NotSerializableException {
+        throw new NotSerializableException(CLASS_NAME);
     }
 
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-        throw new java.io.NotSerializableException("es.uji.sape.security.UserInfo");
+    private void writeObject(ObjectOutputStream out) throws NotSerializableException {
+        throw new NotSerializableException(CLASS_NAME);
     }
 }

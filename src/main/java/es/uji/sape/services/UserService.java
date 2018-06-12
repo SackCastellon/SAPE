@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public final UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public final UserDetails loadUserByUsername(String username) {
         val user = dao.find(username).orElseThrow(() -> new UsernameNotFoundException(username));
         return new UserInfo(user);
     }

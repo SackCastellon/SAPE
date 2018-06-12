@@ -59,7 +59,7 @@ public class ProjectOfferController {
             return "/projectOffers/add";
         try {
             dao.add(projectOffer);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/projectOffers/list";
@@ -77,7 +77,7 @@ public class ProjectOfferController {
             return "/projectOffers/update";
         try {
             dao.update(projectOffer);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/projectOffers/list";

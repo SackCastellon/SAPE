@@ -50,7 +50,7 @@ public class StudentController {
         if (bindingResult.hasErrors()) return "/student/add";
         try {
             dao.add(student);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
         return "redirect:/student";
@@ -70,7 +70,7 @@ public class StudentController {
         if (optional.isPresent() && (optional.get() != student)) {
             try {
                 dao.update(student);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }

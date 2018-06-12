@@ -21,8 +21,7 @@ public class DashboardController {
         if (auth.getPrincipal() instanceof UserInfo) {
             val userInfo = (UserInfo) auth.getPrincipal();
             val role = userInfo.getUser().getRole();
-            System.out.println(role);
-            return "/dashboard/" + role.name().toLowerCase();
+            return String.format("/dashboard/%s", role.name().toLowerCase());
         } else {
             throw new HttpUnauthorizedException("/dashboard");
         }
