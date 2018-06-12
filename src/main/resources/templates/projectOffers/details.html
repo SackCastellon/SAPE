@@ -15,6 +15,7 @@
             </div>
         </div>
         <div class="container">
+            <!--/*@thymesVar id="internshipOffer" type="es.uji.sape.model.InternshipOffer"*/-->
             <table class="table table-borderless">
                 <tbody>
                     <tr> <!-- Hay que mostrar los datos SOLO de esa oferta -->
@@ -23,7 +24,8 @@
                     </tr>
                     <tr>
                         <td class="row">Tasks</td>
-                        <td class="align-middle" th:text="${internshipOffer.description}"></td>
+
+                        <td class="align-middle" th:text="${internshkonipOffer.description}"></td>
                     </tr>
                     <tr>
                         <td class="row">Start Date</td>
