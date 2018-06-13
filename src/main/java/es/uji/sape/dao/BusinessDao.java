@@ -66,6 +66,10 @@ public class BusinessDao {
         template.update("DELETE FROM business WHERE cif = ?", cif);
     }
 
+    public String getName(String contactUsername) {
+        return template.queryForObject("SELECT business.name FROM business JOIN contact_person ON business.cif = contact_person.business_cif WHERE contact_person.name = ?", new BusinessMapper(),contactUsername).getName();
+    }
+
     private static final class BusinessMapper implements RowMapper<Business> {
 
         public @NotNull Business mapRow(final ResultSet rs, final int rowNum) throws SQLException {

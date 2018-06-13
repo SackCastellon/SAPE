@@ -29,7 +29,7 @@
             <table class="table table-hover table-responsive-md" id="offer-table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="align-middle">ID</th>
+                        <th scope="col" class="align-middle">Business Name</th>
                         <th scope="col" class="align-middle">Tasks</th>
                         <th scope="col" class="align-middle">Start date</th>
                         <th scope="col" class="align-middle">Contact</th>
@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="internshipOffer : ${internshipOffers}">
-                        <td class="align-middle" th:text="${internshipOffer.id}"></td>
+                        <td class="align-middle" th:text="${internshipOffer.businessName}"></td>
                         <td class="align-middle" th:text="${internshipOffer.description}"></td>
                         <td class="align-middle" th:text="${internshipOffer.startDate.label}"></td>
                         <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>

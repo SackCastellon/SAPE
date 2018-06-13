@@ -1,6 +1,7 @@
 package es.uji.sape.controller;
 
 
+import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.dao.InternshipOfferDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.InternshipOffer;
@@ -24,10 +25,12 @@ import java.util.Map;
 public class InternshipOfferController {
 
     private final @NotNull InternshipOfferDao dao;
+    private final @NotNull BusinessDao bdao;
 
     @Autowired
-    public InternshipOfferController(@NotNull InternshipOfferDao dao) {
+    public InternshipOfferController(@NotNull InternshipOfferDao dao, @NotNull BusinessDao bdao) {
         this.dao = dao;
+        this.bdao = bdao;
     }
 
     @GetMapping
@@ -51,6 +54,7 @@ public class InternshipOfferController {
     public final @NotNull String processAddSubmit(@ModelAttribute("internshipOffer") @NotNull InternshipOffer internshipOffer, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "/projectOffers/add";
         try {
+            internshipOffer.setBusinessName(bdao.getName(internshipOffer.getContactUsername()));
             dao.add(internshipOffer);
         } catch (Exception e) {
             log.error(e.getMessage());

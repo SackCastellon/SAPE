@@ -12,4 +12,5 @@ public final class InternshipOffer {
     private @NotNull String description = "";
     private @NotNull Month startDate = Month.INDIFFERENT;
     private @NotNull String contactUsername = "";
+    private @NotNull String businessName = "";
 }
