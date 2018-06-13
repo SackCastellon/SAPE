@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="preferences" type="java.util.List<es.uji.sape.model.Preference>"*/-->
+    <!--/*@thymesVar id="prefs" type="java.util.List<es.uji.sape.model.Preference>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Your preferences</title>
@@ -27,9 +27,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="preference:${preferences}">
-                        <td class="align-middle" th:text="${preference.priority}"></td>
-                        <td class="align-middle" th:text="${preference.name}"></td>
+                    <tr th:each="pref:${prefs}">
+                        <td class="align-middle" th:text="${pref.priority}"></td>
+                        <td class="align-middle" th:text="${pref.name}"></td>
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
                                 <div class="px-1">
@@ -38,7 +38,7 @@
                                     </button>
                                 </div>
                                 <div class="px-1">
-                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeletePreference(&quot;'+${preference.priority}+'&quot;)'"
+                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeletePreference(&quot;'+${pref.priority}+'&quot;)'"
                                             data-toggle="tooltip" data-placement="top" title="Delete">
                                         <i class="fas fa-fw fa-trash-alt"></i>
                                     </button>
@@ -56,8 +56,8 @@
                     <a class="btn btn-primary" href="/preferences/add" role="button">Add new Preference</a>
                 </div>
                 <div class="px-1">
-                    <a class="btn btn-primary" th:classappend="${preferences.size() < 5} ? 'disabled'"
-                       th:href="${preferences.size() < 5} ? '#' : '/preferences/save'" role="button">Save</a>
+                    <a class="btn btn-primary" th:classappend="${prefs.size() < 5} ? 'disabled'"
+                       th:href="${prefs.size() < 5} ? '#' : '/preferences/save'" role="button">Save</a>
                 </div>
             </div>
         </div>

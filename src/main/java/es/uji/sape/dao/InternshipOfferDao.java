@@ -30,7 +30,8 @@ public class InternshipOfferDao {
     }
 
     public @NotNull List<InternshipOffer> findAll() {
-        return template.query("SELECT * FROM internship_offer;", new InternshipOfferMapper());
+        List<InternshipOffer> offers = template.query("SELECT * FROM internship_offer;", new InternshipOfferMapper());
+        return offers;
     }
 
     public @NotNull Optional<InternshipOffer> find(int id) {
@@ -78,6 +79,7 @@ public class InternshipOfferDao {
 
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
+        @Override
         public @NotNull InternshipOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val offer = new InternshipOffer();
             offer.setId(rs.getInt("id"));

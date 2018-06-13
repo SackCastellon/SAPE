@@ -11,9 +11,9 @@ import java.time.Instant;
 @Data
 @NoArgsConstructor
 public class ModifyRequest {
-    private @NotNull Date date = (Date) Date.from(Instant.MIN);
+    private @NotNull Date date = (Date) java.util.Date.from(Instant.MIN);
     private @NotNull String message = "";
-    private @NotNull int id;
-    private @NotNull int project_offer_id;
+    private int id;
+    private int project_offer_id;
 
 }

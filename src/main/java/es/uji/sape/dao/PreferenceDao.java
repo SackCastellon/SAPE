@@ -66,11 +66,13 @@ public class PreferenceDao {
         );
     }
 
-    public void delete(int projectOfferId, @NotNull String studentDni) {
-        template.update("DELETE FROM preference WHERE student_code = ? AND project_offer_id = ?", studentDni, projectOfferId);
+    public void delete(int preferencePriority, @NotNull String studentCode) {
+        template.update("DELETE FROM preference WHERE priority = ? AND student_code = ?", preferencePriority, studentCode);
     }
 
     private static final class PreferenceMapper implements RowMapper<Preference> {
+
+        @Override
         public @NotNull Preference mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val preference = new Preference();
             preference.setPriority(rs.getInt("priority"));

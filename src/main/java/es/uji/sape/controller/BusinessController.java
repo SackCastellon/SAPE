@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -56,13 +57,18 @@ public class BusinessController {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return "redirect:/business/list";
+        return "redirect:/business";
     }
 
     @GetMapping("/update/{cif}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("cif") @NotNull String cif) {
-        model.addAttribute("business", dao.find(cif));
-        return "/business/update";
+        Optional<Business> business = dao.find(cif);
+        if (business.isPresent()) {
+            model.addAttribute("business", business.get());
+            return "/business/update";
+        } else {
+            return "redirect:/business";
+        }
     }
 
     @PostMapping("/update")
@@ -74,12 +80,12 @@ public class BusinessController {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return "redirect:/business/list";
+        return "redirect:/business";
     }
 
     @DeleteMapping("/delete/{cif}")
     public final @NotNull String processDelete(@PathVariable("cif") @NotNull String cif) {
         dao.delete(cif);
-        return "redirect:/business/list";
+        return "redirect:/business";
     }
 }

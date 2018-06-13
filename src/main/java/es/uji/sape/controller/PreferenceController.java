@@ -1,5 +1,6 @@
 package es.uji.sape.controller;
 
+import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.dao.InternshipOfferDao;
 import es.uji.sape.dao.PreferenceDao;
 import es.uji.sape.model.Preference;
@@ -15,9 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,55 +27,56 @@ import java.util.stream.Collectors;
 @RequestMapping("/preferences")
 public class PreferenceController {
 
-    private final @NotNull PreferenceDao preferenceDao;
-    private final @NotNull InternshipOfferDao internshipOfferDao;
+    private final @NotNull PreferenceDao prefDao;
+    private final @NotNull InternshipOfferDao offerDao;
+    private final @NotNull BusinessDao businessDao;
 
     @Autowired
-    public PreferenceController(@NotNull PreferenceDao preferenceDao, @NotNull InternshipOfferDao internshipOfferDao) {
-        this.preferenceDao = preferenceDao;
-        this.internshipOfferDao = internshipOfferDao;
+    public PreferenceController(@NotNull PreferenceDao prefDao, @NotNull InternshipOfferDao offerDao, @NotNull BusinessDao businessDao) {
+        this.prefDao = prefDao;
+        this.offerDao = offerDao;
+        this.businessDao = businessDao;
     }
 
     @GetMapping
-    @SuppressWarnings("unchecked")
-    public final @NotNull String list(@NotNull Model model, Authentication auth, HttpSession session) {
-        List<Preference> preferences = preferenceDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+    public final @NotNull String list(@NotNull Model model, Authentication auth) {
+        List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
 
-        if (preferences.isEmpty()) {
-            preferences = (List<Preference>) session.getAttribute("tempPreferences");
-        } else {
-            preferences.forEach(it -> it.setName(internshipOfferDao.findNameAndDescription(it.getProjectOfferId())));
-        }
-
-        if (preferences == null) preferences = List.of();
-
-        model.addAttribute("preferences", preferences);
+        model.addAttribute("prefs", prefs);
 
         return "/preferences/list";
     }
 
     @GetMapping("/add")
-    public final @NotNull String add(@NotNull Model model, HttpSession session) {
-        List<Preference> tempPreferences = Collections.list(session.getAttributeNames()).contains("tempPreferences") ? (List<Preference>) session.getAttribute("tempPreferences") : List.of();
-        Set<Integer> ids = tempPreferences.stream().map(Preference::getProjectOfferId).collect(Collectors.toSet());
-        model.addAttribute("internshipOffers", internshipOfferDao.findAll().stream().filter(it -> !ids.contains(it.getId())).collect(Collectors.toList()));
+    public final @NotNull String add(@NotNull Model model, Authentication auth) {
+        List<Preference> preferences = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        Set<Integer> ids = preferences.stream().map(Preference::getProjectOfferId).collect(Collectors.toSet());
+
+        model.addAttribute("internshipOffers", offerDao.findAll().stream()
+                .filter(it -> !ids.contains(it.getId()))
+                .peek(offer -> {
+                    String businessName = businessDao.getName(offer.getContactUsername());
+                    offer.setBusinessName(businessName);
+                })
+                .collect(Collectors.toList()));
+
         return "/preferences/add";
     }
 
     @PostMapping("/add/{offerId:[\\d]+}")
-    public final @NotNull String processAddSubmit(@PathVariable("offerId") int offerId, Authentication auth, HttpSession session) {
-        if (!internshipOfferDao.find(offerId).isPresent()) return "/preferences/add";
+    public final @NotNull String processAddSubmit(@PathVariable("offerId") int offerId, Authentication auth) {
+        if (!offerDao.find(offerId).isPresent()) return "/preferences/add";
         try {
-            List<Preference> tempPreferences = Collections.list(session.getAttributeNames()).contains("tempPreferences") ? (List<Preference>) session.getAttribute("tempPreferences") : new ArrayList();
+            List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
 
             Preference preference = new Preference();
-            preference.setPriority(tempPreferences.size() + 1);
+            preference.setPriority(prefs.size() + 1);
             preference.setStudentCode(((UserInfo) auth.getPrincipal()).getUsername());
             preference.setProjectOfferId(offerId);
-            preference.setName(internshipOfferDao.findNameAndDescription(offerId));
+            preference.setName(offerDao.findNameAndDescription(offerId));
 
-            tempPreferences.add(preference);
-            session.setAttribute("tempPreferences", tempPreferences);
+            prefDao.add(preference);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -83,22 +84,24 @@ public class PreferenceController {
     }
 
     @GetMapping("/delete/{preferencePriority:[\\d]+}")
-    public final @NotNull String processDelete(@PathVariable("preferencePriority") int preferencePriority, HttpSession session) {
-        if (Collections.list(session.getAttributeNames()).contains("tempPreferences")) {
-            List<Preference> tempPreferences = (List<Preference>) session.getAttribute("tempPreferences");
+    public final @NotNull String processDelete(@PathVariable("preferencePriority") int preferencePriority, Authentication auth) {
+        prefDao.delete(preferencePriority, ((UserInfo) auth.getPrincipal()).getUsername());
 
-            if ((preferencePriority > 0) && (preferencePriority < tempPreferences.size())) {
-                tempPreferences.remove(preferencePriority);
-                session.setAttribute("tempPreferences", tempPreferences);
-            }
+        List<Preference> prefs = new ArrayList<>(prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername()));
+        prefs.sort(Comparator.comparing(Preference::getPriority));
+
+        for (int i = 0; i < prefs.size(); i++) {
+            Preference pref = prefs.get(i);
+            pref.setPriority(i + 1);
+            prefDao.update(pref);
         }
+
         return "redirect:/preferences";
     }
 
     @GetMapping("/save")
-    public final @NotNull String save(HttpSession session) {
-        List<Preference> tempPreferences = (List<Preference>) session.getAttribute("tempPreferences");
-        tempPreferences.forEach(preferenceDao::add);
-        return "redirect:/";
+    public final @NotNull String save(Authentication auth) {
+        List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        return (prefs.size() >= 5) ? "redirect:/?savedPrefs" : "redirect:/";
     }
 }

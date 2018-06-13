@@ -84,6 +84,7 @@ public class ProjectOfferDao {
 
     private static final class ProjectOfferMapper implements RowMapper<ProjectOffer> {
 
+        @Override
         public @NotNull ProjectOffer mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val offer = new ProjectOffer();
             offer.setId(rs.getInt("id"));

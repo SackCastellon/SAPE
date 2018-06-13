@@ -83,6 +83,7 @@ public class AssignmentDao {
 
     private static final class AssignmentMapper implements RowMapper<Assignment> {
 
+        @Override
         public @NotNull Assignment mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @Nullable val acceptanceDate = rs.getDate("acceptance_date");
             @Nullable val rejectionDate = rs.getDate("rejection_date");

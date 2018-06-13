@@ -73,6 +73,7 @@ public class TutorDao {
 
     private static final class TutorMapper implements RowMapper<Tutor> {
 
+        @Override
         public @NotNull Tutor mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val tutor = new Tutor();
             tutor.setCode(rs.getString("code"));

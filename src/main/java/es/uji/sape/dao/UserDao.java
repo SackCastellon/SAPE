@@ -66,8 +66,9 @@ public class UserDao {
 
     private static final class UserMapper implements RowMapper<User> {
 
+        @Override
         public @NotNull User mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
-            val user = new User();
+            @NotNull val user = new User();
             user.setId(rs.getInt("id"));
             user.setUsername(rs.getString("username"));
             user.setPassword(rs.getString("password"));

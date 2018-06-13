@@ -59,6 +59,7 @@ public class ModifyRequestDao {
 
     private static final class ModifyRequestMapper implements RowMapper<ModifyRequest> {
 
+        @Override
         public @NotNull ModifyRequest mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val request = new ModifyRequest();
             request.setId(rs.getInt("id"));

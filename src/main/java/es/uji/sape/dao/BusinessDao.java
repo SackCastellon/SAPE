@@ -67,19 +67,19 @@ public class BusinessDao {
     }
 
     public String getName(String contactUsername) {
-        return template.queryForObject("SELECT business.name FROM business JOIN contact_person ON business.cif = contact_person.business_cif WHERE contact_person.name = ?", new BusinessMapper(),contactUsername).getName();
+        return template.queryForObject("SELECT business.name FROM business JOIN contact_person ON business.cif = contact_person.business_cif WHERE contact_person.username = ?", (rs, rowNum) -> rs.getString(1), contactUsername);
     }
 
     private static final class BusinessMapper implements RowMapper<Business> {
 
+        @Override
         public @NotNull Business mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-            final @NotNull val business = new Business();
+            @NotNull val business = new Business();
             business.setCif(rs.getString("cif"));
             business.setName(rs.getString("name"));
             business.setAddress(rs.getString("address"));
             business.setTelephone(rs.getString("telephone"));
             return business;
-
         }
     }
 }

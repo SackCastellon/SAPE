@@ -80,6 +80,7 @@ public class StudentDao {
 
     private static final class StudentMapper implements RowMapper<Student> {
 
+        @Override
         public @NotNull Student mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val student = new Student();
             student.setCode(rs.getString("code"));

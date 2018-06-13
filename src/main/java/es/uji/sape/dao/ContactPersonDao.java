@@ -68,6 +68,7 @@ public class ContactPersonDao {
 
     private static final class ContactPersonMapper implements RowMapper<ContactPerson> {
 
+        @Override
         public @NotNull ContactPerson mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val contactPerson = new ContactPerson();
             contactPerson.setUsername(rs.getString("username"));
