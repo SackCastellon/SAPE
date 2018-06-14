@@ -16,36 +16,33 @@
         </div>
         <div class="container">
             <!--/*@thymesVar id="internshipOffer" type="es.uji.sape.model.InternshipOffer"*/-->
-            <table class="table table-borderless">
+            <table class="table table-borderless" action="#" th:action="@{/offers/{id}(code=${offer.id})}" th:object="${offer}">
                 <tbody>
-                    <tr> <!-- Hay que mostrar los datos SOLO de esa oferta -->
-                        <td class="row">Name</td>
-                        <td class="align-middle" th:text="${}"></td>
-                    </tr>
+                    <!-- Hay que mostrar los datos SOLO de esa oferta -->
                     <tr>
                         <td class="row">Tasks</td>
 
-                        <td class="align-middle" th:text="${internshkonipOffer.description}"></td>
+                        <td class="align-middle" th:text="${description}"></td>
                     </tr>
                     <tr>
                         <td class="row">Start Date</td>
-                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
+                        <td class="align-middle" th:text="${startDate}"></td>
                     </tr>
                     <tr>
                         <td class="row">Contact</td>
-                        <td class="align-middle" th:text="${internshipOffer.contactUSername}"></td>
+                        <td class="align-middle" th:text="${contactUSername}"></td>
                     </tr>
                     <tr>
                         <td class="row">Itinerary</td>
-                        <td class="align-middle" th:text="${internshipOffer.internship}"></td>
+                        <td class="align-middle" th:text="${internship}"></td>
                     </tr>
                     <tr>
                         <td class="row">Technologies</td>
-                        <td class="align-middle" th:text="${internshipOffer.technologies}"></td>
+                        <td class="align-middle" th:text="${technologies}"></td>
                     </tr>
                     <tr>
                         <td class="row">Objectives</td>
-                        <td class="align-middle" th:text="${internshipOffer.objectives}"></td>
+                        <td class="align-middle" th:text="${objectives}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -87,13 +84,43 @@
             </div>
         </div>
 
-        <!-- Update oferta -->
+        <!-- Update oferta empresa-->
         <div class="px-1">
             <a class="btn btn-warning" th:href="@{/offer/update/{id}(id=${internshipOffer.id})}" role="button"
                data-toggle="tooltip" data-placement="top" title="Edit">
                 <i class="fas fa-fw fa-edit"></i>
             </a>
         </div>
+       
+       
+        <!-- Update oferta DCC-->
+		<div class="px-1">
+            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
+                    data-toggle="tooltip" data-placement="top" title="Modify">
+                <i class="fas fa-fw fa-trash-alt"></i>
+            </button>
+        </div>
+        <div class="modal fade" id="confirmModify" tabindex="-1" role="dialog" aria-labelledby="confirmModifyTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmModifyTitle">Modify confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmModifyBody">
+                        What does the business need to change?
+                        <textarea></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="modifyOffer()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Publicar oferta (?????) faltaria un metodo para hacerlo como el delete? porque para update hay pero para esto no -->
         <div class="p-1">
@@ -119,6 +146,29 @@
                     window.location.assign(`/offer/delete/${offerName}`);
                 } else {
                     $('#confirmDeletion').modal('hide');
+                }
+            }
+        </script>
+        
+        <!-- Scrip para poder modificar la oferta -->
+        <script>
+            let offerName = "";
+
+            $('#confirmModify').on('show.bs.modal', function () {
+                $('#confirmModifyBody').html(`Are you sure you want to modify the offer with code <b>${offerName}</b>?`)
+            });
+
+            // noinspection JSUnusedLocalSymbols
+            function confirmModifyOffer(name) {
+                offerName = name;
+                $('#confirmModify').modal('show')
+            }
+
+            function modifyOffer() {
+                if (offerName !== "") {
+                    window.location.assign(`/modifyRequest/add/${offerName}`);
+                } else {
+                    $('#confirmModify').modal('hide');
                 }
             }
         </script>
