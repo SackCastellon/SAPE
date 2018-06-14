@@ -34,7 +34,7 @@
         
             <!-- Rechazar el asignment -->
             <div class="px-1">
-            <button type="button" class="btn btn-danger" th:onclick="'confirmRejectAssignment(&quot;'+${internshipOffer.id}+'&quot;)'"
+            <button type="button" class="btn btn-danger" th:onclick="'confirmRejectAssignment()'"
                     data-toggle="tooltip" data-placement="top" title="Reject">
                 <i class="fas fa-fw fa-trash-alt"></i>
             </button>
@@ -53,7 +53,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" onclick="rejectOffer()">Reject</button>
+                        
+			            <form th:action="@{/assignment/reject/{stude}}" th:object="${assignment}" method="POST">
+			            <button type="submit" class="btn btn-danger"><i class="fas fa-fw fa-sign-out-alt"></i>Reject</button>
+			            </form>
                     </div>
                 </div>
             </div>
