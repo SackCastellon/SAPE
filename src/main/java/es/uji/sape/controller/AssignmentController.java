@@ -76,6 +76,14 @@ public class AssignmentController {
         }
         return "redirect:/assignment/list";
     }
+    
+
+
+    @PostMapping("/reject/{studentCode}")
+    public final @NotNull String processUpdateSubmit(@ModelAttribute("assignment") @NotNull Assignment assignment, @PathVariable("studentCode") String studentCode, @NotNull BindingResult bindingResult) {
+        //TODO Reject aasignment
+        return "redirect:/assignment/list";
+    }
 
     @DeleteMapping("/delete/{id:[\\d]+}/{studentCode}")
     public final @NotNull String processDelete(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {

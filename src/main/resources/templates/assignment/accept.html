@@ -31,8 +31,36 @@
             </table>
         </div>
         <div class="container">
-            /*Rechazar el asignment*/
-            /*Aceptar el assignment y a partir de ah� mostrarlo simplemente con el boton de return*/
+        
+            <!-- Rechazar el asignment -->
+            <div class="px-1">
+            <button type="button" class="btn btn-danger" th:onclick="'confirmRejectAssignment(&quot;'+${internshipOffer.id}+'&quot;)'"
+                    data-toggle="tooltip" data-placement="top" title="Reject">
+                <i class="fas fa-fw fa-trash-alt"></i>
+            </button>
+        </div>
+        <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="confirmRejectionTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmRejectionTitle">Rejection confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmRejectionBody">
+                        Are you sure you want to reject this assignment?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="rejectOffer()">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+            <!-- Aceptar el assignment y a partir de ahi mostrarlo simplemente con el boton de return -->
+            
         </div>
     </body>
 </html>
