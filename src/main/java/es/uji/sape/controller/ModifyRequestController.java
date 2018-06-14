@@ -1,5 +1,6 @@
 package es.uji.sape.controller;
 
+import es.uji.sape.controller.validator.ModifyRequestValidator;
 import es.uji.sape.dao.ModifyRequestDao;
 import es.uji.sape.model.ModifyRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -42,12 +43,10 @@ public class ModifyRequestController {
         return "/projectOffers/add";
     }
 
-    @PostMapping("/add/")
-    public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult) {
-        String project_offer_id = (String) session.getAttribute("project_offer_id");
-        if (project_offer_id == null) {
-            bindingResult.addError(new ObjectError("noProjectOfferId", "No se ha accedido a traves de una oferta"));
-        }
+    @PostMapping("/add/{project_offer_id:[\\d]+}")
+    public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult, @PathVariable("project_offer_id") String project_offer_id) {
+        ModifyRequestValidator validator = new ModifyRequestValidator();
+        validator.validate(modifyRequest,bindingResult);
         if (bindingResult.hasErrors()) return "/modifyRequest/add";
         try {
             modifyRequest.setProject_offer_id(Integer.parseInt(project_offer_id));
