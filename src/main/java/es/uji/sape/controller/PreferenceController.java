@@ -3,7 +3,9 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.dao.InternshipOfferDao;
 import es.uji.sape.dao.PreferenceDao;
+import es.uji.sape.exceptions.HttpUnauthorizedException;
 import es.uji.sape.model.Preference;
+import es.uji.sape.model.Role;
 import es.uji.sape.security.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +42,20 @@ public class PreferenceController {
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model, Authentication auth) {
-        List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        UserInfo userInfo = (UserInfo) auth.getPrincipal();
+        if (!userInfo.getAuthorities().contains(Role.STUDENT)) throw new HttpUnauthorizedException();
+
+        List<Preference> prefs = prefDao.findStudentPreferences(userInfo.getUsername());
+        prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
+
+        model.addAttribute("prefs", prefs);
+
+        return "/preferences/list";
+    }
+
+    @GetMapping("/{studentCode}")
+    public final @NotNull String listStudent(@NotNull Model model, @PathVariable("studentCode") String studentCode, Authentication auth) {
+        List<Preference> prefs = prefDao.findStudentPreferences(studentCode);
         prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
 
         model.addAttribute("prefs", prefs);

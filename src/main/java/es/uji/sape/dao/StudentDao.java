@@ -78,6 +78,10 @@ public class StudentDao {
         template.update("DELETE FROM student WHERE code = ?", code);
     }
 
+    public List<String> findAllWithFivePrefsOrMore() {
+        return template.query("SELECT s.code FROM student s JOIN preference p ON s.code = p.student_code WHERE priority >= 5 GROUP BY s.code", (rs, rowNum) -> rs.getString(1));
+    }
+
     private static final class StudentMapper implements RowMapper<Student> {
 
         @Override

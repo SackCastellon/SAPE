@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
+    <!--/*@thymesVar id="canAssign" type="java.util.List<java.lang.String>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Student List</title>
@@ -52,29 +53,17 @@
                         <td class="align-middle" th:text="${student.internshipStartSemester.label}"></td>
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
-                                <div class="px-1">
-                                    <a class="btn btn-warning" th:href="@{/student/update/{code}(code=${student.code})}" role="button"
-                                       data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="fas fa-fw fa-edit"></i>
+                                <div class="px-1" th:if="${canAssign.contains(student.code)}">
+                                    <a class="btn btn-warning" th:href="@{/preferences/{code}(code=${student.code})}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="Assign offer">
+                                        <i class="fas fa-fw fa-list-ol"></i>
                                     </a>
-                                </div>
-                                <div class="px-1">
-                                    <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteStudent(&quot;'+${student.code}+'&quot;)'"
-                                            data-toggle="tooltip" data-placement="top" title="Delete">
-                                        <i class="fas fa-fw fa-trash-alt"></i>
-                                    </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <a class="btn btn-primary" href="/student/add" role="button">Add new Student</a>
-            </div>
         </div>
 
         <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">

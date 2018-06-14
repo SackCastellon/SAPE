@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -48,7 +49,7 @@ public class ModifyRequestDao {
                 "INSERT INTO modify_request(id,project_offer_id,date,message) VALUES(?,?,?,?)",
                 modifyRequest.getId(),
                 modifyRequest.getProject_offer_id(),
-                modifyRequest.getDate(),
+                Date.valueOf(modifyRequest.getDate()),
                 modifyRequest.getMessage()
         );
     }
@@ -64,7 +65,7 @@ public class ModifyRequestDao {
             @NotNull val request = new ModifyRequest();
             request.setId(rs.getInt("id"));
             request.setProject_offer_id(rs.getInt("project_offer_id"));
-            request.setDate(rs.getDate("date"));
+            request.setDate(rs.getDate("date").toLocalDate());
             request.setMessage(rs.getString("message"));
             return request;
         }

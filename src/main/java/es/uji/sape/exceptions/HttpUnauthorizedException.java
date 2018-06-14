@@ -20,6 +20,10 @@ public final class HttpUnauthorizedException extends RuntimeException {
         super(String.format("You do not have the necessary authorization to access this resource '%s'", path));
     }
 
+    public HttpUnauthorizedException() {
+        super("You do not have the necessary authorization to access this resource");
+    }
+
     private void readObject(ObjectInputStream in) throws NotSerializableException {
         throw new NotSerializableException(CLASS_NAME);
     }

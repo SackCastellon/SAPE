@@ -36,7 +36,6 @@
                         <th scope="col">Name</th>
                         <th scope="col">Address</th>
                         <th scope="col">Telephone</th>
-                        <th scope="col">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,12 +44,6 @@
                         <td class="align-middle" th:text="${business.name}"></td>
                         <td class="align-middle" th:text="${business.address}"></td>
                         <td class="align-middle" th:text="${business.telephone}"></td>
-                        <td class="align-middle">
-                            <a class="btn btn-warning" th:href="@{/business/update/{cif}(cif=${business.cif})}" role="button"
-                               data-toggle="tooltip" data-placement="top" title="Edit">
-                                <i class="fas fa-fw fa-edit"></i>
-                            </a>
-                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -34,6 +34,7 @@ public class StudentController {
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("students", dao.findAll());
+        model.addAttribute("canAssign", dao.findAllWithFivePrefsOrMore());
         return "/student/list";
     }
 
