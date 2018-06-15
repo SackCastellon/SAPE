@@ -12,6 +12,7 @@ public enum Role implements GrantedAuthority {
     STUDENT("role.student"),
     CEITFG("role.ceitfg"),
     CCG("role.ccg"),
+    TUTOR("role.tutor"),
     CONTACT("role.contact");
 
     @Getter
