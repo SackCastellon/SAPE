@@ -50,15 +50,9 @@
 
         <!-- Todos los botones indistintamente del usuario -->
 
-        <!-- Boton para volver a la lista de ofertas -->
-        <!-- Hay que arreglarlo para que si entras desde preferences vuelvas al add y no a la lista normal ya que en la lista
-        de preferences iríamos quitando las ofertas que ya tuvieramos como preferencia -->
-        <div class="container">
-            <a class="btn btn-primary" href="list" role="button">Return</a>
-        </div>
 
         <!-- Borrar oferta -->
-        <div class="px-1">
+        <div class="px-1" >
             <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
                     data-toggle="tooltip" data-placement="top" title="Delete">
                 <i class="fas fa-fw fa-trash-alt"></i>
@@ -85,7 +79,7 @@
         </div>
 
         <!-- Update oferta empresa-->
-        <div class="px-1">
+        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
             <a class="btn btn-warning" th:href="@{/offer/update/{id}(id=${internshipOffer.id})}" role="button"
                data-toggle="tooltip" data-placement="top" title="Edit">
                 <i class="fas fa-fw fa-edit"></i>
@@ -93,8 +87,8 @@
         </div>
        
        
-        <!-- Update oferta DCC-->
-		<div class="px-1">
+        <!-- Update oferta CEITFG-->
+		<div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG}">
             <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
                     data-toggle="tooltip" data-placement="top" title="Modify">
                 <i class="fas fa-fw fa-trash-alt"></i>
@@ -122,9 +116,9 @@
         </div>
 
 
-        <!-- Publicar oferta (?????) faltaria un metodo para hacerlo como el delete? porque para update hay pero para esto no -->
+        <!-- Aceptar oferta -->
         <div class="p-1">
-            <button type="submit" class="btn btn-primary">Publish</button>
+            <button type="submit" class="btn btn-primary">Accept</button>
         </div>
 
         <!-- Scrip para poder borrar la oferta -->
