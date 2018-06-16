@@ -1,13 +1,17 @@
 package es.uji.sape.controller;
 
+import es.uji.sape.dao.AssignmentDao;
 import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.dao.InternshipOfferDao;
 import es.uji.sape.dao.PreferenceDao;
 import es.uji.sape.exceptions.HttpUnauthorizedException;
+import es.uji.sape.model.Assignment;
+import es.uji.sape.model.AssignmentState;
 import es.uji.sape.model.Preference;
 import es.uji.sape.model.Role;
 import es.uji.sape.security.UserInfo;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,9 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,12 +38,14 @@ public class PreferenceController {
     private final @NotNull PreferenceDao prefDao;
     private final @NotNull InternshipOfferDao offerDao;
     private final @NotNull BusinessDao businessDao;
+    private final @NotNull AssignmentDao assignmentDao;
 
     @Autowired
-    public PreferenceController(@NotNull PreferenceDao prefDao, @NotNull InternshipOfferDao offerDao, @NotNull BusinessDao businessDao) {
+    public PreferenceController(@NotNull PreferenceDao prefDao, @NotNull InternshipOfferDao offerDao, @NotNull BusinessDao businessDao, @NotNull AssignmentDao assignmentDao) {
         this.prefDao = prefDao;
         this.offerDao = offerDao;
         this.businessDao = businessDao;
+        this.assignmentDao = assignmentDao;
     }
 
     @GetMapping
@@ -59,6 +67,7 @@ public class PreferenceController {
         prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
 
         model.addAttribute("prefs", prefs);
+        model.addAttribute("studentCode", studentCode);
 
         return "/preferences/list";
     }
@@ -114,9 +123,25 @@ public class PreferenceController {
         return "redirect:/preferences";
     }
 
-    @GetMapping("/save")
-    public final @NotNull String save(Authentication auth) {
-        List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
-        return (prefs.size() >= 5) ? "redirect:/?savedPrefs" : "redirect:/";
+    @GetMapping("/assign/{studentCode}/{preferencePriority:[\\d]+}")
+    public final @NotNull String processAssign(@PathVariable("studentCode") String studentCode, @PathVariable("preferencePriority") int preferencePriority, Authentication auth) {
+        OptionalInt optional = prefDao.findStudentPreferences(studentCode).stream().filter(it -> it.getPriority() == preferencePriority).mapToInt(Preference::getProjectOfferId).findFirst();
+
+        if (optional.isPresent()) {
+            int projectOfferId = optional.getAsInt();
+
+            val assignment = new Assignment();
+            assignment.setProjectOfferId(projectOfferId);
+            assignment.setStudentCode(studentCode);
+            // assignment.setTutorCode(); FIXME
+            assignment.setProposalDate(LocalDate.now());
+            assignment.setState(AssignmentState.PENDING);
+
+            assignmentDao.add(assignment);
+        }
+
+        return String.format("redirect:/preferences/%s", studentCode);
     }
+
+
 }

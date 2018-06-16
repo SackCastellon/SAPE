@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -33,7 +36,11 @@ public class StudentController {
 
     @GetMapping
     public final @NotNull String list(@NotNull Model model) {
-        model.addAttribute("students", dao.findAll());
+        List<Student> studentList = dao.findAll().stream()
+                .sorted(Comparator.comparing(Student::getAverageScore).reversed()
+                        .thenComparing(Student::getCode))
+                .collect(Collectors.toList());
+        model.addAttribute("students", studentList);
         model.addAttribute("canAssign", dao.findAllWithFivePrefsOrMore());
         return "/student/list";
     }

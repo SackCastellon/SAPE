@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="prefs" type="java.util.List<es.uji.sape.model.Preference>"*/-->
+    <!--/*@thymesVar id="studentCode" type="java.lang.String"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Your preferences</title>
@@ -10,13 +11,17 @@
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Your preferences</h1>
-                <p class="lead">Your internship preferences</p>
+                <h1 class="display-4">Preferences</h1>
+                <p class="lead"
+                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">Your internship preferences</p>
+                <p class="lead"
+                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}"
+                   th:text="'The internship preferences of student '+${studentCode}"></p>
             </div>
         </div>
 
         <div class="container">
-            <p class="lead">You need to choose at least 5 offers</p>
+            <p class="lead" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">You need to choose at least 5 offers</p>
             <br/>
             <table class="table table-hover table-responsive-md" id="business-table">
                 <thead class="thead-light">
@@ -33,21 +38,22 @@
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
                                 <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
-                                    <button type="button" class="btn btn-primary disabled" data-toggle="tooltip" data-placement="top" title="Info">
+                                    <button type="button" class="btn btn-primary disabled" data-toggle="tooltip" data-placement="top"
+                                            th:title="#{preferences.info}">
                                         <i class="fas fa-fw fa-info"></i>
                                     </button>
                                 </div>
                                 <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
                                     <button type="button" class="btn btn-danger" th:onclick="'confirmDeletePreference(&quot;'+${pref.priority}+'&quot;)'"
-                                            data-toggle="tooltip" data-placement="top" title="Delete">
+                                            data-toggle="tooltip" data-placement="top" th:title="#{preferences.delete}">
                                         <i class="fas fa-fw fa-trash-alt"></i>
                                     </button>
                                 </div>
                                 <div class="px-1"
                                      th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
-                                    <button type="button" class="btn btn-primary" th:onclick="'confirmDeletePreference(&quot;'+${pref.priority}+'&quot;)'"
-                                            data-toggle="tooltip" data-placement="top" title="Delete">
-                                        <i class="fas fa-fw fa-trash-alt"></i>
+                                    <button type="button" class="btn btn-primary" th:onclick="'confirmAssignPreference(&quot;'+${pref.priority}+'&quot;,&quot;'+${studentCode}+'&quot;)'"
+                                            data-toggle="tooltip" data-placement="top" th:title="#{preferences.assign}">
+                                        <i class="fas fa-fw fa-check"></i>
                                     </button>
                                 </div>
                             </div>
@@ -59,17 +65,19 @@
 
         <div class="container">
             <div class="d-flex justify-content-center">
-                <div class="px-1">
-                    <a class="btn btn-primary" href="/preferences/add" role="button">Add new Preference</a>
+                <div class="px-1"
+                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
+                    <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.add}"></a>
                 </div>
-                <div class="px-1">
-                    <a class="btn btn-primary" th:classappend="${prefs.size() < 5} ? 'disabled'"
-                       th:href="${prefs.size() < 5} ? '#' : '/preferences/save'" role="button">Save</a>
+                <div class="px-1"
+                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+                    <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.selectAlternative}"></a>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
+        <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true"
+             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,9 +97,31 @@
             </div>
         </div>
 
+        <div class="modal fade" id="confirmAssignment" tabindex="-1" role="dialog" aria-labelledby="confirmAssignmentTitle" aria-hidden="true"
+             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmAssignmentTitle">Assign confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmAssignmentBody">
+                        Are you sure you want to assign the Preference?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="assignPreference()">Assing</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <th:block th:replace="fragments/common :: footer"/>
 
-        <script>
+        <script
+                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
             let preferenceId = -1;
 
             $('#confirmDeletion').on('show.bs.modal', function () {
@@ -99,8 +129,8 @@
             });
 
             // noinspection JSUnusedLocalSymbols
-            function confirmDeletePreference(name) {
-                preferenceId = name;
+            function confirmDeletePreference(id) {
+                preferenceId = id;
                 $('#confirmDeletion').modal('show')
             }
 
@@ -109,6 +139,31 @@
                     window.location.assign(`/preferences/delete/${preferenceId}`);
                 } else {
                     $('#confirmDeletion').modal('hide');
+                }
+            }
+        </script>
+
+        <script
+                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+            let preferenceId = -1;
+            let studentCode = "";
+
+            $('#confirmAssignment').on('show.bs.modal', function () {
+                $('#confirmAssignmentBody').html(`Are you sure you want to assign the Preference <b>#${preferenceId}</b>?`)
+            });
+
+            // noinspection JSUnusedLocalSymbols
+            function confirmAssignPreference(id, student) {
+                preferenceId = id;
+                studentCode = student;
+                $('#confirmAssignment').modal('show')
+            }
+
+            function assignPreference() {
+                if (preferenceId !== -1 && studentCode !== "") {
+                    window.location.assign(`/preferences/assign/${studentCode}/${preferenceId}`);
+                } else {
+                    $('#confirmAssignment').modal('hide');
                 }
             }
         </script>

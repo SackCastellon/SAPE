@@ -64,11 +64,17 @@
                                     <strong th:text="'('+#{${#authentication.principal.user.role.key}}+')'"></strong>
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item disabled" href="#"><i class="fas fa-user"></i>&nbsp; View account</a>
-                                <a class="dropdown-item disabled" href="#"><i class="fas fa-cog"></i>&nbsp; Settings</a>
+                                <a class="dropdown-item disabled" href="#"><i class="fas fa-user"></i>&nbsp;
+                                    <th:block th:text="#{navbar.account.view}"/>
+                                </a>
+                                <a class="dropdown-item disabled" href="#"><i class="fas fa-cog"></i>&nbsp;
+                                    <th:block th:text="#{navbar.account.setings}"/>
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <form th:action="@{/logout}" method="POST">
-                                    <button type="submit" class="dropdown-item"><i class="fas fa-fw fa-sign-out-alt"></i>&nbsp; Sign out</button>
+                                    <button type="submit" class="dropdown-item"><i class="fas fa-fw fa-sign-out-alt"></i>&nbsp;
+                                        <th:block th:text="#{navbar.account.sign_out}"/>
+                                    </button>
                                 </form>
                             </div>
                         </li>
