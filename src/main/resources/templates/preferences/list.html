@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="prefs" type="java.util.List<es.uji.sape.model.Preference>"*/-->
     <!--/*@thymesVar id="studentCode" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="notAvailablePriorities" type="java.util.List<java.lang.Integer>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Your preferences</title>
@@ -15,7 +16,7 @@
                 <p class="lead"
                    th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">Your internship preferences</p>
                 <p class="lead"
-                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}"
+                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}"
                    th:text="'The internship preferences of student '+${studentCode}"></p>
             </div>
         </div>
@@ -50,8 +51,10 @@
                                     </button>
                                 </div>
                                 <div class="px-1"
-                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
-                                    <button type="button" class="btn btn-primary" th:onclick="'confirmAssignPreference(&quot;'+${pref.priority}+'&quot;,&quot;'+${studentCode}+'&quot;)'"
+                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+                                    <button type="button" class="btn btn-primary"
+                                            th:onclick="'confirmAssignPreference(&quot;'+${pref.priority}+'&quot;,&quot;'+${studentCode}+'&quot;)'"
+                                            th:classappend="${notAvailablePriorities.contains(pref.priority)} ? 'disabled'"
                                             data-toggle="tooltip" data-placement="top" th:title="#{preferences.assign}">
                                         <i class="fas fa-fw fa-check"></i>
                                     </button>
@@ -70,7 +73,7 @@
                     <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.add}"></a>
                 </div>
                 <div class="px-1"
-                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
                     <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.selectAlternative}"></a>
                 </div>
             </div>
@@ -98,7 +101,7 @@
         </div>
 
         <div class="modal fade" id="confirmAssignment" tabindex="-1" role="dialog" aria-labelledby="confirmAssignmentTitle" aria-hidden="true"
-             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -144,7 +147,7 @@
         </script>
 
         <script
-                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG || #authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
+                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
             let preferenceId = -1;
             let studentCode = "";
 

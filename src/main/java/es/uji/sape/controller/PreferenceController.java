@@ -4,12 +4,16 @@ import es.uji.sape.dao.AssignmentDao;
 import es.uji.sape.dao.BusinessDao;
 import es.uji.sape.dao.InternshipOfferDao;
 import es.uji.sape.dao.PreferenceDao;
+import es.uji.sape.dao.ProjectOfferDao;
+import es.uji.sape.dao.TutorDao;
 import es.uji.sape.exceptions.HttpUnauthorizedException;
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
 import es.uji.sape.model.Preference;
 import es.uji.sape.model.Role;
+import es.uji.sape.model.Tutor;
 import es.uji.sape.security.UserInfo;
+import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +32,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
+
+import static es.uji.sape.model.AssignmentState.*;
 
 @Slf4j
 @Controller
@@ -37,15 +45,19 @@ public class PreferenceController {
 
     private final @NotNull PreferenceDao prefDao;
     private final @NotNull InternshipOfferDao offerDao;
+    private final @NotNull ProjectOfferDao projectDao;
     private final @NotNull BusinessDao businessDao;
     private final @NotNull AssignmentDao assignmentDao;
+    private final @NotNull TutorDao tutorDao;
 
     @Autowired
-    public PreferenceController(@NotNull PreferenceDao prefDao, @NotNull InternshipOfferDao offerDao, @NotNull BusinessDao businessDao, @NotNull AssignmentDao assignmentDao) {
+    public PreferenceController(@NotNull PreferenceDao prefDao, @NotNull InternshipOfferDao offerDao, @NotNull BusinessDao businessDao, @NotNull AssignmentDao assignmentDao, @NotNull TutorDao tutorDao, @NotNull ProjectOfferDao projectDao) {
         this.prefDao = prefDao;
         this.offerDao = offerDao;
+        this.projectDao = projectDao;
         this.businessDao = businessDao;
         this.assignmentDao = assignmentDao;
+        this.tutorDao = tutorDao;
     }
 
     @GetMapping
@@ -66,8 +78,15 @@ public class PreferenceController {
         List<Preference> prefs = prefDao.findStudentPreferences(studentCode);
         prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
 
+        Set<Integer> offerIds = prefs.stream().map(Preference::getProjectOfferId).collect(Collectors.toSet());
+        List<Integer> usedIds = assignmentDao.findAll().parallelStream().filter(it -> offerIds.contains(it.getProjectOfferId())).filter(it -> Set.of(ACCEPTED, PENDING, TRANSFERRED).contains(it.getState())).map(Assignment::getProjectOfferId).collect(Collectors.toList());
+
+        List<Integer> notAvailablePriorities = prefs.stream().filter(it -> usedIds.contains(it.getProjectOfferId())).map(Preference::getPriority).collect(Collectors.toList());
+
         model.addAttribute("prefs", prefs);
         model.addAttribute("studentCode", studentCode);
+        model.addAttribute("notAvailablePriorities", notAvailablePriorities);
+        model.addAttribute("status", List.<Pair<Integer, AssignmentState>>of()); // TODO Pasar lista de IDs de ofertas justo a su estado por si ya se ha signado una o se ha rechazado
 
         return "/preferences/list";
     }
@@ -124,21 +143,26 @@ public class PreferenceController {
     }
 
     @GetMapping("/assign/{studentCode}/{preferencePriority:[\\d]+}")
-    public final @NotNull String processAssign(@PathVariable("studentCode") String studentCode, @PathVariable("preferencePriority") int preferencePriority, Authentication auth) {
-        OptionalInt optional = prefDao.findStudentPreferences(studentCode).stream().filter(it -> it.getPriority() == preferencePriority).mapToInt(Preference::getProjectOfferId).findFirst();
+    public final @NotNull String processAssign(@PathVariable("studentCode") String studentCode, @PathVariable("preferencePriority") int preferencePriority) {
+        prefDao.findStudentPreferences(studentCode).stream().filter(it -> it.getPriority() == preferencePriority).mapToInt(Preference::getProjectOfferId).findFirst().ifPresent(
+                offerId -> projectDao.find(offerId).ifPresent(offer -> {
+                    List<String> tutorCodes = tutorDao.findAll().parallelStream().filter(it -> it.getItinerary() == offer.getItinerary()).map(Tutor::getCode).collect(Collectors.toList());
 
-        if (optional.isPresent()) {
-            int projectOfferId = optional.getAsInt();
+                    if (!tutorCodes.isEmpty()){
+                    val i = ThreadLocalRandom.current().nextInt(tutorCodes.size());
+                    val tutorCode = tutorCodes.get(i);
 
-            val assignment = new Assignment();
-            assignment.setProjectOfferId(projectOfferId);
-            assignment.setStudentCode(studentCode);
-            // assignment.setTutorCode(); FIXME
-            assignment.setProposalDate(LocalDate.now());
-            assignment.setState(AssignmentState.PENDING);
+                        val assignment = new Assignment();
+                        assignment.setProjectOfferId(offerId);
+                        assignment.setStudentCode(studentCode);
+                        assignment.setTutorCode(tutorCode);
+                        assignment.setProposalDate(LocalDate.now());
+                        assignment.setState(PENDING);
 
-            assignmentDao.add(assignment);
-        }
+                        assignmentDao.add(assignment);
+                    }
+                })
+        );
 
         return String.format("redirect:/preferences/%s", studentCode);
     }
