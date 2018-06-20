@@ -123,8 +123,7 @@
 
         <th:block th:replace="fragments/common :: footer"/>
 
-        <script
-                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
+        <script th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
             let preferenceId = -1;
 
             $('#confirmDeletion').on('show.bs.modal', function () {
@@ -146,8 +145,7 @@
             }
         </script>
 
-        <script
-                th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+        <script th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
             let preferenceId = -1;
             let studentCode = "";
 
