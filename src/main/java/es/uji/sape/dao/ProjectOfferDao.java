@@ -82,6 +82,19 @@ public class ProjectOfferDao {
         template.update("DELETE FROM project_offer WHERE id = ?", id);
     }
 
+    public String findNameAndDescription(int offerId) {
+        return template.query("SELECT b.name, io.description FROM project_offer po INNER JOIN internship_offer io ON po.id = io.id INNER JOIN contact_person c2 ON io.contact_username = c2.username INNER JOIN business b ON c2.business_cif = b.cif WHERE po.id = ?",
+                new Object[] {offerId},
+                (rs, rowNum) -> String.format("%s - %s", rs.getString(1), rs.getString(2))).stream().findFirst().orElse("");
+    }
+
+    public String findObjectives(int offerId) {
+        return template.query("SELECT objectives FROM project_offer WHERE id = ?",
+                new Object[] {offerId},
+                (rs, rowNum) -> String.format("%s", rs.getString(1))).stream().findFirst().orElse("");
+    }
+
+
     private static final class ProjectOfferMapper implements RowMapper<ProjectOffer> {
 
         @Override

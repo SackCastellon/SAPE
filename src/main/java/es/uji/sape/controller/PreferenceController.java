@@ -156,6 +156,10 @@ public class PreferenceController {
                         assignment.setProjectOfferId(offerId);
                         assignment.setStudentCode(studentCode);
                         assignment.setTutorCode(tutorCode);
+                        assignment.setTutor_name(tutorDao.getName(tutorCode));
+                        assignment.setName(projectDao.findNameAndDescription(offerId));
+                        assignment.setObjectives(projectDao.findObjectives(offerId));
+                        assignment.setStartDate(offerDao.findStartDate(offerId));
                         assignment.setProposalDate(LocalDate.now());
                         assignment.setState(PENDING);
 

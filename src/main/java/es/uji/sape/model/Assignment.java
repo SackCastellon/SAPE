@@ -20,4 +20,8 @@ public final class Assignment {
     private @Nullable LocalDate rejectionDate;
     private @Nullable LocalDate igluTransferDate;
     private @NotNull AssignmentState state = UNDEFINED;
+    private @NotNull String tutor_name = "";
+    private @NotNull String name = "";
+    private @NotNull String objectives = "";
+    private @NotNull String startDate = "";
 }

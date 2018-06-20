@@ -77,6 +77,12 @@ public class InternshipOfferDao {
                 (rs, rowNum) -> String.format("%s - %s", rs.getString(1), rs.getString(2))).stream().findFirst().orElse("");
     }
 
+    public String findStart(int offerId) {
+        return template.query("SELECT start_date FROM internship_offer WHERE id = ?",
+                new Object[] {offerId},
+                (rs, rowNum) -> String.format("%d", rs.getInt(1))).stream().findFirst().orElse("");
+    }
+
     private static final class InternshipOfferMapper implements RowMapper<InternshipOffer> {
 
         @Override

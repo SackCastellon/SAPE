@@ -71,6 +71,12 @@ public class TutorDao {
         template.update("DELETE FROM tutor WHERE code = ?", code);
     }
 
+    public String getName(String tutorId) {
+        return template.query("SELECT name FROM tutor WHERE code  = ?",
+                new Object[] {tutorId},
+                (rs, rowNum) -> String.format("%s", rs.getString(1))).stream().findFirst().orElse("");
+    }
+
     private static final class TutorMapper implements RowMapper<Tutor> {
 
         @Override
