@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <!--/*@thymesVar id="assignment" type="es.uji.sape.model.Assignment"*/-->
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.ProjectOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Assignment</title>
@@ -15,55 +16,93 @@
             </div>
         </div>
         <div class="container">
-            <table class="table table-borderless">
-                <tbody>
-                    <tr> <!-- Hay que mostrar el assignment SOLO del estudiante, informacion de la sesion -->
-                        <td class="row">Name</td>
-                        <td class="align-middle" th:text="${}"></td>
-                        <td class="row">Tasks</td>
-                        <td class="align-middle" th:text="${internshipOffer.description}"></td>
-                        <td class="row">Start Date</td>
-                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
-                        <td class="row">Contact</td>
-                        <td class="align-middle" th:text="${internshipOffer.contactUSername}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-8 col-md-7 col-lg-6">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th class="text-right" scope="row">ID</th>
+                                <td th:text="${offer.id}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Itinerary</th>
+                                <td th:text="${offer.itinerary}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Technologies</th>
+                                <td th:text="${offer.technologies}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Objectives</th>
+                                <td th:text="${offer.objectives}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">State</th>
+                                <td th:text="${offer.state.toString()}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">ID</th>
+                                <td th:text="${offer.id}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-center">
+                        <!-- Rechazar el asignment -->
+                        <div class="px-1">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRejection">Reject</button>
+                        </div>
+                        <!-- Aceptar el asignment -->
+                        <div class="px-1">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmAcceptance">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="container">
-        
-            <!-- Rechazar el asignment -->
-            <div class="px-1">
-            <button type="button" class="btn btn-danger" th:onclick="'confirmRejectAssignment()'"
-                    data-toggle="tooltip" data-placement="top" title="Reject">
-                <i class="fas fa-fw fa-trash-alt"></i>
-            </button>
-        </div>
+
         <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="confirmRejectionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="confirmRejectionTitle">Rejection confirmation</h3>
+                        <h3 class="modal-title" id="confirmRejectionTitle">Reject confirmation</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="fas fa-fw fa-times"></i>
                         </button>
                     </div>
                     <div class="modal-body" id="confirmRejectionBody">
-                        Are you sure you want to reject this assignment?
+                        Are you sure you want to reject the Preference?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        
-			            <form th:action="@{/assignment/reject/{stude}}" th:object="${assignment}" method="POST">
-			            <button type="submit" class="btn btn-danger"><i class="fas fa-fw fa-sign-out-alt"></i>Reject</button>
-			            </form>
+                        <form th:action="@{/projectOffer/reject/{id}(id=${assignment.projectOfferId})}" method="POST">
+                            <button type="button" class="btn btn-danger">Reject</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-            
-            <!-- Aceptar el assignment y a partir de ahi mostrarlo simplemente con el boton de return -->
-            
+
+        <div class="modal fade" id="confirmAcceptance" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptanceTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="confirmAcceptanceTitle">Accept confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="confirmAcceptanceBody">
+                        Are you sure you want to accept the Preference?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <form th:action="@{/projectOffer/accept/{id}(id=${assignment.projectOfferId})}" method="POST">
+                            <button type="button" class="btn btn-success">Accept</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
