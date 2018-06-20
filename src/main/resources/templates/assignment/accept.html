@@ -71,11 +71,11 @@
                         </button>
                     </div>
                     <div class="modal-body" id="confirmRejectionBody">
-                        Are you sure you want to reject the Preference?
+                        Are you sure you want to reject this assignment?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <form th:action="@{/projectOffer/reject/{id}(id=${assignment.projectOfferId})}" method="POST">
+                        <form th:action="@{/assignment/reject}" th:object="${assignment}" method="POST">
                             <button type="button" class="btn btn-danger">Reject</button>
                         </form>
                     </div>
@@ -93,11 +93,11 @@
                         </button>
                     </div>
                     <div class="modal-body" id="confirmAcceptanceBody">
-                        Are you sure you want to accept the Preference?
+                        Are you sure you want to accept this assignment?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <form th:action="@{/projectOffer/accept/{id}(id=${assignment.projectOfferId})}" method="POST">
+                        <form th:action="@{/assignment/accept}" th:object="${assignment}" method="POST">
                             <button type="button" class="btn btn-success">Accept</button>
                         </form>
                     </div>

@@ -3,6 +3,7 @@ package es.uji.sape.controller;
 import es.uji.sape.dao.AssignmentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Assignment;
+import es.uji.sape.model.AssignmentState;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,13 +77,23 @@ public class AssignmentController {
         }
         return "redirect:/assignment/list";
     }
-    
 
+    @PostMapping("/reject")
+    public final @NotNull String processReject(@ModelAttribute("assignment") @NotNull Assignment assignment, @NotNull BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            assignment.setState(AssignmentState.REJECTED);
+            dao.update(assignment);
+        }
+        return "redirect:/assignment/list"; //FIXME A donde tiene que redirigir
+    }
 
-    @PostMapping("/reject/{studentCode}")
-    public final @NotNull String processUpdateSubmit(@ModelAttribute("assignment") @NotNull Assignment assignment, @PathVariable("studentCode") String studentCode, @NotNull BindingResult bindingResult) {
-        //TODO Reject aasignment
-        return "redirect:/assignment/list";
+    @PostMapping("/accept")
+    public final @NotNull String processAccept(@ModelAttribute("assignment") @NotNull Assignment assignment, @NotNull BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            assignment.setState(AssignmentState.ACCEPTED);
+            dao.update(assignment);
+        }
+        return "redirect:/assignment/list"; //FIXME A donde tiene que redirigir
     }
 
     @DeleteMapping("/delete/{id:[\\d]+}/{studentCode}")
