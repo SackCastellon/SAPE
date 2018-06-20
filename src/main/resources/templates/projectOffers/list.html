@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="internshipOffers" type="java.util.List<es.uji.sape.model.InternshipOffer>"*/-->
+    <!--/*@thymesVar id="projectOffers" type="java.util.List<es.uji.sape.model.ProjectOffer>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Offer List</title>
@@ -27,23 +27,31 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="col">ID</th>
-                        <th class="col">Degree</th>
-                        <th class="col">Tasks</th>
-                        <th class="col">Start date</th>
-                        <th class="col">Contact</th>
-                        <th class="col">More info</th>
+                        <th class="col">Itinerary</th>
+                        <th class="col">Technologies</th>
+                        <th class="col">Objectives</th>
+                        <th class="col">State</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
                         busque los detalles -->
-                    <tr th:each="internshipOffer : ${internshipOffers}">
-                        <td class="align-middle" th:text="${internshipOffer.id}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.degree}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.getDescription}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.startDate}"></td>
-                        <td class="align-middle" th:text="${internshipOffer.contactUsername}"></td>
-                        <td class="btn btn-primary" href="details" role="button" value="{internshipOffer.id}">...</td>
+                    <tr th:each="projectOffer : ${projectOffers}">
+                        <td class="align-middle" th:text="${projectOffer.id}"></td>
+                        <td class="align-middle" th:text="${projectOffer.itinerary}"></td>
+                        <td class="align-middle" th:text="${projectOffer.technologies}"></td>
+                        <td class="align-middle" th:text="${projectOffer.objectives}"></td>
+                        <td class="align-middle" th:text="${projectOffer.state}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="px-1">
+                                    <form th:action="@{/projectOffers/details/{id}(id=${projectOffer.id})}" method="GET">
+                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Info">
+                                            <i class="fas fa-fw fa-plus"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                     </tr>
                 </tbody>
             </table>
