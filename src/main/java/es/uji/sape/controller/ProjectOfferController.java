@@ -32,19 +32,25 @@ public class ProjectOfferController {
 
     @GetMapping("/projectOffers/list")
     public final @NotNull String list(@NotNull Model model) {
-        model.addAttribute("offers", dao.findAll());
+        model.addAttribute("projectOffers", dao.findAll());
         return "/projectOffers/list";
     }
 
     @GetMapping("/projectOffers/businessList")
     public final @NotNull String businessList(@NotNull Model model, Authentication auth) {
-        model.addAttribute("offers", dao.findPerBussiness(((UserInfo) auth.getPrincipal()).getUsername()));
+        model.addAttribute("projectOffers", dao.findPerBussiness(((UserInfo) auth.getPrincipal()).getUsername()));
         return "/projectOffers/businessList";
     }
 
-    @GetMapping("/projectOffers/{id:[\\d]+}")
+    @GetMapping("/projectOffers/details/{id:[\\d]+}")
     public final @NotNull ProjectOffer get(@PathVariable("id") int id) {
         return dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id)));
+    }
+
+    @GetMapping("/projectOffers/details/{id:[\\d]+}")
+    public final @NotNull String getDetails(@PathVariable("id") int id, @NotNull Model model) {
+        model.addAttribute("offerDetails",dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id))));
+        return "/projectOffer/details/";
     }
 
     @GetMapping("/projectOffers/add")

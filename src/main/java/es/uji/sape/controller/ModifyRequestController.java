@@ -31,16 +31,16 @@ public class ModifyRequestController {
         this.dao = dao;
     }
 
-    @GetMapping("/projectRequests/{project_offer_id:[\\d]+}")
+    @GetMapping("/requestList/{project_offer_id:[\\d]+}")
     public final @NotNull String list(@NotNull Model model, @PathVariable("project_offer_id") int project_offer_id) {
         model.addAttribute("internshipOffers", dao.findPerBussiness(project_offer_id));
-        return "modifyRequest/projectRequests/list";
+        return "/requestList/{project_offer_id:[\\d]+}";
     }
 
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("projectOffer", new ModifyRequest());
-        return "/projectOffers/add";
+        return "/projectOffers/list";
     }
 
     @PostMapping("/add/{project_offer_id:[\\d]+}")
