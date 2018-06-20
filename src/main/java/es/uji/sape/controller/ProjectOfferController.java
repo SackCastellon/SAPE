@@ -49,8 +49,8 @@ public class ProjectOfferController {
 
     @GetMapping("/projectOffers/details/{id:[\\d]+}")
     public final @NotNull String getDetails(@PathVariable("id") int id, @NotNull Model model) {
-        model.addAttribute("offerDetails",dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id))));
-        return "/projectOffer/details/";
+        model.addAttribute("offer", dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id))));
+        return "/projectOffers/details";
     }
 
     @GetMapping("/projectOffers/add")

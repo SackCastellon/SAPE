@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.ProjectOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Offer detail</title>
     </head>
-    <!--/*@thymesVar id="offerDetails" type="es.uji.sape.model.ProjectOffer"*/-->
-    <body  th:object="${offerDetails}">
+    <body>
         <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
@@ -16,45 +15,69 @@
             </div>
         </div>
         <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-8 col-md-7 col-lg-6">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th class="text-right" scope="row">ID</th>
+                                <td th:text="${offer.id}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Itinerary</th>
+                                <td th:text="${offer.itinerary}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Technologies</th>
+                                <td th:text="${offer.technologies}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">Objectives</th>
+                                <td th:text="${offer.objectives}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">State</th>
+                                <td th:text="${offer.state.toString()}"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right" scope="row">ID</th>
+                                <td th:text="${offer.id}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-            <table class="table table-borderless" action="#">
-                <tbody>
-                    <!-- Hay que mostrar los datos SOLO de esa oferta -->
-                    <tr>
-                        <td class="row">ID</td>
-
-                        <td class="align-middle" th:text="${offerDetails.id}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">Itinerary</td>
-                        <td class="align-middle" th:text="${offerDetails.itinerary}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">Technologies</td>
-                        <td class="align-middle" th:text="${offerDetails.technologies}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">Objectives</td>
-                        <td class="align-middle" th:text="${offerDetails.objectives}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">State</td>
-                        <td class="align-middle" th:text="${offerDetails.state.toString()}"></td>
-                    </tr>
-                </tbody>
-            </table>
+                    <div class="d-flex justify-content-center">
+                        <!-- Borrar oferta -->
+                        <div class="px-1">
+                            <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${offer.id}+'&quot;)'"
+                                    data-toggle="tooltip" data-placement="top" title="Delete">
+                                <i class="fas fa-fw fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <!-- Update oferta empresa-->
+                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
+                            <a class="btn btn-warning" th:href="@{/projectOffer/update/{id}(id=${offer.id})}" role="button"
+                               data-toggle="tooltip" data-placement="top" title="Edit">
+                                <i class="fas fa-fw fa-edit"></i>
+                            </a>
+                        </div>
+                        <!-- Update oferta CEYTFG-->
+                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+                            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${offer.id}+'&quot;)'"
+                                    data-toggle="tooltip" data-placement="top" title="Modify">
+                                <i class="fas fa-fw fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <!-- Aceptar oferta -->
+                        <div class="px-1">
+                            <button type="submit" class="btn btn-primary">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Todos los botones indistintamente del usuario -->
-
 
         <!-- Borrar oferta -->
-        <div class="px-1" >
-            <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${offerDetails.id}+'&quot;)'"
-                    data-toggle="tooltip" data-placement="top" title="Delete">
-                <i class="fas fa-fw fa-trash-alt"></i>
-            </button>
-        </div>
         <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -75,22 +98,7 @@
             </div>
         </div>
 
-        <!-- Update oferta empresa-->
-        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
-            <a class="btn btn-warning" th:href="@{/projectOffer/update/{id}(id=${offerDetails.id})}" role="button"
-               data-toggle="tooltip" data-placement="top" title="Edit">
-                <i class="fas fa-fw fa-edit"></i>
-            </a>
-        </div>
-       
-       
-        <!-- Update oferta CEITFG-->
-		<div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG}">
-            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${offerDetails.id}+'&quot;)'"
-                    data-toggle="tooltip" data-placement="top" title="Modify">
-                <i class="fas fa-fw fa-trash-alt"></i>
-            </button>
-        </div>
+        <!-- Update oferta CEYTFG-->
         <div class="modal fade" id="confirmModify" tabindex="-1" role="dialog" aria-labelledby="confirmModifyTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -112,52 +120,46 @@
             </div>
         </div>
 
-
-        <!-- Aceptar oferta -->
-        <div class="p-1">
-            <button type="submit" class="btn btn-primary">Accept</button>
-        </div>
-
         <!-- Scrip para poder borrar la oferta -->
         <script>
-            let offerName = "";
+            let offerId = "";
 
             $('#confirmDeletion').on('show.bs.modal', function () {
-                $('#confirmDeletionBody').html(`Are you sure you want to delete the offer with code <b>${offerName}</b>?`)
+                $('#confirmDeletionBody').html(`Are you sure you want to delete the offer with code <b>${offerId}</b>?`)
             });
 
             // noinspection JSUnusedLocalSymbols
             function confirmDeleteOffer(name) {
-                offerName = name;
+                offerId = name;
                 $('#confirmDeletion').modal('show')
             }
 
             function deleteOffer() {
-                if (offerName !== "") {
-                    window.location.assign(`/projectOffers/delete/${offerName}`);
+                if (offerId !== "") {
+                    window.location.assign(`/projectOffers/delete/${offerId}`);
                 } else {
                     $('#confirmDeletion').modal('hide');
                 }
             }
         </script>
-        
+
         <!-- Scrip para poder modificar la oferta -->
         <script>
-            let offerName = "";
+            let offerId = "";
 
             $('#confirmModify').on('show.bs.modal', function () {
-                $('#confirmModifyBody').html(`Are you sure you want to modify the offer with code <b>${offerName}</b>?`)
+                $('#confirmModifyBody').html(`Are you sure you want to modify the offer with code <b>${offerId}</b>?`)
             });
 
             // noinspection JSUnusedLocalSymbols
             function confirmModifyOffer(name) {
-                offerName = name;
+                offerId = name;
                 $('#confirmModify').modal('show')
             }
 
             function modifyOffer() {
-                if (offerName !== "") {
-                    window.location.assign(`/modifyRequest/add/${offerName}`);
+                if (offerId !== "") {
+                    window.location.assign(`/modifyRequest/add/${offerId}`);
                 } else {
                     $('#confirmModify').modal('hide');
                 }
