@@ -42,7 +42,7 @@ public class ProjectOfferController {
         return "/projectOffers/businessList";
     }
 
-    @GetMapping("/projectOffers/details/{id:[\\d]+}")
+    @GetMapping("/projectOffers/{id:[\\d]+}")
     public final @NotNull ProjectOffer get(@PathVariable("id") int id) {
         return dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id)));
     }

@@ -5,7 +5,8 @@
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Offer detail</title>
     </head>
-    <body>
+    <!--/*@thymesVar id="offerDetails" type="es.uji.sape.model.ProjectOffer"*/-->
+    <body  th:object="${offerDetails}">
         <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
@@ -15,34 +16,30 @@
             </div>
         </div>
         <div class="container">
-            <!--/*@thymesVar id="internshipOffer" type="es.uji.sape.model.InternshipOffer"*/-->
-            <table class="table table-borderless" action="#" th:action="@{/offers/{id}(code=${offer.id})}" th:object="${offer}">
+
+            <table class="table table-borderless" action="#">
                 <tbody>
                     <!-- Hay que mostrar los datos SOLO de esa oferta -->
                     <tr>
-                        <td class="row">Tasks</td>
+                        <td class="row">ID</td>
 
-                        <td class="align-middle" th:text="${description}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">Start Date</td>
-                        <td class="align-middle" th:text="${startDate}"></td>
-                    </tr>
-                    <tr>
-                        <td class="row">Contact</td>
-                        <td class="align-middle" th:text="${contactUSername}"></td>
+                        <td class="align-middle" th:text="${offerDetails.id}"></td>
                     </tr>
                     <tr>
                         <td class="row">Itinerary</td>
-                        <td class="align-middle" th:text="${internship}"></td>
+                        <td class="align-middle" th:text="${offerDetails.itinerary}"></td>
                     </tr>
                     <tr>
                         <td class="row">Technologies</td>
-                        <td class="align-middle" th:text="${technologies}"></td>
+                        <td class="align-middle" th:text="${offerDetails.technologies}"></td>
                     </tr>
                     <tr>
                         <td class="row">Objectives</td>
-                        <td class="align-middle" th:text="${objectives}"></td>
+                        <td class="align-middle" th:text="${offerDetails.objectives}"></td>
+                    </tr>
+                    <tr>
+                        <td class="row">State</td>
+                        <td class="align-middle" th:text="${offerDetails.state.toString()}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -53,7 +50,7 @@
 
         <!-- Borrar oferta -->
         <div class="px-1" >
-            <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
+            <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${offerDetails.id}+'&quot;)'"
                     data-toggle="tooltip" data-placement="top" title="Delete">
                 <i class="fas fa-fw fa-trash-alt"></i>
             </button>
@@ -80,7 +77,7 @@
 
         <!-- Update oferta empresa-->
         <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
-            <a class="btn btn-warning" th:href="@{/offer/update/{id}(id=${internshipOffer.id})}" role="button"
+            <a class="btn btn-warning" th:href="@{/projectOffer/update/{id}(id=${offerDetails.id})}" role="button"
                data-toggle="tooltip" data-placement="top" title="Edit">
                 <i class="fas fa-fw fa-edit"></i>
             </a>
@@ -89,7 +86,7 @@
        
         <!-- Update oferta CEITFG-->
 		<div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG}">
-            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${internshipOffer.id}+'&quot;)'"
+            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${offerDetails.id}+'&quot;)'"
                     data-toggle="tooltip" data-placement="top" title="Modify">
                 <i class="fas fa-fw fa-trash-alt"></i>
             </button>
@@ -137,7 +134,7 @@
 
             function deleteOffer() {
                 if (offerName !== "") {
-                    window.location.assign(`/offer/delete/${offerName}`);
+                    window.location.assign(`/projectOffers/delete/${offerName}`);
                 } else {
                     $('#confirmDeletion').modal('hide');
                 }
