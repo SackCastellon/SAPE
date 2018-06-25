@@ -18,7 +18,7 @@ public class ModifyRequestValidator implements Validator {
     public void validate(@NotNull Object obj, @NotNull Errors errors) {
 
         ModifyRequest req = (ModifyRequest) obj;
-        if (req.getMessage().length()<minLength) {
+        if (req.getMessage().length() < minLength) {
             errors.rejectValue("modifyRequest", "longitud", "EL mensaje tiene que ser de al menos");
         }
 

@@ -30,13 +30,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
-import static es.uji.sape.model.AssignmentState.*;
+import static es.uji.sape.model.AssignmentState.ACCEPTED;
+import static es.uji.sape.model.AssignmentState.PENDING;
+import static es.uji.sape.model.AssignmentState.TRANSFERRED;
 
 @Slf4j
 @Controller
@@ -148,9 +148,9 @@ public class PreferenceController {
                 offerId -> projectDao.find(offerId).ifPresent(offer -> {
                     List<String> tutorCodes = tutorDao.findAll().parallelStream().filter(it -> it.getItinerary() == offer.getItinerary()).map(Tutor::getCode).collect(Collectors.toList());
 
-                    if (!tutorCodes.isEmpty()){
-                    val i = ThreadLocalRandom.current().nextInt(tutorCodes.size());
-                    val tutorCode = tutorCodes.get(i);
+                    if (!tutorCodes.isEmpty()) {
+                        val i = ThreadLocalRandom.current().nextInt(tutorCodes.size());
+                        val tutorCode = tutorCodes.get(i);
 
                         val assignment = new Assignment();
                         assignment.setProjectOfferId(offerId);

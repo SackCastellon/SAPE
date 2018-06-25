@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,7 +45,7 @@ public class ModifyRequestController {
     @PostMapping("/add/{project_offer_id:[\\d]+}")
     public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult, @PathVariable("project_offer_id") String project_offer_id) {
         ModifyRequestValidator validator = new ModifyRequestValidator();
-        validator.validate(modifyRequest,bindingResult);
+        validator.validate(modifyRequest, bindingResult);
         if (bindingResult.hasErrors()) return "/modifyRequest/add";
         try {
             modifyRequest.setProject_offer_id(Integer.parseInt(project_offer_id));
