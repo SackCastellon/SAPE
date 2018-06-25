@@ -65,7 +65,7 @@
                                 <option th:each="month : ${T(es.uji.sape.model.Month).values()}"
                                         th:value="${month.name()}"
                                         th:text="${month.toString()}"
-                                        th:selected="${month == student.internshipStartSemester}">
+                                        th:selected="${month == student.getInternshipStartMonth}">
                                 </option>
                             </select>
                         </div>
