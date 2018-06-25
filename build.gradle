@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.20.0"
     }
 }
 
@@ -48,14 +48,13 @@ dependencies {
     // Web Jars
     compile 'org.webjars:jquery:3.3.1-1'
     compile 'org.webjars:popper.js:1.14.1'
-    compile 'org.webjars:bootstrap:4.1.0'
-    compile 'org.webjars:bootswatch-lumen:4.0.0'
-    compile 'org.webjars:font-awesome:5.0.10'
+    compile 'org.webjars:bootstrap:4.1.1'
+    compile 'org.webjars:font-awesome:5.1.0'
 
     // Annotations
-    compile 'org.jetbrains:annotations:16.0.1'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    compile 'org.jetbrains:annotations:16.0.2'
+    compileOnly 'org.projectlombok:lombok:1.18.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.0'
 
     // Testing
     testCompile 'org.springframework.boot:spring-boot-starter-test'
