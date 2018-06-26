@@ -88,7 +88,7 @@ public class AssignmentDao {
             @Nullable val acceptanceDate = rs.getDate("acceptance_date");
             @Nullable val rejectionDate = rs.getDate("rejection_date");
             @NotNull val assignment = new Assignment();
-            assignment.setProjectOfferId(rs.getInt("project_offer_id"));
+            assignment.setProjectOfferId(rs.getInt("projectOfferId"));
             assignment.setStudentCode(rs.getString("student_code"));
             assignment.setTutorCode(rs.getString("tutor_code"));
             assignment.setProposalDate(rs.getDate("proposal_date").toLocalDate());

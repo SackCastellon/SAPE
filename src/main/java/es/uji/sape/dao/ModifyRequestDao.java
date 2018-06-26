@@ -48,7 +48,7 @@ public class ModifyRequestDao {
         template.update(
                 "INSERT INTO modify_request(id,project_offer_id,date,message) VALUES(?,?,?,?)",
                 modifyRequest.getId(),
-                modifyRequest.getProject_offer_id(),
+                modifyRequest.getProjectOfferId(),
                 Date.valueOf(modifyRequest.getDate()),
                 modifyRequest.getMessage()
         );
@@ -64,7 +64,7 @@ public class ModifyRequestDao {
         public @NotNull ModifyRequest mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @NotNull val request = new ModifyRequest();
             request.setId(rs.getInt("id"));
-            request.setProject_offer_id(rs.getInt("project_offer_id"));
+            request.setProjectOfferId(rs.getInt("projectOfferId"));
             request.setDate(rs.getDate("date").toLocalDate());
             request.setMessage(rs.getString("message"));
             return request;

@@ -77,7 +77,7 @@ public class PreferenceDao {
             @NotNull val preference = new Preference();
             preference.setPriority(rs.getInt("priority"));
             preference.setStudentCode(rs.getString("student_code"));
-            preference.setProjectOfferId(rs.getInt("project_offer_id"));
+            preference.setProjectOfferId(rs.getInt("projectOfferId"));
             return preference;
         }
     }

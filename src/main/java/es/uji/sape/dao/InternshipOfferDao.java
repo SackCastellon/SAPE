@@ -30,8 +30,7 @@ public class InternshipOfferDao {
     }
 
     public @NotNull List<InternshipOffer> findAll() {
-        List<InternshipOffer> offers = template.query("SELECT * FROM internship_offer;", new InternshipOfferMapper());
-        return offers;
+        return template.query("SELECT * FROM internship_offer;", new InternshipOfferMapper());
     }
 
     public @NotNull Optional<InternshipOffer> find(int id) {

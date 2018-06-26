@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4" th:text="#{dashboard.student}"></h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4 py-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Offers</h5>
+                            <p class="card-text">Some info...</p>
+                            <a href="/offers" class="btn btn-primary">View offers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 py-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Preferences</h5>
+                            <p class="card-text">Some info...</p>
+                            <a href="/preferences" class="btn btn-primary">View preferences</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 py-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Assignments</h5>
+                            <p class="card-text">Some info...</p>
+                            <a href="/assignments" class="btn btn-primary">View assignments</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

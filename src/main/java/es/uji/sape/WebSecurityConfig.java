@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected final void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/assets/**", "/webjars/**", "/", "/about", "/login").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/assets/**", "/webjars/**").permitAll().anyRequest().authenticated();
         http.formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll();
         http.logout().invalidateHttpSession(true).permitAll();
     }
@@ -60,9 +60,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @SuppressWarnings("DesignForExtension")
     public @NotNull PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(STRENGTH);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new BCryptPasswordEncoder(10).encode("pepe"));
     }
 }

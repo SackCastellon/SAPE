@@ -13,6 +13,6 @@ public class ModifyRequest {
     private @NotNull LocalDate date = LocalDate.now();
     private @NotNull String message = "";
     private int id;
-    private int project_offer_id;
+    private int projectOfferId;
 
 }

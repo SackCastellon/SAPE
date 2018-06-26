@@ -7,20 +7,19 @@ import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping
 public class DashboardController {
 
     @GetMapping
-    public final @NotNull String dashboard(@NotNull Model model, @NotNull Authentication auth) {
+    public final @NotNull String dashboard(@NotNull Authentication auth) {
         if (auth.getPrincipal() instanceof UserInfo) {
-            val userInfo = (UserInfo) auth.getPrincipal();
-            val role = userInfo.getUser().getRole();
+            @NotNull val userInfo = (UserInfo) auth.getPrincipal();
+            @NotNull val role = userInfo.getUser().getRole();
             return String.format("/dashboard/%s", role.name().toLowerCase());
         } else {
             throw new HttpUnauthorizedException("/dashboard");

@@ -30,10 +30,10 @@ public class ModifyRequestController {
         this.dao = dao;
     }
 
-    @GetMapping("/requestList/{project_offer_id:[\\d]+}")
-    public final @NotNull String list(@NotNull Model model, @PathVariable("project_offer_id") int project_offer_id) {
-        model.addAttribute("internshipOffers", dao.findPerBussiness(project_offer_id));
-        return "/requestList/{project_offer_id:[\\d]+}";
+    @GetMapping("/requestList/{projectOfferId:[\\d]+}")
+    public final @NotNull String list(@NotNull Model model, @PathVariable("projectOfferId") int projectOfferId) {
+        model.addAttribute("internshipOffers", dao.findPerBussiness(projectOfferId));
+        return "/requestList/{projectOfferId:[\\d]+}";
     }
 
     @GetMapping("/add")
@@ -42,13 +42,13 @@ public class ModifyRequestController {
         return "/projectOffers/list";
     }
 
-    @PostMapping("/add/{project_offer_id:[\\d]+}")
-    public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult, @PathVariable("project_offer_id") String project_offer_id) {
+    @PostMapping("/add/{projectOfferId:[\\d]+}")
+    public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult, @PathVariable("projectOfferId") String projectOfferId) {
         ModifyRequestValidator validator = new ModifyRequestValidator();
         validator.validate(modifyRequest, bindingResult);
         if (bindingResult.hasErrors()) return "/modifyRequest/add";
         try {
-            modifyRequest.setProject_offer_id(Integer.parseInt(project_offer_id));
+            modifyRequest.setProjectOfferId(Integer.parseInt(projectOfferId));
             dao.add(modifyRequest);
         } catch (Exception e) {
             log.error(e.getMessage());

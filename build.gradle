@@ -32,31 +32,31 @@ repositories {
 
 dependencies {
     // Spring
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-jdbc'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     runtime 'org.springframework.boot:spring-boot-devtools'
 
     // Thymeleaf
-    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
 
     // Postgres
     runtime 'org.postgresql:postgresql'
 
     // Web Jars
-    compile 'org.webjars:jquery:3.3.1-1'
-    compile 'org.webjars:popper.js:1.14.1'
-    compile 'org.webjars:bootstrap:4.1.1'
-    compile 'org.webjars:font-awesome:5.1.0'
+    implementation 'org.webjars:jquery:3.3.1-1'
+    implementation 'org.webjars:popper.js:1.14.1'
+    implementation 'org.webjars:bootstrap:4.1.1'
+    implementation 'org.webjars:font-awesome:5.1.0'
 
     // Annotations
-    compile 'org.jetbrains:annotations:16.0.2'
-    compileOnly 'org.projectlombok:lombok:1.18.0'
-    annotationProcessor 'org.projectlombok:lombok:1.18.0'
+    implementation 'org.jetbrains:annotations:16.0.2'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Testing
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
