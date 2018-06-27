@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.validation.constraints.Null;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -79,6 +80,17 @@ public class AssignmentDao {
 
     public void delete(int projectOfferId, @NotNull String studentCode) {
         template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_code = ?", projectOfferId, studentCode);
+    }
+
+    public Optional<List<Assignment>> findPerStudent(String studentCode) {
+        @Nullable List<Assignment> value;
+        try {
+            value = template.query("SELECT * FROM assignment WHERE student_code = ?",
+                    new AssignmentMapper(), studentCode);
+        } catch (DataAccessException ignored) {
+            value = null;
+        }
+        return Optional.ofNullable(value);
     }
 
     private static final class AssignmentMapper implements RowMapper<Assignment> {

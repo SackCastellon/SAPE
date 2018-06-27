@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title>SAPE - Assignment</title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Assignment</h1>
+                <p class="lead">Assignment</p>
+            </div>
+        </div>
+
+        <!-- Tendriamos que dejar ver tambien que tutor tiene cada estudiante???? -->
+        <div class="container">
+            <!--/*@thymesVar id="assignment" type="es.uji.sape.model.Assignment"*/-->
+            <table class="table table-hover table-responsive" id="offer-table">
+                <thead class="thead-light">
+                <tr>
+                    <th class="col">Name</th>
+                    <th class="col">Objectives</th>
+                    <th class="col">Start Date</th>
+                    <th class="col">State</th>
+                    <th class="col">Tutor name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
+                    busque los detalles -->
+                <tr th:each="assignments : ${assignment}">
+                    <td class="align-middle" th:text="${assignment.name}"></td>
+                    <td class="align-middle" th:text="${assignment.objectives}"></td>
+                    <td class="align-middle" th:text="${assignment.startDate}"></td>
+                    <td class="align-middle" th:text="${assignment.state}"></td>
+                    <td class="align-middle" th:text="${assignment.tutorName}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

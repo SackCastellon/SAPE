@@ -21,6 +21,7 @@ import java.util.Optional;
 @SuppressWarnings("DesignForExtension")
 public class PreferenceDao {
 
+
     private JdbcTemplate template;
 
     @Autowired
@@ -77,7 +78,7 @@ public class PreferenceDao {
             @NotNull val preference = new Preference();
             preference.setPriority(rs.getInt("priority"));
             preference.setStudentCode(rs.getString("student_code"));
-            preference.setProjectOfferId(rs.getInt("projectOfferId"));
+            preference.setProjectOfferId(rs.getInt("project_offer_id"));
             return preference;
         }
     }

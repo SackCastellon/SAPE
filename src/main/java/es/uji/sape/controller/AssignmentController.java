@@ -4,9 +4,11 @@ import es.uji.sape.dao.AssignmentDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
+import es.uji.sape.security.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,8 @@ public class AssignmentController {
     }
 
     @GetMapping("/list")
-    public final @NotNull String list(@NotNull Model model) {
-        model.addAttribute("assignments", dao.findAll());
+    public final @NotNull String list(@NotNull Model model, Authentication auth) {
+        model.addAttribute("assignments", dao.findPerStudent(((UserInfo) auth.getPrincipal()).getUsername()));
         return "/assignment/list";
     }
 
