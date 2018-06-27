@@ -3,15 +3,14 @@
     <!--/*@thymesVar id="offer" type="es.uji.sape.model.ProjectOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
-        <title>SAPE - Offer detail</title>
+        <title>SAPE - Project offer details</title>
     </head>
     <body>
         <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Offer details</h1>
-                <p class="lead">Offer details</p>
+                <h1 class="display-4">Project offer details</h1>
             </div>
         </div>
         <div class="container">
@@ -39,16 +38,12 @@
                                 <th class="text-right" scope="row">State</th>
                                 <td th:text="${offer.state.toString()}"></td>
                             </tr>
-                            <tr>
-                                <th class="text-right" scope="row">ID</th>
-                                <td th:text="${offer.id}"></td>
-                            </tr>
                         </tbody>
                     </table>
 
                     <div class="d-flex justify-content-center">
                         <!-- Borrar oferta -->
-                        <div class="px-1">
+                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
                             <button type="button" class="btn btn-danger" th:onclick="'confirmDeleteOffer(&quot;'+${offer.id}+'&quot;)'"
                                     data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="fas fa-fw fa-trash-alt"></i>
@@ -67,10 +62,6 @@
                                     data-toggle="tooltip" data-placement="top" title="Modify">
                                 <i class="fas fa-fw fa-trash-alt"></i>
                             </button>
-                        </div>
-                        <!-- Aceptar oferta -->
-                        <div class="px-1">
-                            <button type="submit" class="btn btn-primary">Accept</button>
                         </div>
                     </div>
                 </div>
@@ -119,6 +110,8 @@
                 </div>
             </div>
         </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
 
         <!-- Scrip para poder borrar la oferta -->
         <script>

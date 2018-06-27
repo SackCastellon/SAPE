@@ -3,39 +3,41 @@
     <!--/*@thymesVar id="projectOffers" type="java.util.List<es.uji.sape.model.ProjectOffer>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
-        <title>SAPE - Offer List</title>
+        <title>SAPE - Project offers</title>
     </head>
     <body>
         <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Offer List</h1>
-                <p class="lead">List of all the offers</p>
+                <h1 class="display-4">Project offers</h1>
             </div>
         </div>
 
-        <!-- para que vaya el search tengo que poner el scrip???? -->
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-sm-6">
-                    <input class="form-control" id="search" type="text" placeholder="Filter offers..."/>
+                <div class="input-group col-sm-6">
+                    <input class="form-control" id="search" type="text" placeholder="Search..."/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="clear" type="button" style="display: none;"><i class="fas fa-eraser"></i></button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="search()"><i class="fas fa-fw fa-search"></i></button>
+                    </div>
                 </div>
             </div>
             <br/>
-            <table class="table table-hover table-responsive" id="offer-table">
+            <table class="table table-hover table-responsive-md" id="offer-table">
                 <thead class="thead-light">
                     <tr>
-                        <th class="col">ID</th>
-                        <th class="col">Itinerary</th>
-                        <th class="col">Technologies</th>
-                        <th class="col">Objectives</th>
-                        <th class="col">State</th>
+                        <th scope="col" class="align-middle">ID</th>
+                        <th scope="col" class="align-middle">Itinerary</th>
+                        <th scope="col" class="align-middle">Technologies</th>
+                        <th scope="col" class="align-middle">Objectives</th>
+                        <th scope="col" class="align-middle">State</th>
+                        <th scope="col" class="align-middle"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
-                        busque los detalles -->
+                    <!--TODO Hay que añadir en el controlador una funcion que pasandole el valor del id de la oferta en el boton busque los detalles-->
                     <tr th:each="projectOffer : ${projectOffers}">
                         <td class="align-middle" th:text="${projectOffer.id}"></td>
                         <td class="align-middle" th:text="${projectOffer.itinerary}"></td>
@@ -43,13 +45,12 @@
                         <td class="align-middle" th:text="${projectOffer.objectives}"></td>
                         <td class="align-middle" th:text="${projectOffer.state}"></td>
                         <td class="align-middle">
-                            <div class="d-flex justify-content-start">
+                            <div class="d-flex justify-content-center">
                                 <div class="px-1">
-                                    <form th:action="@{/projectOffers/details/{id}(id=${projectOffer.id})}" method="GET">
-                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Info">
-                                            <i class="fas fa-fw fa-plus"></i>
-                                        </button>
-                                    </form>
+                                    <a class="btn btn-info" th:href="@{/projectOffers/details/{id}(id=${projectOffer.id})}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="Info">
+                                        <i class="fas fa-fw fa-info-circle"></i>
+                                    </a>
                                 </div>
                             </div>
                         </td>
@@ -77,7 +78,7 @@
 
             function search() {
                 const value = $('#search').val().toLowerCase();
-                $("#students-table").find("tbody tr").filter(function () {
+                $("#offer-table").find("tbody tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
                 });
             }

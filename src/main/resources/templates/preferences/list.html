@@ -5,7 +5,7 @@
     <!--/*@thymesVar id="notAvailablePriorities" type="java.util.List<java.lang.Integer>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
-        <title>SAPE - Your preferences</title>
+        <title>SAPE - Preferences</title>
     </head>
     <body>
         <th:block th:replace="fragments/common :: navbar"/>
@@ -37,7 +37,7 @@
                         <td class="align-middle" th:text="${pref.priority}"></td>
                         <td class="align-middle" th:text="${pref.name}"></td>
                         <td class="align-middle">
-                            <div class="d-flex justify-content-start">
+                            <div class="d-flex justify-content-center">
                                 <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
                                     <button type="button" class="btn btn-primary disabled" data-toggle="tooltip" data-placement="top"
                                             th:title="#{preferences.info}">
