@@ -44,6 +44,12 @@ public class AssignmentController {
         return dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("id", id, "studentCode", studentCode)));
     }
 
+    @GetMapping("/accept/{id:[\\d]+}/{studentCode}")
+    public final @NotNull String getToChange(@NotNull Model model, @PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
+        model.addAttribute("assignment",dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("id", id, "studentCode", studentCode))));
+        return "/assignment/accept";
+    }
+
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model) {
         model.addAttribute("assignment", new Assignment());

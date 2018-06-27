@@ -18,31 +18,23 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
-                    <table class="table">
+                    <table class="table" th:object="${assignment}">
                         <tbody>
                             <tr>
-                                <th class="text-right" scope="row">ID</th>
-                                <td th:text="${offer.id}"></td>
+                                <th class="text-right" scope="row">Nombre</th>
+                                <td th:text="${assignment.name}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Itinerary</th>
-                                <td th:text="${offer.itinerary}"></td>
+                                <th class="text-right" scope="row">Objetives</th>
+                                <td th:text="${assignment.objectives}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Technologies</th>
-                                <td th:text="${offer.technologies}"></td>
+                                <th class="text-right" scope="row">Start Date</th>
+                                <td th:text="${assignment.startDate}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Objectives</th>
-                                <td th:text="${offer.objectives}"></td>
-                            </tr>
-                            <tr>
-                                <th class="text-right" scope="row">State</th>
-                                <td th:text="${offer.state.toString()}"></td>
-                            </tr>
-                            <tr>
-                                <th class="text-right" scope="row">ID</th>
-                                <td th:text="${offer.id}"></td>
+                                <th class="text-right" scope="row">Tutor Name</th>
+                                <td th:text="${assignment.tutorName}"></td>
                             </tr>
                         </tbody>
                     </table>

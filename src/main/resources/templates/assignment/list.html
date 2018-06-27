@@ -36,6 +36,17 @@
                     <td class="align-middle" th:text="${assignment.startDate}"></td>
                     <td class="align-middle" th:text="${assignment.state}"></td>
                     <td class="align-middle" th:text="${assignment.tutorName}"></td>
+                    <td class="align-middle">
+                        <div class="d-flex justify-content-start">
+                            <div class="px-1">
+                                <form th:action="@{/assignment/accept/{id}/{studentcode}(id=${assignment.projectOfferId},studentcode=${assignment.studentCode})}" method="GET">
+                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Info">
+                                        <i class="fas fa-fw fa-plus"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
