@@ -33,7 +33,13 @@
                         </div>
                         <div class="form-group">
                             <label for="itinerary">Itinerary</label>
-                            <input type="text" class="form-control" id="itinerary" required th:field="*{itinerary}"/>
+                            <select class="form-control" id="itinerary" name="itinerary">
+                                <option th:each="itinerary : ${T(es.uji.sape.model.Itinerary).values()}"
+                                        th:value="${itinerary.name()}"
+                                        th:text="${itinerary.toString()}"
+                                        th:selected="${itinerary == offer.itinerary}">
+                                </option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="state">State</label>
