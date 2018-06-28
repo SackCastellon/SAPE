@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="offer" type="es.uji.sape.model.InternshipOffer"*/-->
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.ProjectOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Update Offer</title>
@@ -18,27 +18,36 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
-                    <!--TODO Que se edita Internship o Project Offer??-->
-                    <form action="#" th:action="@{/offers/update/{id}(code=${offer.id})}" th:object="${offer}" method="post">
+                    <form action="#" th:action="@{/projectOffers/update/{id}(id=${offer.id})}" th:object="${offer}" method="post">
                         <div class="form-group">
                             <label for="id">ID</label>
                             <input type="text" class="form-control" id="id" readonly th:value="*{id}"/>
                         </div>
                         <div class="form-group">
-                            <label for="degree">Degree</label>
-                            <input type="text" class="form-control" id="degree" maxlength="40" required th:field="*{degree}"/>
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" maxlength="40" required th:field="*{name}"/>
                         </div>
                         <div class="form-group">
-                            <label for="tasks">Tasks</label>
-                            <input type="text" class="form-control" id="tasks" required th:field="*{getDescription}"/>
+                            <label for="objectives">Objectives</label>
+                            <input type="text" class="form-control" id="objectives" required th:field="*{objectives}"/>
                         </div>
                         <div class="form-group">
-                            <label for="startDate">Start date</label>
-                            <input type="date" class="form-control" id="startDate" required th:field="*{startDate}"/>
+                            <label for="technologies">Technologies</label>
+                            <input type="text" class="form-control" id="technologies" required th:field="*{technologies}"/>
                         </div>
                         <div class="form-group">
-                            <label for="contactUsername">Contact</label>
-                            <input type="text" class="form-control" id="contactUsername" required th:field="*{contactUsername}"/>
+                            <label for="itinerary">Itinerary</label>
+                            <input type="text" class="form-control" id="itinerary" required th:field="*{itinerary}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <select class="form-control" id="state" name="state">
+                                <option th:each="state : ${T(es.uji.sape.model.OfferState).values()}"
+                                        th:value="${state.name()}"
+                                        th:text="${state.toString()}"
+                                        th:selected="${state == offer.state}">
+                                </option>
+                            </select>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="p-2">
@@ -47,7 +56,7 @@
                             <div class="p-1">
                                 <div class="d-flex flex-row">
                                     <div class="p-1">
-                                        <a class="btn btn-secondary" href="/offers" role="button">Cancel</a></div>
+                                        <a class="btn btn-secondary" href="/projectOffers/list" role="button">Cancel</a></div>
                                     <!-- el submit va o chusca???? -->
                                     <div class="p-1">
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -57,7 +66,7 @@
                         </div>
                     </form>
                 </div>
-                <a class="btn btn-primary" href="/list" role="button">Return</a>
+                <a class="btn btn-primary" href="/projectOffers/list" role="button">Return</a>
             </div>
         </div>
 

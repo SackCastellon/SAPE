@@ -31,13 +31,13 @@ public class BusinessController {
         this.dao = dao;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("businesses", dao.findAll());
         return "/business/list";
     }
 
-    @GetMapping("/{cif}")
+    @GetMapping("list/{cif}")
     public final @NotNull Business get(@PathVariable("cif") @NotNull String cif) {
         return dao.find(cif).orElseThrow(() -> new ResourceNotFoundException("Business", Map.of("cif", cif)));
     }

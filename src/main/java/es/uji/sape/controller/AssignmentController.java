@@ -39,6 +39,12 @@ public class AssignmentController {
         return "/assignment/list";
     }
 
+    @GetMapping("/listAll")
+    public final @NotNull String listAll(@NotNull Model model) {
+        model.addAttribute("assignments", dao.findAll());
+        return "/assignment/list";
+    }
+
     @GetMapping("/{id:[\\d]+}/{studentCode}")
     public final @NotNull Assignment get(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
         return dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("id", id, "studentCode", studentCode)));
