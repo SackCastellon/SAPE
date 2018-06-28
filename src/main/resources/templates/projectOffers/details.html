@@ -50,17 +50,18 @@
                             </button>
                         </div>
                         <!-- Update oferta empresa-->
-                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
-                            <a class="btn btn-warning" th:href="@{/projectOffer/update/{id}(id=${offer.id})}" role="button"
+                        <div class="px-1"
+                             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT || #authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
+                            <a class="btn btn-warning" th:href="@{/projectOffers/update/{id}(id=${offer.id})}" role="button"
                                data-toggle="tooltip" data-placement="top" title="Edit">
                                 <i class="fas fa-fw fa-edit"></i>
                             </a>
                         </div>
-                        <!-- Update oferta CEYTFG-->
-                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
-                            <button type="button" class="btn btn-danger" th:onclick="'confirmModifyOffer(&quot;'+${offer.id}+'&quot;)'"
-                                    data-toggle="tooltip" data-placement="top" title="Modify">
-                                <i class="fas fa-fw fa-trash-alt"></i>
+                        <!-- Update oferta BTC-->
+                        <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
+                            <button type="button" class="btn btn-danger" th:onclick="'confirmReviewOffer(&quot;'+${offer.id}+'&quot;)'"
+                                    data-toggle="tooltip" data-placement="top" title="Ask to review">
+                                <i class="fas fa-fw fa-exclamation-circle"></i>
                             </button>
                         </div>
                     </div>
@@ -83,30 +84,37 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Keep</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteOffer()">Delete</button>
+                        <form th:action="@{/projectOffers/delete}" th:object="${offer}" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Update oferta CEYTFG-->
-        <div class="modal fade" id="confirmModify" tabindex="-1" role="dialog" aria-labelledby="confirmModifyTitle" aria-hidden="true">
+        <!-- Update oferta BTC-->
+        <div class="modal fade" id="confirmReview" tabindex="-1" role="dialog" aria-labelledby="confirmReviewTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="confirmModifyTitle">Modify confirmation</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="fas fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="confirmModifyBody">
-                        What does the business need to change?
-                        <textarea></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="modifyOffer()">Send</button>
-                    </div>
+                    <!-- TODO Modify request URL-->
+                    <form> <!--th:action="@{/modifyRequest}" th:object="${??}" method="POST"-->
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="confirmReviewTitle">Modify confirmation</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="reviewMessage">What does the business need to change?</label>
+                                <textarea class="form-control" id="reviewMessage" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -127,35 +135,10 @@
                 $('#confirmDeletion').modal('show')
             }
 
-            function deleteOffer() {
-                if (offerId !== "") {
-                    window.location.assign(`/projectOffers/delete/${offerId}`);
-                } else {
-                    $('#confirmDeletion').modal('hide');
-                }
-            }
-        </script>
-
-        <!-- Scrip para poder modificar la oferta -->
-        <script>
-            let offerId = "";
-
-            $('#confirmModify').on('show.bs.modal', function () {
-                $('#confirmModifyBody').html(`Are you sure you want to modify the offer with code <b>${offerId}</b>?`)
-            });
-
             // noinspection JSUnusedLocalSymbols
-            function confirmModifyOffer(name) {
+            function confirmReviewOffer(name) {
                 offerId = name;
-                $('#confirmModify').modal('show')
-            }
-
-            function modifyOffer() {
-                if (offerId !== "") {
-                    window.location.assign(`/modifyRequest/add/${offerId}`);
-                } else {
-                    $('#confirmModify').modal('hide');
-                }
+                $('#confirmReview').modal('show')
             }
         </script>
     </body>

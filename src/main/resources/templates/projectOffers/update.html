@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <!--/*@thymesVar id="projectOffers" type="es.uji.sape.model.InternshipOffer"*/-->
+    <!--/*@thymesVar id="offer" type="es.uji.sape.model.InternshipOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Update Offer</title>
@@ -18,6 +18,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
+                    <!--TODO Que se edita Internship o Project Offer??-->
                     <form action="#" th:action="@{/offers/update/{id}(code=${offer.id})}" th:object="${offer}" method="post">
                         <div class="form-group">
                             <label for="id">ID</label>

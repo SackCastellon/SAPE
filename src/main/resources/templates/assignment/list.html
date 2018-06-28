@@ -19,35 +19,36 @@
             <!--/*@thymesVar id="assignment" type="es.uji.sape.model.Assignment"*/-->
             <table class="table table-hover table-responsive" id="offer-table">
                 <thead class="thead-light">
-                <tr>
-                    <th class="col">Name</th>
-                    <th class="col">Objectives</th>
-                    <th class="col">Start Date</th>
-                    <th class="col">State</th>
-                    <th class="col">Tutor name</th>
-                </tr>
+                    <tr>
+                        <th class="col">Name</th>
+                        <th class="col">Objectives</th>
+                        <th class="col">Start Date</th>
+                        <th class="col">State</th>
+                        <th class="col">Tutor name</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
-                    busque los detalles -->
-                <tr th:each="assignments : ${assignment}">
-                    <td class="align-middle" th:text="${assignment.name}"></td>
-                    <td class="align-middle" th:text="${assignment.objectives}"></td>
-                    <td class="align-middle" th:text="${assignment.startDate}"></td>
-                    <td class="align-middle" th:text="${assignment.state}"></td>
-                    <td class="align-middle" th:text="${assignment.tutorName}"></td>
-                    <td class="align-middle">
-                        <div class="d-flex justify-content-start">
-                            <div class="px-1">
-                                <form th:action="@{/assignment/accept/{id}/{studentcode}(id=${assignment.projectOfferId},studentcode=${assignment.studentCode})}" method="GET">
-                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Info">
-                                        <i class="fas fa-fw fa-plus"></i>
-                                    </button>
-                                </form>
+                    <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
+                        busque los detalles -->
+                    <tr th:each="assignments : ${assignment}">
+                        <td class="align-middle" th:text="${assignment.name}"></td>
+                        <td class="align-middle" th:text="${assignment.objectives}"></td>
+                        <td class="align-middle" th:text="${assignment.startDate}"></td>
+                        <td class="align-middle" th:text="${assignment.state}"></td>
+                        <td class="align-middle" th:text="${assignment.tutorName}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-start">
+                                <div class="px-1">
+                                    <form th:action="@{/assignment/accept/{id}/{studentcode}(id=${assignment.projectOfferId},studentcode=${assignment.studentCode})}"
+                                          method="GET">
+                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Info">
+                                            <i class="fas fa-fw fa-plus"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

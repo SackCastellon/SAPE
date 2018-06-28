@@ -10,10 +10,10 @@ import java.io.ObjectOutputStream;
 
 public enum Role implements GrantedAuthority {
     STUDENT("role.student"),
-    CEYTFG("role.ceytfg"),
-    DCC("role.dcc"),
-    TUTOR("role.tutor"),
-    CONTACT("role.contact");
+    BTC("role.btc"),
+    CCD("role.ccd"),
+    CONTACT("role.contact"),
+    TUTOR("role.tutor");
 
     @Getter
     private final @NotNull String key;

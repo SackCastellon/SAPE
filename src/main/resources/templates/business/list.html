@@ -3,15 +3,14 @@
     <!--/*@thymesVar id="businesses" type="java.util.List<es.uji.sape.model.Business>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
-        <title>SAPE - Business List</title>
+        <title>SAPE - Business list</title>
     </head>
     <body>
         <th:block th:replace="fragments/common :: navbar"/>
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Business List</h1>
-                <p class="lead">List of all the business</p>
+                <h1 class="display-4">Business list</h1>
             </div>
         </div>
 
@@ -25,7 +24,6 @@
                     </div>
                 </div>
             </div>
-            <br/>
             <br>
             <table class="table table-hover" id="business-table">
                 <thead class="thead-light">
@@ -66,7 +64,7 @@
 
             function search() {
                 const value = $('#search').val().toLowerCase();
-                $("#business-list").find("tbody tr").filter(function () {
+                $("#business-table").find("tbody tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value.toLowerCase()) > -1);
                 });
             }

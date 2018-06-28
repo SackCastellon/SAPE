@@ -19,7 +19,7 @@ public final class UserInfo implements UserDetails {
     private static final long serialVersionUID = 6080316272288741795L;
 
     @Getter
-    private final @NotNull User user;
+    private final transient @NotNull User user;
 
     public UserInfo(@NotNull User user) {
         this.user = user;

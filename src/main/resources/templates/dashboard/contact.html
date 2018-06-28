@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <th:block th:replace="fragments/common :: head"/>
+        <title th:text="#{dashboard.title}"></title>
+    </head>
+    <body>
+        <th:block th:replace="fragments/common :: navbar"/>
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4" th:text="#{dashboard.contact}"></h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-sm-6 col-lg-4 py-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Offers</h5>
+                        <p class="card-text">Some info...</p>
+                        <a href="/projectOffers" class="btn btn-primary">View offers</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragments/common :: footer"/>
+    </body>
+</html>

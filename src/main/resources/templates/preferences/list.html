@@ -16,7 +16,7 @@
                 <p class="lead"
                    th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">Your internship preferences</p>
                 <p class="lead"
-                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}"
+                   th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}"
                    th:text="'The internship preferences of student '+${studentCode}"></p>
             </div>
         </div>
@@ -51,7 +51,7 @@
                                     </button>
                                 </div>
                                 <div class="px-1"
-                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
                                     <button type="button" class="btn btn-primary"
                                             th:onclick="'confirmAssignPreference(&quot;'+${pref.priority}+'&quot;,&quot;'+${studentCode}+'&quot;)'"
                                             th:classappend="${notAvailablePriorities.contains(pref.priority)} ? 'disabled'"
@@ -73,7 +73,7 @@
                     <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.add}"></a>
                 </div>
                 <div class="px-1"
-                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
                     <a class="btn btn-primary" href="/preferences/add" role="button" th:text="#{preferences.selectAlternative}"></a>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         </div>
 
         <div class="modal fade" id="confirmAssignment" tabindex="-1" role="dialog" aria-labelledby="confirmAssignmentTitle" aria-hidden="true"
-             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+             th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -145,7 +145,7 @@
             }
         </script>
 
-        <script th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEYTFG}">
+        <script th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
             let preferenceId = -1;
             let studentCode = "";
 

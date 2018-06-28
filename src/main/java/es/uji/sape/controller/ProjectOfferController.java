@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +29,7 @@ public class ProjectOfferController {
         this.dao = dao;
     }
 
-    @GetMapping("/projectOffers/list")
+    @GetMapping({"/projectOffers/list", "/projectOffers"})
     public final @NotNull String list(@NotNull Model model) {
         model.addAttribute("projectOffers", dao.findAll());
         return "/projectOffers/list";
@@ -73,11 +72,11 @@ public class ProjectOfferController {
 
     @GetMapping("/projectOffers/update/{id:[\\d]+}")
     public final @NotNull String update(@NotNull Model model, @PathVariable("id") int id) {
-        model.addAttribute("projectOffer", dao.find(id));
+        model.addAttribute("offer", dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id))));
         return "/projectOffers/update";
     }
 
-    @PostMapping("/projectOffers/update}")
+    @PostMapping("/projectOffers/update")
     public final @NotNull String processUpdateSubmit(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "/projectOffers/update";
@@ -89,9 +88,9 @@ public class ProjectOfferController {
         return "redirect:/projectOffers/list";
     }
 
-    @DeleteMapping("/projectOffers/delete/{id:[\\d]+}")
-    public final @NotNull String processDelete(@PathVariable("id") int id) {
-        dao.delete(id);
+    @PostMapping("/projectOffers/delete")
+    public final @NotNull String processDelete(@ModelAttribute("projectOffer") @NotNull ProjectOffer projectOffer) {
+        dao.delete(projectOffer.getId());
         return "redirect:/projectOffers/list";
     }
 
