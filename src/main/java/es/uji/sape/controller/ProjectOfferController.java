@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,14 +52,8 @@ public class ProjectOfferController {
             val projectIds = internshipDao.findAll().stream().filter(it -> it.getContactUsername().equals(userInfo.getUsername())).map(InternshipOffer::getId).collect(Collectors.toSet());
             offers = offers.stream().filter(it -> projectIds.contains(it.getId())).collect(Collectors.toList());
         }
-        model.addAttribute("projectOffers", offers);
+        model.addAttribute("projectOffers", offers.stream().sorted(Comparator.comparingInt(ProjectOffer::getId)).collect(Collectors.toList()));
         return "/projectOffers/list";
-    }
-
-    @GetMapping("/projectOffers/businessList")
-    public final @NotNull String businessList(@NotNull Model model, Authentication auth) {
-        model.addAttribute("projectOffers", dao.findPerBussiness(((UserInfo) auth.getPrincipal()).getUsername()));
-        return "/projectOffers/businessList";
     }
 
     @GetMapping("/projectOffers/{id:[\\d]+}")

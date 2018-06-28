@@ -98,14 +98,15 @@ public class AssignmentDao {
         public @NotNull Assignment mapRow(@NotNull ResultSet rs, int rowNum) throws SQLException {
             @Nullable val acceptanceDate = rs.getDate("acceptance_date");
             @Nullable val rejectionDate = rs.getDate("rejection_date");
+            @Nullable val igluTransferDate = rs.getDate("iglu_transfer_date");
             @NotNull val assignment = new Assignment();
-            assignment.setProjectOfferId(rs.getInt("projectOfferId"));
+            assignment.setProjectOfferId(rs.getInt("project_offer_id"));
             assignment.setStudentCode(rs.getString("student_code"));
             assignment.setTutorCode(rs.getString("tutor_code"));
             assignment.setProposalDate(rs.getDate("proposal_date").toLocalDate());
             assignment.setAcceptanceDate((acceptanceDate == null) ? null : acceptanceDate.toLocalDate());
             assignment.setRejectionDate((rejectionDate == null) ? null : rejectionDate.toLocalDate());
-            assignment.setIgluTransferDate(rs.getDate("iglu_transfer_date").toLocalDate());
+            assignment.setIgluTransferDate((igluTransferDate == null) ? null : igluTransferDate.toLocalDate());
             assignment.setState(AssignmentState.values()[rs.getInt("state")]);
             return assignment;
         }

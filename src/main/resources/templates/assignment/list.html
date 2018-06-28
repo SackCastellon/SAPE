@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!--/*@thymesVar id="assignments" type="java.util.List<es.uji.sape.model.Assignment>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Assignment</title>
@@ -16,26 +17,26 @@
 
         <!-- Tendriamos que dejar ver tambien que tutor tiene cada estudiante???? -->
         <div class="container">
-            <!--/*@thymesVar id="assignment" type="es.uji.sape.model.Assignment"*/-->
             <table class="table table-hover table-responsive-md" id="offer-table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="align-middle">Name</th>
-                        <th scope="col" class="align-middle">Objectives</th>
-                        <th scope="col" class="align-middle">Start Date</th>
+                        <th scope="col" class="align-middle">Project Offer Id</th>
+                        <th scope="col" class="align-middle">Tutor Code</th>
+                        <th scope="col" class="align-middle">Student Code</th>
+                        <th scope="col" class="align-middle">Proposal Date</th>
                         <th scope="col" class="align-middle">State</th>
-                        <th scope="col" class="align-middle">Tutor name</th>
+                        <th scope="col" class="align-middle"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--Hay que a�adir en el controlador una funcion que pasandole el valor del id de la oferta en el boton
                         busque los detalles -->
-                    <tr th:each="assignments : ${assignment}">
-                        <td class="align-middle" th:text="${assignment.name}"></td>
-                        <td class="align-middle" th:text="${assignment.objectives}"></td>
-                        <td class="align-middle" th:text="${assignment.startDate}"></td>
+                    <tr th:each="assignment : ${assignments}">
+                        <td class="align-middle" th:text="${assignment.projectOfferId}"></td>
+                        <td class="align-middle" th:text="${assignment.studentCode}"></td>
+                        <td class="align-middle" th:text="${assignment.tutorCode}"></td>
+                        <td class="align-middle" th:text="${assignment.proposalDate}"></td>
                         <td class="align-middle" th:text="${assignment.state}"></td>
-                        <td class="align-middle" th:text="${assignment.tutorName}"></td>
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
                                 <div class="px-1">
