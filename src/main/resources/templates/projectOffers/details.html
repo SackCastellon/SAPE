@@ -119,18 +119,14 @@
             </div>
         </div>
 		
-		<!-- Return empresa -->
-		<div class="container" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
-          	<a class="btn btn-secondary" href="businessList" role="button">Return offer list</a>
-        </div>
-        
-        <!-- Return CCG y CEITFG -->
-		<div class="container" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CCG}">
-          	<a class="btn btn-secondary" href="list" role="button">Return offer list</a>
-        </div>
-        <div class="container" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CEITFG}">
-          	<a class="btn btn-secondary" href="list" role="button">Return offer list</a>
-        </div>
+		<!-- Return -->
+		<button onclick="goBack()">Go Back</button>
+
+		<script>
+			function goBack() {
+   	 		window.history.back();
+			}
+		</script>
 
         <th:block th:replace="fragments/common :: footer"/>
 
