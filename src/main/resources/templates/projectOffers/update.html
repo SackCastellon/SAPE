@@ -33,15 +33,19 @@
                         </div>
                         <div class="form-group">
                             <label for="technologies">Technologies</label>
-                            <input type="text" class="form-control" id="technologies" required th:field="*{technologies}"/>
+                            <input type="text" class="form-control" id="technologies" th:field="*{technologies}"/>
                         </div>
                         <div class="form-group">
                             <label for="itinerary">Itinerary</label>
                             <input type="text" class="form-control" id="itinerary" required th:field="*{itinerary}"/>
                         </div>
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <select class="form-control" id="state" name="state">
+                        <div class="form-group" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
+                            <label for="state1">State</label>
+                            <input type="text" class="form-control" id="state1" readonly th:value="*{state}"/>
+                        </div>
+                        <div class="form-group" th:unless="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
+                            <label for="state2">State</label>
+                            <select class="form-control" id="state2" name="state">
                                 <option th:each="state : ${T(es.uji.sape.model.OfferState).values()}"
                                         th:value="${state.name()}"
                                         th:text="${state.toString()}"
@@ -67,13 +71,13 @@
                     </form>
                 </div>
                 <!-- Return -->
-				<button type="button" class="btn btn-secondary" onclick="goBack()">Go Back</button>
+                <button type="button" class="btn btn-secondary" onclick="goBack()">Go Back</button>
 
-				<script>
-					function goBack() {
-   	 				window.history.back();
-					}
-				</script>
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
             </div>
         </div>
 

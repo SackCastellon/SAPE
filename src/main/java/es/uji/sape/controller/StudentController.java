@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -38,13 +36,9 @@ public class StudentController {
 
     @GetMapping({"/", "/list"})
     public final @NotNull String list(@NotNull Model model) {
-        Set<String> assignableStudents = new HashSet<>(dao.findAllWithFivePrefsOrMore());
-        model.addAttribute("canAssign", assignableStudents);
-
         List<Student> studentList = dao.findAll().stream()
                 .sorted(Comparator
-                        .<Student, Boolean>comparing(t -> assignableStudents.contains(t.getCode()))
-                        .thenComparing(Student::getAverageScore).reversed()
+                        .comparing(Student::getAverageScore).reversed()
                         .thenComparing(Student::getCode))
                 .collect(Collectors.toList());
         model.addAttribute("students", studentList);

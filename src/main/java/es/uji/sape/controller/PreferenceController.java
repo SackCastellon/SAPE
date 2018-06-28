@@ -9,7 +9,9 @@ import es.uji.sape.dao.TutorDao;
 import es.uji.sape.exceptions.HttpUnauthorizedException;
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
+import es.uji.sape.model.OfferState;
 import es.uji.sape.model.Preference;
+import es.uji.sape.model.ProjectOffer;
 import es.uji.sape.model.Role;
 import es.uji.sape.model.Tutor;
 import es.uji.sape.security.UserInfo;
@@ -96,7 +98,10 @@ public class PreferenceController {
         List<Preference> preferences = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
         Set<Integer> ids = preferences.stream().map(Preference::getProjectOfferId).collect(Collectors.toSet());
 
+        final List<Integer> projectIds = projectDao.findAll().stream().filter(it -> it.getState() == OfferState.ACCEPTED).map(ProjectOffer::getId).collect(Collectors.toList());
+
         model.addAttribute("internshipOffers", offerDao.findAll().stream()
+                .filter(it -> projectIds.contains(it.getId()))
                 .filter(it -> !ids.contains(it.getId()))
                 .peek(offer -> {
                     String businessName = businessDao.getName(offer.getContactUsername());

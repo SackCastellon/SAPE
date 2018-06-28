@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="students" type="java.util.List<es.uji.sape.model.Student>"*/-->
-    <!--/*@thymesVar id="canAssign" type="java.util.List<java.lang.String>"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Students List</title>
@@ -52,9 +51,9 @@
                         <td class="align-middle" th:text="${student.internshipStartSemester.label}"></td>
                         <td class="align-middle">
                             <div class="d-flex justify-content-start">
-                                <div class="px-1" th:if="${canAssign.contains(student.code)}">
-                                    <a class="btn btn-warning" th:href="@{/preferences/{code}(code=${student.code})}"
-                                       role="button" data-toggle="tooltip" data-placement="top" title="Assign offer">
+                                <div class="px-1">
+                                    <a class="btn btn-info" th:href="@{/preferences/{code}(code=${student.code})}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="View preferences">
                                         <i class="fas fa-fw fa-list-ol"></i>
                                     </a>
                                 </div>

@@ -51,7 +51,7 @@
                                     </button>
                                 </div>
                                 <div class="px-1"
-                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).BTC}">
+                                     th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CCD}">
                                     <button type="button" class="btn btn-primary"
                                             th:onclick="'confirmAssignPreference(&quot;'+${pref.priority}+'&quot;,&quot;'+${studentCode}+'&quot;)'"
                                             th:classappend="${notAvailablePriorities.contains(pref.priority)} ? 'disabled'"
