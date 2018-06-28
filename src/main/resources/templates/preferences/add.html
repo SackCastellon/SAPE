@@ -62,10 +62,10 @@
                                     </form>
                                 </div>
                                 <div class="px-1">
-                                    <button type="button" class="btn btn-info" href="details" role="button" value="{internshipOffer.id}"
-                                            data-toggle="tooltip" data-placement="top" title="More info...">
+                                    <a class="btn btn-info" th:href="@{/projectOffers/details/{id}(id=${internshipOffer.id})}"
+                                       role="button" data-toggle="tooltip" data-placement="top" title="Info">
                                         <i class="fas fa-fw fa-info-circle"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </td>
