@@ -81,15 +81,12 @@ public class AssignmentDao {
         template.update("DELETE FROM assignment WHERE project_offer_id = ? AND student_code = ?", projectOfferId, studentCode);
     }
 
-    public Optional<List<Assignment>> findPerStudent(String studentCode) {
-        @Nullable List<Assignment> value;
+    public List<Assignment> findPerStudent(String studentCode) {
         try {
-            value = template.query("SELECT * FROM assignment WHERE student_code = ?",
-                    new AssignmentMapper(), studentCode);
+            return template.query("SELECT * FROM assignment WHERE student_code = ?", new AssignmentMapper(), studentCode);
         } catch (DataAccessException ignored) {
-            value = null;
+            return List.of();
         }
-        return Optional.ofNullable(value);
     }
 
     private static final class AssignmentMapper implements RowMapper<Assignment> {
