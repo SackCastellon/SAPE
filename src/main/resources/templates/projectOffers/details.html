@@ -40,7 +40,9 @@
                             </tr>
                         </tbody>
                     </table>
-
+					
+		
+		
                     <div class="d-flex justify-content-center">
                         <!-- Borrar oferta -->
                         <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
@@ -70,6 +72,7 @@
         </div>
 
         <!-- Borrar oferta -->
+
         <div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -91,7 +94,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Update oferta BTC-->
         <div class="modal fade" id="confirmReview" tabindex="-1" role="dialog" aria-labelledby="confirmReviewTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -120,6 +123,7 @@
         </div>
 
         <!-- Return -->
+        <br>
         <div class="row justify-content-center">
             <button type="button" class="btn btn-secondary" onclick="goBack()">Go Back</button>
         </div>
