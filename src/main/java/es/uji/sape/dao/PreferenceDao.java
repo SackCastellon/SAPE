@@ -2,6 +2,7 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Preference;
 import lombok.val;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @SuppressWarnings("DesignForExtension")
 public class PreferenceDao {
 
-
+    @NonNls
     private JdbcTemplate template;
 
     @Autowired
@@ -36,7 +37,6 @@ public class PreferenceDao {
     public @NotNull List<Preference> findStudentPreferences(@NotNull String code) {
         return template.query("SELECT * FROM preference WHERE student_code = ?", new PreferenceMapper(), code);
     }
-
 
     public @NotNull Optional<Preference> find(int projectOfferId, @NotNull String code) {
         @Nullable Preference value;

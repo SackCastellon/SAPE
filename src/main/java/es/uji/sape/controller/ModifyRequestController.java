@@ -32,7 +32,7 @@ public class ModifyRequestController {
 
     @GetMapping("/requestList/{projectOfferId:[\\d]+}")
     public final @NotNull String list(@NotNull Model model, @PathVariable("projectOfferId") int projectOfferId) {
-        model.addAttribute("internshipOffers", dao.findPerBussiness(projectOfferId));
+        model.addAttribute("internshipOffers", dao.findPerBusiness(projectOfferId));
         return "/requestList/{projectOfferId:[\\d]+}";
     }
 

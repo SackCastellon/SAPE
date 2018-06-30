@@ -3,6 +3,7 @@ package es.uji.sape.dao;
 import es.uji.sape.model.InternshipOffer;
 import es.uji.sape.model.Month;
 import lombok.val;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @SuppressWarnings("DesignForExtension")
 public class InternshipOfferDao {
 
+    @NonNls
     private JdbcTemplate template;
 
     @Autowired

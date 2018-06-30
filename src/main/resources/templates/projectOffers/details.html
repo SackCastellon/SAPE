@@ -41,7 +41,6 @@
                         </tbody>
                     </table>
 
-
                     <div class="d-flex justify-content-center">
                         <!-- Borrar oferta -->
                         <div class="px-1" th:if="${#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT}">
@@ -86,7 +85,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Keep</button>
-                        <form th:action="@{/projectOffers/delete}" th:object="${offer}" method="POST">
+                        <form th:action="@{/projectOffers/delete/{id}(id=${offer.id})}" method="POST">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
@@ -98,7 +97,7 @@
         <div class="modal fade" id="confirmReview" tabindex="-1" role="dialog" aria-labelledby="confirmReviewTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <!-- TODO Modify request URL-->
+                    <!-- FIXME Action URL-->
                     <form> <!--th:action="@{/modifyRequest}" th:object="${??}" method="POST"-->
                         <div class="modal-header">
                             <h3 class="modal-title" id="confirmReviewTitle">Modify confirmation</h3>
@@ -129,7 +128,6 @@
 
         <th:block th:replace="fragments/common :: footer"/>
 
-        <!-- Scrip para poder borrar la oferta -->
         <script>
             function goBack() {
                 window.history.back();

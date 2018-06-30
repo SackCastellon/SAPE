@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <!--/*@thymesVar id="assignment" type="es.uji.sape.model.Assignment"*/-->
-    <!--/*@thymesVar id="offer" type="es.uji.sape.model.ProjectOffer"*/-->
     <head>
         <th:block th:replace="fragments/common :: head"/>
         <title>SAPE - Assignment</title>
@@ -12,7 +11,6 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">Assignment</h1>
-                <p class="lead">Assignment</p>
             </div>
         </div>
         <div class="container">
@@ -39,12 +37,12 @@
                         </tbody>
                     </table>
 
-                    <div class="d-flex justify-content-center">
-                        <!-- Rechazar el asignment -->
+                    <div class="d-flex justify-content-center" th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
+                        <!-- Rechazar el assignment -->
                         <div class="px-1">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRejection">Reject</button>
                         </div>
-                        <!-- Aceptar el asignment -->
+                        <!-- Aceptar el assignment -->
                         <div class="px-1">
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmAcceptance">Accept</button>
                         </div>
@@ -53,7 +51,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="confirmRejectionTitle" aria-hidden="true">
+        <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="confirmRejectionTitle" aria-hidden="true"
+             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -67,7 +66,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <form th:action="@{/assignment/reject}" th:object="${assignment}" method="POST">
+                        <form th:action="@{/assignment/reject/{offerId}/{studentCode}(offerId=${assignment.projectOfferId},studentCode=${assignment.studentCode})}"
+                              method="POST">
                             <button type="button" class="btn btn-danger">Reject</button>
                         </form>
                     </div>
@@ -75,7 +75,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="confirmAcceptance" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptanceTitle" aria-hidden="true">
+        <div class="modal fade" id="confirmAcceptance" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptanceTitle" aria-hidden="true"
+             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +90,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <form th:action="@{/assignment/accept}" th:object="${assignment}" method="POST">
+                        <form th:action="@{/assignment/details/{offerId}/{studentCode}(offerId=${assignment.projectOfferId},studentCode=${assignment.studentCode})}"
+                              method="POST">
                             <button type="submit" class="btn btn-success">Accept</button>
                         </form>
                     </div>

@@ -17,22 +17,22 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
-                    <form action="#" th:action="@{/business/update/{cif}(cif=${business.cif})}" th:object="${business}" method="post">
+                    <form action="#" th:action="@{/business/update/{cif}(cif=${business.cif})}" th:object="${business}" method="POST">
                         <div class="form-group">
                             <label for="cif">CIF</label>
-                            <input type="text" class="form-control" id="cif" readonly th:value="*{cif}"/>
+                            <input type="text" class="form-control" id="cif" readonly th:field="*{cif}"/>
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" readonly th:value="*{name}"/>
+                            <input type="text" class="form-control" id="name" readonly th:field="*{name}"/>
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" readonly th:value="*{address}"/>
+                            <input type="text" class="form-control" id="address" readonly th:field="*{address}"/>
                         </div>
                         <div class="form-group">
                             <label for="telephone">Telephone</label>
-                            <input type="text" class="form-control" id="telephone" readonly th:value="*{telephone}"/>
+                            <input type="text" class="form-control" id="telephone" readonly th:field="*{telephone}"/>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="p-2">
@@ -42,7 +42,7 @@
                                 <div class="d-flex flex-row">
                                     <div class="p-1">
                                         <a class="btn btn-secondary" href="list" role="button">Cancel</a></div>
-                                    <!-- el submit va o chusca??? -->
+                                    <!-- TODO el submit va o chusca??? -->
                                     <div class="p-1">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>

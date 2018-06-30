@@ -1,10 +1,14 @@
 package es.uji.sape.controller;
 
 import es.uji.sape.dao.AssignmentDao;
+import es.uji.sape.dao.InternshipOfferDao;
+import es.uji.sape.dao.ProjectOfferDao;
+import es.uji.sape.dao.TutorDao;
 import es.uji.sape.exceptions.ResourceNotFoundException;
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,10 +31,16 @@ import java.util.Map;
 public class AssignmentController {
 
     private final @NotNull AssignmentDao dao;
+    private final @NotNull ProjectOfferDao offerDao;
+    private final @NotNull InternshipOfferDao internshipDao;
+    private final @NotNull TutorDao tutorDao;
 
     @Autowired
-    public AssignmentController(@NotNull AssignmentDao dao) {
+    public AssignmentController(@NotNull AssignmentDao dao, @NotNull ProjectOfferDao offerDao, @NotNull InternshipOfferDao internshipDao, @NotNull TutorDao tutorDao) {
         this.dao = dao;
+        this.offerDao = offerDao;
+        this.internshipDao = internshipDao;
+        this.tutorDao = tutorDao;
     }
 
     @GetMapping("/list")
@@ -48,12 +58,6 @@ public class AssignmentController {
     @GetMapping("/{id:[\\d]+}/{studentCode}")
     public final @NotNull Assignment get(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
         return dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("id", id, "studentCode", studentCode)));
-    }
-
-    @GetMapping("/accept/{id:[\\d]+}/{studentCode}")
-    public final @NotNull String getToChange(@NotNull Model model, @PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
-        model.addAttribute("assignment", dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("id", id, "studentCode", studentCode))));
-        return "/assignment/accept";
     }
 
     @GetMapping("/add")
@@ -92,22 +96,34 @@ public class AssignmentController {
         return "redirect:/assignment/list";
     }
 
-    @PostMapping("/reject")
-    public final @NotNull String processReject(@ModelAttribute("assignment") @NotNull Assignment assignment, @NotNull BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            assignment.setState(AssignmentState.REJECTED);
-            dao.update(assignment);
-        }
-        return "redirect:/assignment/list"; //FIXME A donde tiene que redirigir
+    @GetMapping("/details/{id:[\\d]+}/{studentCode}")
+    public final @NotNull String details(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode, @NotNull Model model) {
+        val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
+        val offer = offerDao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("projectOfferId", id)));
+        val internship = internshipDao.find(id).orElseThrow(() -> new ResourceNotFoundException("InternshipOffer", Map.of("projectOfferId", id)));
+        val tutor = tutorDao.find(assignment.getTutorCode()).orElseThrow(() -> new ResourceNotFoundException("Tutor", Map.of("code", assignment.getTutorCode())));
+        assignment.setName(offerDao.findNameAndDescription(id));
+        assignment.setObjectives(offer.getObjectives());
+        assignment.setStartDate(internship.getStartDate().getLabel());
+        assignment.setTutorName(tutor.getName());
+        model.addAttribute("assignment", assignment);
+        return "/assignment/details";
     }
 
-    @PostMapping("/accept")
-    public final @NotNull String processAccept(@ModelAttribute("assignment") @NotNull Assignment assignment, @NotNull BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            assignment.setState(AssignmentState.ACCEPTED);
-            dao.update(assignment);
-        }
-        return "redirect:/assignment/list"; //FIXME A donde tiene que redirigir
+    @PostMapping("/details/{id:[\\d]+}/{studentCode}")
+    public final @NotNull String processAccept(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
+        val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
+        assignment.setState(AssignmentState.ACCEPTED);
+        dao.update(assignment);
+        return "redirect:/assignment/list";
+    }
+
+    @PostMapping("/reject/{id:[\\d]+}/{studentCode}")
+    public final @NotNull String processReject(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
+        val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
+        assignment.setState(AssignmentState.REJECTED);
+        dao.update(assignment);
+        return "redirect:/assignment/list";
     }
 
     @DeleteMapping("/delete/{id:[\\d]+}/{studentCode}")

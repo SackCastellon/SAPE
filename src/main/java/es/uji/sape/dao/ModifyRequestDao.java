@@ -2,6 +2,7 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.ModifyRequest;
 import lombok.val;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @SuppressWarnings("DesignForExtension")
 public class ModifyRequestDao {
 
+    @NonNls
     private JdbcTemplate template;
 
     @Autowired
@@ -29,8 +31,8 @@ public class ModifyRequestDao {
         template = new JdbcTemplate(dataSource);
     }
 
-    public @NotNull List<ModifyRequest> findPerBussiness(int id) {
-        return template.query("SELECT modify_request.date, modify_request.message FROM modify_request JOIN project_offer ON modify_request_pid = project_offer.id WHERE project_offer.id = ?;", new ModifyRequestMapper(), id);
+    public @NotNull List<ModifyRequest> findPerBusiness(int id) {
+        return template.query("SELECT modify_request.date, modify_request.message FROM modify_request JOIN project_offer ON modify_request.id = project_offer.id WHERE project_offer.id = ?;", new ModifyRequestMapper(), id);
     }
 
 

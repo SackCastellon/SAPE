@@ -2,7 +2,9 @@ package es.uji.sape.dao;
 
 import es.uji.sape.model.Assignment;
 import es.uji.sape.model.AssignmentState;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @SuppressWarnings("DesignForExtension")
 public class AssignmentDao {
 
+    @NonNls
     private JdbcTemplate template;
 
     @Autowired
@@ -35,12 +39,11 @@ public class AssignmentDao {
     }
 
     public @NotNull Optional<Assignment> find(int projectOfferId, @NotNull String studentCode) {
-        @Nullable Assignment value;
+        @Nullable Assignment value = null;
         try {
-            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_code = ?",
-                    new AssignmentMapper(), projectOfferId, studentCode);
-        } catch (DataAccessException ignored) {
-            value = null;
+            value = template.queryForObject("SELECT * FROM assignment WHERE project_offer_id = ? AND student_code = ?", new AssignmentMapper(), projectOfferId, studentCode);
+        } catch (DataAccessException e) {
+            log.error(String.format("Error getting assignment for student '%s' of offer '%d'", studentCode, projectOfferId), e);
         }
         return Optional.ofNullable(value);
     }

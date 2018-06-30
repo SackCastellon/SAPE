@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-sm-8 col-md-7 col-lg-6">
-                    <form action="#" th:action="@{/projectOffers/update/}" th:object="${offer}" method="post">
+                    <form action="#" th:action="@{/projectOffers/update/}" th:object="${offer}" method="POST">
                         <div class="form-group">
                             <label for="id">ID</label>
                             <input type="text" class="form-control" id="id" readonly th:field="*{id}"/>
@@ -57,7 +57,7 @@
                                 <div class="d-flex flex-row">
                                     <div class="p-1">
                                         <a class="btn btn-secondary" href="/projectOffers/list" role="button">Cancel</a></div>
-                                    <!-- el submit va o chusca???? -->
+                                    <!-- TODO el submit va o chusca???? -->
                                     <div class="p-1">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
