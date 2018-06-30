@@ -21,6 +21,7 @@ import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,7 +66,7 @@ public class PreferenceController {
     @GetMapping
     public final @NotNull String list(@NotNull Model model, Authentication auth) {
         UserInfo userInfo = (UserInfo) auth.getPrincipal();
-        if (!userInfo.getAuthorities().contains(Role.STUDENT)) throw new HttpUnauthorizedException();
+        if (!userInfo.getAuthorities().contains(Role.STUDENT)) throw new HttpUnauthorizedException("Only students can access this page");
 
         List<Preference> prefs = prefDao.findStudentPreferences(userInfo.getUsername());
         prefs.forEach(it -> it.setName(offerDao.findNameAndDescription(it.getProjectOfferId())));
@@ -95,7 +96,7 @@ public class PreferenceController {
 
     @GetMapping("/add")
     public final @NotNull String add(@NotNull Model model, Authentication auth) {
-        List<Preference> preferences = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+        List<Preference> preferences = prefDao.findStudentPreferences(((UserDetails) auth.getPrincipal()).getUsername());
         Set<Integer> ids = preferences.stream().map(Preference::getProjectOfferId).collect(Collectors.toSet());
 
         final List<Integer> projectIds = projectDao.findAll().stream().filter(it -> it.getState() == OfferState.ACCEPTED).map(ProjectOffer::getId).collect(Collectors.toList());
@@ -116,11 +117,11 @@ public class PreferenceController {
     public final @NotNull String processAddSubmit(@PathVariable("offerId") int offerId, Authentication auth) {
         if (!offerDao.find(offerId).isPresent()) return "/preferences/add";
         try {
-            List<Preference> prefs = prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername());
+            List<Preference> prefs = prefDao.findStudentPreferences(((UserDetails) auth.getPrincipal()).getUsername());
 
             Preference preference = new Preference();
             preference.setPriority(prefs.size() + 1);
-            preference.setStudentCode(((UserInfo) auth.getPrincipal()).getUsername());
+            preference.setStudentCode(((UserDetails) auth.getPrincipal()).getUsername());
             preference.setProjectOfferId(offerId);
             preference.setName(offerDao.findNameAndDescription(offerId));
 
@@ -133,9 +134,9 @@ public class PreferenceController {
 
     @GetMapping("/delete/{preferencePriority:[\\d]+}")
     public final @NotNull String processDelete(@PathVariable("preferencePriority") int preferencePriority, Authentication auth) {
-        prefDao.delete(preferencePriority, ((UserInfo) auth.getPrincipal()).getUsername());
+        prefDao.delete(preferencePriority, ((UserDetails) auth.getPrincipal()).getUsername());
 
-        List<Preference> prefs = new ArrayList<>(prefDao.findStudentPreferences(((UserInfo) auth.getPrincipal()).getUsername()));
+        List<Preference> prefs = new ArrayList<>(prefDao.findStudentPreferences(((UserDetails) auth.getPrincipal()).getUsername()));
         prefs.sort(Comparator.comparing(Preference::getPriority));
 
         for (int i = 0; i < prefs.size(); i++) {

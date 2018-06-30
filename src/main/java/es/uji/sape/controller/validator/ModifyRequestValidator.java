@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-public class ModifyRequestValidator implements Validator {
+public final class ModifyRequestValidator implements Validator {
 
     private static final int MIN_LENGTH = 200;
 
