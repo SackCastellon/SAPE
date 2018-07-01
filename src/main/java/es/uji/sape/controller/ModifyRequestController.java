@@ -36,25 +36,18 @@ public class ModifyRequestController {
         return "/requestList/{projectOfferId:[\\d]+}";
     }
 
-    @GetMapping("/add")
-    public final @NotNull String add(@NotNull Model model) {
-        model.addAttribute("projectOffer", new ModifyRequest());
-        return "/projectOffers/list";
-    }
-
-    @PostMapping("/add/{projectOfferId:[\\d]+}")
-    public final @NotNull String processAddSubmit(HttpSession session, @ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult, @PathVariable("projectOfferId") String projectOfferId) {
-        ModifyRequestValidator validator = new ModifyRequestValidator();
-        validator.validate(modifyRequest, bindingResult);
-        if (bindingResult.hasErrors()) return "/modifyRequest/add";
+    @PostMapping("/add")
+    public final @NotNull String processAndSubmit(@ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/projectOffers/details/"+modifyRequest.getProjectOfferId();
         try {
-            modifyRequest.setProjectOfferId(Integer.parseInt(projectOfferId));
             dao.add(modifyRequest);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return "redirect:/modifyRequest/list";
+        return "/projectOffers/list";
     }
+
 
     @DeleteMapping("/delete/{id:[\\d]+}")
     public final @NotNull String processDelete(@PathVariable("id") int id) {
