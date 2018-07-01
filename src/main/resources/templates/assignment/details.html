@@ -19,25 +19,26 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <th class="text-right" scope="row">Name</th>
-                                <td th:text="${assignment.name}"></td>
+                                <th class="text-right align-middle" scope="row">Name</th>
+                                <td class="align-middle" th:text="${assignment.name}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Objetives</th>
-                                <td th:text="${assignment.objectives}"></td>
+                                <th class="text-right align-middle" scope="row">Objetives</th>
+                                <td class="align-middle" th:text="${assignment.objectives}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Start Date</th>
-                                <td th:text="${assignment.startDate}"></td>
+                                <th class="text-right align-middle" scope="row">Start Date</th>
+                                <td class="align-middle" th:text="${assignment.startDate}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Tutor Name</th>
-                                <td th:text="${assignment.tutorName}"></td>
+                                <th class="text-right align-middle" scope="row">Tutor Name</th>
+                                <td class="align-middle" th:text="${assignment.tutorName}"></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <div class="d-flex justify-content-center" th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING && (#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT || #authentication.principal.user.role == T(es.uji.sape.model.Role).BTC)}">
+                    <div class="d-flex justify-content-center"
+                         th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING && #authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
                         <!-- Rechazar el assignment -->
                         <div class="px-1">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRejection">Reject</button>
@@ -52,7 +53,7 @@
         </div>
 
         <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="confirmRejectionTitle" aria-hidden="true"
-             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
+             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING && #authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -68,7 +69,7 @@
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         <form th:action="@{/assignment/reject/{offerId}/{studentCode}(offerId=${assignment.projectOfferId},studentCode=${assignment.studentCode})}"
                               method="POST">
-                            <button type="button" class="btn btn-danger">Reject</button>
+                            <button type="submit" class="btn btn-danger">Reject</button>
                         </form>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
         </div>
 
         <div class="modal fade" id="confirmAcceptance" tabindex="-1" role="dialog" aria-labelledby="confirmAcceptanceTitle" aria-hidden="true"
-             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
+             th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING && #authentication.principal.user.role == T(es.uji.sape.model.Role).STUDENT}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -90,7 +91,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <form th:action="@{/assignment/details/{offerId}/{studentCode}(offerId=${assignment.projectOfferId},studentCode=${assignment.studentCode})}"
+                        <form th:action="@{/assignment/accept/{offerId}/{studentCode}(offerId=${assignment.projectOfferId},studentCode=${assignment.studentCode})}"
                               method="POST">
                             <button type="submit" class="btn btn-success">Accept</button>
                         </form>

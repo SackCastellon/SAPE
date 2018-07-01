@@ -11,7 +11,7 @@
                 <div class="d-flex justify-content-center">
                     <div th:if="${param.logout}" class="alert alert-info alert-dismissible fade show" role="alert">
                         <strong th:text="#{alert.info}"></strong>
-                        <th:block th:text="#{login.alert.logged_out}"/>
+                        <th:block th:text="#{login.alert.loggedOut}"/>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -25,16 +25,16 @@
                         </div>
 
                         <div class="form-label-group">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
-                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" th:placeholder="#{login.username}" required autofocus>
+                            <label for="username" th:text="#{login.username}"></label>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" th:placeholder="#{login.password}" required>
+                            <label for="password" th:text="#{login.password}"></label>
                         </div>
 
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.btn}"></button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.signIn.btn}"></button>
                     </form>
                 </div>
             </div>

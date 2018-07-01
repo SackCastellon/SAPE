@@ -9,7 +9,7 @@
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4" th:text="#{dashboard.student}"></h1>
+                <h1 class="display-4" th:text="#{dashboard.title.student}"></h1>
             </div>
         </div>
 
@@ -19,7 +19,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Offers</h5>
-                            <p class="card-text" th:text="#{dashboard.po_list}"></p>
+                            <p class="card-text" th:text="#{dashboard.card.projectOffers.descrption}"></p>
                             <a href="/projectOffers/list" class="btn btn-primary">View offers</a>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Preferences</h5>
-                            <p class="card-text" th:text="#{dashboard.prf}"></p>
+                            <p class="card-text" th:text="#{dashboard.card.studentPreferences.description}"></p>
                             <a href="/preferences" class="btn btn-primary">View preferences</a>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Assignments</h5>
-                            <p class="card-text" th:text="#{dashboard.std_asig}"></p>
+                            <p class="card-text" th:text="#{dashboard.card.studentAssignments.description}"></p>
                             <a href="/assignment/list" class="btn btn-primary">View assignments</a>
                         </div>
                     </div>

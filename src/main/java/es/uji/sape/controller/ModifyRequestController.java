@@ -1,6 +1,5 @@
 package es.uji.sape.controller;
 
-import es.uji.sape.controller.validator.ModifyRequestValidator;
 import es.uji.sape.dao.ModifyRequestDao;
 import es.uji.sape.model.ModifyRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Controller
@@ -39,7 +36,7 @@ public class ModifyRequestController {
     @PostMapping("/add")
     public final @NotNull String processAndSubmit(@ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "/projectOffers/details/"+modifyRequest.getProjectOfferId();
+            return "/projectOffers/details/" + modifyRequest.getProjectOfferId();
         try {
             dao.add(modifyRequest);
         } catch (Exception e) {

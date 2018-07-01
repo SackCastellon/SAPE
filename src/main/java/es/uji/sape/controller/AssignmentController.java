@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,7 +114,7 @@ public class AssignmentController {
         val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
         assignment.setState(AssignmentState.ACCEPTED);
         dao.update(assignment);
-        return "redirect:/assignment/listAll";
+        return "redirect:/assignment/list";
     }
 
     @PostMapping("/reject/{id:[\\d]+}/{studentCode}")
@@ -123,12 +122,6 @@ public class AssignmentController {
         val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
         assignment.setState(AssignmentState.REJECTED);
         dao.update(assignment);
-        return "redirect:/assignment/listAll";
-    }
-
-    @DeleteMapping("/delete/{id:[\\d]+}/{studentCode}")
-    public final @NotNull String processDelete(@PathVariable("id") int id, @PathVariable("studentCode") @NotNull String studentCode) {
-        dao.delete(id, studentCode);
         return "redirect:/assignment/list";
     }
 }

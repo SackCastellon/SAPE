@@ -19,24 +19,24 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <th class="text-right" scope="row">ID</th>
-                                <td th:text="${offer.id}"></td>
+                                <th class="text-right align-middle" scope="row">ID</th>
+                                <td class="align-middle" th:text="${offer.id}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Itinerary</th>
-                                <td th:text="${offer.itinerary}"></td>
+                                <th class="text-right align-middle" scope="row">Itinerary</th>
+                                <td class="align-middle" th:text="${offer.itinerary}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Technologies</th>
-                                <td th:text="${offer.technologies}"></td>
+                                <th class="text-right align-middle" scope="row">Technologies</th>
+                                <td class="align-middle" th:text="${offer.technologies}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">Objectives</th>
-                                <td th:text="${offer.objectives}"></td>
+                                <th class="text-right align-middle" scope="row">Objectives</th>
+                                <td class="align-middle" th:text="${offer.objectives}"></td>
                             </tr>
                             <tr>
-                                <th class="text-right" scope="row">State</th>
-                                <td th:text="${offer.state.toString()}"></td>
+                                <th class="text-right align-middle" scope="row">State</th>
+                                <td class="align-middle" th:text="${offer.state.toString()}"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -109,7 +109,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="reviewMessage">What does the business need to change?</label>
-                                <textarea class="form-control" id="reviewMessage" rows="3"  minlength="50" maxlength="500" th:field="*{message}"></textarea>
+                                <textarea class="form-control" id="reviewMessage" rows="3" minlength="50" maxlength="500" th:field="*{message}"></textarea>
 
                             </div>
                         </div>
