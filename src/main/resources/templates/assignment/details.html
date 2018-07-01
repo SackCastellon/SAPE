@@ -37,7 +37,7 @@
                         </tbody>
                     </table>
 
-                    <div class="d-flex justify-content-center" th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING}">
+                    <div class="d-flex justify-content-center" th:if="${assignment.state == T(es.uji.sape.model.AssignmentState).PENDING && (#authentication.principal.user.role == T(es.uji.sape.model.Role).CONTACT || #authentication.principal.user.role == T(es.uji.sape.model.Role).BTC)}">
                         <!-- Rechazar el assignment -->
                         <div class="px-1">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRejection">Reject</button>

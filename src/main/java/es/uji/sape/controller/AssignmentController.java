@@ -115,7 +115,7 @@ public class AssignmentController {
         val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
         assignment.setState(AssignmentState.ACCEPTED);
         dao.update(assignment);
-        return "redirect:/assignment/list";
+        return "redirect:/assignment/listAll";
     }
 
     @PostMapping("/reject/{id:[\\d]+}/{studentCode}")
@@ -123,7 +123,7 @@ public class AssignmentController {
         val assignment = dao.find(id, studentCode).orElseThrow(() -> new ResourceNotFoundException("Assignment", Map.of("projectOfferId", id, "studentCode", studentCode)));
         assignment.setState(AssignmentState.REJECTED);
         dao.update(assignment);
-        return "redirect:/assignment/list";
+        return "redirect:/assignment/listAll";
     }
 
     @DeleteMapping("/delete/{id:[\\d]+}/{studentCode}")

@@ -98,7 +98,8 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <!-- FIXME Action URL-->
-                    <form> <!--th:action="@{/modifyRequest}" th:object="${??}" method="POST"-->
+                    <!--/*@thymesVar id="modifyRequest" type="es.uji.sape.model.ModifyRequest"*/-->
+                    <form th:action="@{/modifyRequest/add}" th:object="${modifyRequest}" method="POST">
                         <div class="modal-header">
                             <h3 class="modal-title" id="confirmReviewTitle">Modify confirmation</h3>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -108,7 +109,8 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="reviewMessage">What does the business need to change?</label>
-                                <textarea class="form-control" id="reviewMessage" rows="3"></textarea>
+                                <textarea class="form-control" id="reviewMessage" rows="3" th:field="*{message}"></textarea>
+                                <div class="error" th:if="${#fields.hasErrors('modifyRequest')}" th:errors="*{modifyRequest}"></div>
                             </div>
                         </div>
                         <div class="modal-footer">
