@@ -7,7 +7,7 @@ import org.springframework.validation.Validator;
 
 public final class ModifyRequestValidator implements Validator {
 
-    private static final int MIN_LENGTH = 200;
+    private static final int MIN_LENGTH = 50;
 
     @Override
     public boolean supports(@NotNull Class<?> cls) {
