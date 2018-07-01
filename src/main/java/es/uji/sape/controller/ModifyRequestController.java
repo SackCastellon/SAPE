@@ -36,13 +36,13 @@ public class ModifyRequestController {
     @PostMapping("/add")
     public final @NotNull String processAndSubmit(@ModelAttribute("modifyRequest") @NotNull ModifyRequest modifyRequest, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "/projectOffers/details/" + modifyRequest.getProjectOfferId();
+            return "redirect:/projectOffers/details/" + modifyRequest.getProjectOfferId();
         try {
             dao.add(modifyRequest);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return "/projectOffers/list";
+        return "redirect:/projectOffers/list";
     }
 
 

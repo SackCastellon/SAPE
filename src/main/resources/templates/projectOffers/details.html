@@ -97,7 +97,7 @@
         <div class="modal fade" id="confirmReview" tabindex="-1" role="dialog" aria-labelledby="confirmReviewTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <!-- FIXME Action URL-->
+
                     <!--/*@thymesVar id="modifyRequest" type="es.uji.sape.model.ModifyRequest"*/-->
                     <form th:action="@{/modifyRequest/add}" th:object="${modifyRequest}" method="POST">
                         <div class="modal-header">
@@ -110,7 +110,7 @@
                             <div class="form-group">
                                 <label for="reviewMessage">What does the business need to change?</label>
                                 <textarea class="form-control" id="reviewMessage" rows="3" minlength="50" maxlength="500" th:field="*{message}"></textarea>
-
+                                <input type="hidden" id="po_id" name="po_id" th:value="${offer.id}" th:field="*{projectOfferId}">
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -66,7 +66,7 @@ public class ProjectOfferController {
     public final @NotNull String getDetails(@PathVariable("id") int id, @NotNull Model model) {
         ModifyRequest mr = new ModifyRequest();
         mr.setProjectOfferId(id);
-        model.addAttribute("modifyRequest", new ModifyRequest());
+        model.addAttribute("modifyRequest", mr);
         model.addAttribute("offer", dao.find(id).orElseThrow(() -> new ResourceNotFoundException("ProjectOffer", Map.of("id", id))));
         return "/projectOffers/details";
     }
